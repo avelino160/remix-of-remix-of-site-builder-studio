@@ -122,7 +122,7 @@ const Editor = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-background">
+    <div className="h-screen flex flex-col bg-muted">
       {/* Editor Header */}
       <header className="glass border-b border-border/30 sticky top-0 z-50">
         <div className="flex h-16 items-center justify-between px-6">
