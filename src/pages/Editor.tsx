@@ -182,14 +182,10 @@ const Editor = () => {
         {/* Left Panel - Controls */}
         <div className="w-80 border-r border-border/30 bg-black/80 overflow-y-auto">
           <Tabs defaultValue="sections" className="h-full">
-            <TabsList className="w-full rounded-none border-b border-white/20 bg-black p-0 h-12">
-              <TabsTrigger 
-                value="sections" 
-                className="flex-1 rounded-none h-full text-white data-[state=active]:border-b-2 data-[state=active]:border-white data-[state=active]:shadow-none font-medium"
-              >
-                Chat
-              </TabsTrigger>
-            </TabsList>
+            {/* Removido o header de abas, deixamos só o conteúdo do chat */}
+            <div className="h-12 border-b border-white/20 flex items-center px-4 text-sm font-medium text-white/80">
+              Chat
+            </div>
             
             <TabsContent value="sections" className="m-0 h-[calc(100%-3rem)]">
               <EditorAssistantPanel
