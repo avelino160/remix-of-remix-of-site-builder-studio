@@ -169,7 +169,7 @@ export const EditorAssistantPanel = ({
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Ex: deixa o hero mais escuro e troca o título por algo mais sério"
-          className="min-h-[72px] resize-none text-sm"
+          className="min-h-[72px] resize-none text-sm bg-black/70 text-white placeholder:text-white/50 border-white/20"
           disabled={loading}
         />
         <div className="flex justify-end">
