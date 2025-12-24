@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/hooks/use-toast";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, Plus, MessageCircle } from "lucide-react";
 
 interface EditorAssistantPanelProps {
   config: any;
@@ -166,37 +166,52 @@ export const EditorAssistantPanel = ({
             disabled={loading}
           />
 
-          <div className="flex items-center gap-2 pb-1">
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 rounded-full border border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
-              disabled={loading}
-            >
-              <span className="text-xs font-medium">+</span>
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="h-8 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-xs"
-              disabled={loading}
-            >
-              Chat
-            </Button>
-            <Button
-              size="icon"
-              onClick={handleSend}
-              disabled={loading || !input.trim()}
-              className="h-9 w-9 rounded-full bg-white text-black hover:bg-white/90 flex items-center justify-center"
-            >
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Send className="h-4 w-4" />
-              )}
-            </Button>
+          <div className="flex items-center justify-between gap-3 pb-1">
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 rounded-full border border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
+                disabled={loading}
+              >
+                <Plus className="h-3 w-3" />
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="h-8 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-xs"
+                disabled={loading}
+              >
+                Visual edits
+              </Button>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="h-8 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-xs"
+                disabled={loading}
+              >
+                <MessageCircle className="h-3 w-3 mr-1" />
+                Chat
+              </Button>
+              <Button
+                size="icon"
+                onClick={handleSend}
+                disabled={loading || !input.trim()}
+                className="h-9 w-9 rounded-full bg-white text-black hover:bg-white/90 flex items-center justify-center"
+              >
+                {loading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
