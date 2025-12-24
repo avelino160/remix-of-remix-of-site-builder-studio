@@ -114,8 +114,8 @@ export default function Home() {
     <div className="h-screen flex bg-[#0A0A0A]">
       {/* Sidebar igual ao Lovable */}
       <Sidebar />
-
-      <main className="flex-1 ml-16 relative overflow-hidden">
+ 
+      <main className="flex-1 ml-16 relative overflow-y-auto">
         {/* Fundo com gradiente igual ao vídeo */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
