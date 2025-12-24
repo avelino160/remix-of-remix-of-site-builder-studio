@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sidebar } from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,7 @@ export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
   const [recentProjects, setRecentProjects] = useState<Project[]>([]);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     loadRecentProjects();
@@ -110,6 +111,23 @@ export default function Home() {
     }
   };
 
+  const handleAttachClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    toast({
+      title: "Arquivo anexado",
+      description: file.name,
+    });
+
+    // limpa seleção para poder anexar o mesmo arquivo de novo se quiser
+    event.target.value = "";
+  };
+
   return (
     <div className="h-screen flex bg-[#0A0A0A]">
       {/* Sidebar igual ao Lovable */}
@@ -158,6 +176,8 @@ export default function Home() {
                       variant="ghost"
                       size="sm"
                       className="text-gray-400 hover:text-white hover:bg-white/10 h-8 gap-2"
+                      type="button"
+                      onClick={handleAttachClick}
                     >
                       <Paperclip className="h-4 w-4" />
                       Attach
@@ -166,6 +186,14 @@ export default function Home() {
                       variant="ghost"
                       size="sm"
                       className="text-gray-400 hover:text-white hover:bg-white/10 h-8 gap-1"
+                      type="button"
+                      onClick={() =>
+                        toast({
+                          title: "Tema em breve",
+                          description:
+                            "Aqui você vai poder escolher variações de cor para a página inicial.",
+                        })
+                      }
                     >
                       Theme
                       <ChevronDown className="h-4 w-4" />
@@ -177,6 +205,14 @@ export default function Home() {
                       variant="ghost"
                       size="icon"
                       className="h-9 w-9 text-gray-400 hover:text-white hover:bg-white/10 rounded-full"
+                      type="button"
+                      onClick={() =>
+                        toast({
+                          title: "Microfone em breve",
+                          description:
+                            "No futuro você vai poder falar o prompt em vez de digitar.",
+                        })
+                      }
                     >
                       <Mic className="h-4 w-4" />
                     </Button>
@@ -204,6 +240,12 @@ export default function Home() {
           </div>
 
           {/* Seção inferior de projetos recentes */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            className="hidden"
+            onChange={handleFileChange}
+          />
           <div className="relative bg-[#0A0A0A] border-t border-[#2A2A2A] mt-6">
             <div className="px-10 py-8">
               <div className="flex items-center justify-between mb-6">
