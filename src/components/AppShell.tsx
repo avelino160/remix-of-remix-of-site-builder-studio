@@ -1,11 +1,14 @@
 import { Sidebar } from "@/components/Sidebar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 export const AppShell = () => {
+  const location = useLocation();
+  const isEditorRoute = /^\/app\/projects\/[A-Za-z0-9-]+$/.test(location.pathname);
+
   return (
     <div className="h-screen flex bg-[#0A0A0A]">
-      <Sidebar />
-      <main className="flex-1 ml-16 relative overflow-y-auto">
+      {!isEditorRoute && <Sidebar />}
+      <main className={`flex-1 ${!isEditorRoute ? "ml-16" : ""} relative overflow-y-auto`}>
         <Outlet />
       </main>
     </div>
