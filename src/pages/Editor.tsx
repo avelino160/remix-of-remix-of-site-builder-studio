@@ -122,9 +122,9 @@ const Editor = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-muted">
+    <div className="h-screen flex flex-col bg-black text-white">
       {/* Editor Header */}
-      <header className="glass border-b border-border/30 sticky top-0 z-50 bg-muted/90">
+      <header className="glass border-b border-border/30 sticky top-0 z-50 bg-black">
         <div className="flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-4">
             <Button 
@@ -180,7 +180,7 @@ const Editor = () => {
       {/* Editor Content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Controls */}
-        <div className="w-80 border-r border-border/30 bg-muted/40 overflow-y-auto">
+        <div className="w-80 border-r border-border/30 bg-black/80 overflow-y-auto">
           <Tabs defaultValue="sections" className="h-full">
             <TabsList className="w-full rounded-none border-b border-border/30 bg-transparent p-0 h-12">
               <TabsTrigger 
@@ -203,8 +203,8 @@ const Editor = () => {
         </div>
 
         {/* Right Panel - Preview */}
-        <div className="flex-1 bg-muted/10 overflow-auto relative">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+        <div className="flex-1 bg-black overflow-auto relative">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:24px_24px]" />
           <div className="relative">
             <SitePreview config={config} projectName={project?.name} />
           </div>
