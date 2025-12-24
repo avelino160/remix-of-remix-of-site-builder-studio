@@ -124,7 +124,7 @@ const Editor = () => {
   return (
     <div className="h-screen flex flex-col bg-muted">
       {/* Editor Header */}
-      <header className="glass border-b border-border/30 sticky top-0 z-50">
+      <header className="glass border-b border-border/30 sticky top-0 z-50 bg-muted/90">
         <div className="flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-4">
             <Button 
@@ -180,7 +180,7 @@ const Editor = () => {
       {/* Editor Content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Controls */}
-        <div className="w-80 border-r border-border/30 bg-card/30 overflow-y-auto">
+        <div className="w-80 border-r border-border/30 bg-muted/40 overflow-y-auto">
           <Tabs defaultValue="sections" className="h-full">
             <TabsList className="w-full rounded-none border-b border-border/30 bg-transparent p-0 h-12">
               <TabsTrigger 
