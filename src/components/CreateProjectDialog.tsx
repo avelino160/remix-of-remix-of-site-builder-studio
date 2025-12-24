@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
@@ -34,6 +35,8 @@ export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: Cr
   const { user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     type: "landing",
@@ -104,6 +107,115 @@ export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: Cr
     }
   };
 
+  const handleCreateWithAI = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) return;
+
+    const trimmedPrompt = aiPrompt.trim();
+    if (!trimmedPrompt) {
+      toast({
+        title: "Descreva o site que você quer criar",
+        description: "Escreva alguns detalhes para que a IA possa gerar o layout.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (trimmedPrompt.length > 500) {
+      toast({
+        title: "Texto muito longo",
+        description: "Resuma a descrição em até 500 caracteres.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setAiLoading(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-site-config", {
+        body: { prompt: trimmedPrompt },
+      });
+
+      if (error) {
+        const message =
+          error.message?.includes("402") || error.message?.includes("Payment")
+            ? "Créditos de IA insuficientes. Adicione créditos no workspace e tente novamente."
+            : error.message?.includes("429")
+              ? "Muitas requisições em pouco tempo. Aguarde alguns instantes e tente novamente."
+              : error.message || "Não foi possível gerar a configuração do site.";
+
+        toast({
+          title: "Erro ao usar IA",
+          description: message,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const config = data?.config;
+      if (!config) {
+        toast({
+          title: "Resposta inválida da IA",
+          description: "Tente novamente com uma descrição um pouco diferente.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const nameFromConfig = typeof config.name === "string" && config.name.trim() ? config.name.trim() : "Site AI";
+      const baseSlug = nameFromConfig
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "") || "site-ai";
+
+      const slug = `${baseSlug}-${Date.now()}`;
+
+      const { data: project, error: projectError } = await supabase
+        .from("projects")
+        .insert({
+          user_id: user.id,
+          name: nameFromConfig,
+          slug,
+          type: config.type || "landing",
+          status: "draft",
+          template: "ai-generated",
+          config,
+        })
+        .select()
+        .single();
+
+      if (projectError) {
+        toast({
+          title: "Erro ao salvar projeto",
+          description: projectError.message,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Site criado com IA!",
+        description: "Abrindo o editor para você finalizar os detalhes.",
+      });
+
+      onProjectCreated(project.id);
+      setAiPrompt("");
+      onOpenChange(false);
+    } catch (err) {
+      console.error("Erro ao gerar site com IA:", err);
+      toast({
+        title: "Erro inesperado",
+        description: "Não foi possível falar com a IA agora. Tente novamente em alguns instantes.",
+        variant: "destructive",
+      });
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
@@ -114,36 +226,52 @@ export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: Cr
           </DialogDescription>
         </DialogHeader>
 
-          <div className="grid grid-cols-2 gap-3 py-4">
-            <Button
-              variant="outline"
-              className="h-24 flex flex-col gap-2"
-              onClick={() => {
-                onOpenChange(false);
-                navigate('/app');
-              }}
-            >
-              <Sparkles className="h-6 w-6 text-primary" />
-              <div className="text-center">
-                <div className="font-semibold">Criar com IA</div>
-                <div className="text-xs text-muted-foreground">Descreva e a IA cria</div>
-              </div>
-            </Button>
-            
-            <Button
-              variant="outline"
-              className="h-24 flex flex-col gap-2"
-              onClick={() => {}}
-            >
-              <Wand2 className="h-6 w-6" />
-              <div className="text-center">
-                <div className="font-semibold">Criar manualmente</div>
-                <div className="text-xs text-muted-foreground">Configurar tudo</div>
-              </div>
-            </Button>
+        <div className="grid grid-cols-2 gap-3 py-4">
+          <Button
+            type="button"
+            variant="outline"
+            className="h-24 flex flex-col gap-2"
+            onClick={() => {
+              const textarea = document.getElementById("ai-description");
+              if (textarea) textarea.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+          >
+            <Sparkles className="h-6 w-6 text-primary" />
+            <div className="text-center">
+              <div className="font-semibold">Criar com IA</div>
+              <div className="text-xs text-muted-foreground">Descreva e a IA cria</div>
+            </div>
+          </Button>
+
+          <Button type="button" variant="outline" className="h-24 flex flex-col gap-2">
+            <Wand2 className="h-6 w-6" />
+            <div className="text-center">
+              <div className="font-semibold">Criar manualmente</div>
+              <div className="text-xs text-muted-foreground">Configurar tudo</div>
+            </div>
+          </Button>
+        </div>
+
+        <form onSubmit={handleCreateWithAI} className="space-y-4 border rounded-lg p-4 mb-6">
+          <div className="space-y-2">
+            <Label htmlFor="ai-description">Descreva o site que você quer criar</Label>
+            <Textarea
+              id="ai-description"
+              placeholder="Ex: Site para salão de beleza moderno em São Paulo, com seções de serviços, depoimentos e formulário de contato."
+              value={aiPrompt}
+              onChange={(e) => setAiPrompt(e.target.value)}
+              rows={3}
+              maxLength={500}
+            />
+            <p className="text-xs text-muted-foreground text-right">{aiPrompt.length}/500 caracteres</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <Button type="submit" className="w-full" disabled={aiLoading}>
+            {aiLoading ? "Gerando com IA..." : "Gerar site com IA"}
+          </Button>
+        </form>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Nome do site</Label>
             <Input
