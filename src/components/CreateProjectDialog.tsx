@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,7 +9,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
 import { Sparkles, Wand2 } from "lucide-react";
-import { AICreateDialog } from "./AICreateDialog";
 
 interface CreateProjectDialogProps {
   open: boolean;
@@ -32,8 +32,8 @@ const TEMPLATES = [
 
 export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: CreateProjectDialogProps) => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [showAIDialog, setShowAIDialog] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     type: "landing",
@@ -105,23 +105,22 @@ export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: Cr
   };
 
   return (
-    <>
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle>Criar novo site</DialogTitle>
-            <DialogDescription>
-              Configure as informações básicas ou use IA para criar automaticamente
-            </DialogDescription>
-          </DialogHeader>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[500px]">
+        <DialogHeader>
+          <DialogTitle>Criar novo site</DialogTitle>
+          <DialogDescription>
+            Configure as informações básicas ou use IA para criar automaticamente
+          </DialogDescription>
+        </DialogHeader>
 
           <div className="grid grid-cols-2 gap-3 py-4">
             <Button
               variant="outline"
               className="h-24 flex flex-col gap-2"
               onClick={() => {
-                setShowAIDialog(true);
                 onOpenChange(false);
+                navigate('/app/ai-create');
               }}
             >
               <Sparkles className="h-6 w-6 text-primary" />
@@ -238,15 +237,5 @@ export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: Cr
         </form>
       </DialogContent>
     </Dialog>
-
-    <AICreateDialog
-      open={showAIDialog}
-      onOpenChange={(open) => {
-        setShowAIDialog(open);
-        if (!open) onOpenChange(true);
-      }}
-      onProjectCreated={onProjectCreated}
-    />
-  </>
   );
 };
