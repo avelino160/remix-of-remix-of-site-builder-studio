@@ -12,6 +12,12 @@ import Projects from "./pages/Projects";
 import Editor from "./pages/Editor";
 import PublicSite from "./pages/PublicSite";
 import NotFound from "./pages/NotFound";
+import Search from "./pages/Search";
+import Favorites from "./pages/Favorites";
+import Team from "./pages/Team";
+import Docs from "./pages/Docs";
+import Help from "./pages/Help";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +44,54 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Projects />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/app/search"
+              element={
+                <ProtectedRoute>
+                  <Search />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/app/favorites"
+              element={
+                <ProtectedRoute>
+                  <Favorites />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/app/team"
+              element={
+                <ProtectedRoute>
+                  <Team />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/app/docs"
+              element={
+                <ProtectedRoute>
+                  <Docs />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/app/help"
+              element={
+                <ProtectedRoute>
+                  <Help />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/app/settings"
+              element={
+                <ProtectedRoute>
+                  <Settings />
                 </ProtectedRoute>
               }
             />
