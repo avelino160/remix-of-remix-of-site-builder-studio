@@ -135,24 +135,24 @@ export default function Home() {
         {/* Conteúdo principal */}
         <div className="relative z-10 h-screen flex flex-col">
           {/* Centro */}
-          <div className="flex-1 flex flex-col items-center justify-center px-6 pb-32">
-            <h1 className="text-7xl font-extrabold text-white mb-12 tracking-tight">
+          <div className="flex-1 flex flex-col items-center justify-center px-10 pb-40 gap-10">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight text-center">
               Let's create
             </h1>
 
             {/* Barra de prompt */}
-            <div className="w-full max-w-3xl">
-              <div className="relative rounded-2xl bg-[#202124] shadow-2xl overflow-hidden">
+            <div className="w-full max-w-4xl">
+              <div className="relative rounded-[32px] bg-[#202124] shadow-2xl overflow-hidden px-1 pt-1 pb-2">
                 <Textarea
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask Lovable to help you with coding..."
                   disabled={generating}
-                  className="min-h-[56px] max-h-[200px] resize-none border-0 bg-transparent px-6 py-4 text-base text-white placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="min-h-[64px] max-h-[220px] resize-none border-0 bg-transparent px-6 py-4 text-base text-white placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
 
-                <div className="flex items-center justify-between px-4 pb-3">
+                <div className="mt-1 flex items-center justify-between px-4">
                   <div className="flex items-center gap-2">
                     <Button
                       variant="ghost"
@@ -204,8 +204,8 @@ export default function Home() {
           </div>
 
           {/* Seção inferior de projetos recentes */}
-          <div className="relative bg-[#0A0A0A] border-t border-[#2A2A2A]">
-            <div className="px-8 py-6">
+          <div className="relative bg-[#0A0A0A] border-t border-[#2A2A2A] mt-6">
+            <div className="px-10 py-8">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex gap-6">
                   <button className="text-white font-medium border-b-2 border-white pb-2">
