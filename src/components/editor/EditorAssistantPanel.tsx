@@ -156,23 +156,23 @@ export const EditorAssistantPanel = ({
       </ScrollArea>
 
       <div className="border-t border-white/20 px-4 py-3">
-        <div className="relative rounded-full bg-black/90 border border-white/15 px-4 py-2 flex items-center gap-3">
+        <div className="relative rounded-[999px] bg-black/90 border border-white/15 px-4 pt-2 pb-2.5 flex flex-col gap-1.5">
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask Lovable..."
-            className="min-h-[32px] max-h-[96px] flex-1 resize-none border-0 bg-transparent text-sm text-white placeholder:text-white/40 leading-relaxed focus-visible:ring-0 focus-visible:ring-offset-0 p-0"
+            className="min-h-[24px] max-h-[72px] flex-1 resize-none border-0 bg-transparent text-[13px] leading-5 text-white placeholder:text-white/40 focus-visible:ring-0 focus-visible:ring-offset-0 px-0 py-0"
             disabled={loading}
           />
 
-          <div className="flex items-center justify-between gap-4 pl-2">
+          <div className="flex items-center justify-between gap-4 pt-0.5">
             <div className="flex items-center gap-2">
               <Button
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 rounded-full border border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
+                className="h-7 w-7 rounded-full border border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
                 disabled={loading}
               >
                 <Plus className="h-3 w-3" />
@@ -181,7 +181,7 @@ export const EditorAssistantPanel = ({
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-8 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-xs"
+                className="h-7 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-[11px]"
                 disabled={loading}
               >
                 Visual edits
@@ -193,7 +193,7 @@ export const EditorAssistantPanel = ({
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-8 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-xs"
+                className="h-7 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-[11px]"
                 disabled={loading}
               >
                 <MessageCircle className="h-3 w-3 mr-1" />
@@ -203,12 +203,12 @@ export const EditorAssistantPanel = ({
                 size="icon"
                 onClick={handleSend}
                 disabled={loading || !input.trim()}
-                className="h-9 w-9 rounded-full bg-white text-black hover:bg-white/90 flex items-center justify-center shadow-sm"
+                className="h-8 w-8 rounded-full bg-white text-black hover:bg-white/90 flex items-center justify-center shadow-sm"
               >
                 {loading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
                 ) : (
-                  <Send className="h-4 w-4" />
+                  <Send className="h-3.5 w-3.5" />
                 )}
               </Button>
             </div>
