@@ -189,18 +189,6 @@ const Editor = () => {
               >
                 Assistente
               </TabsTrigger>
-              <TabsTrigger 
-                value="style" 
-                className="flex-1 rounded-none h-full data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:shadow-none font-medium"
-              >
-                Estilo
-              </TabsTrigger>
-              <TabsTrigger 
-                value="settings" 
-                className="flex-1 rounded-none h-full data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:shadow-none font-medium"
-              >
-                Config
-              </TabsTrigger>
             </TabsList>
             
             <TabsContent value="sections" className="m-0 h-[calc(100%-3rem)]">
@@ -210,14 +198,6 @@ const Editor = () => {
                 onConfigChange={setConfig}
                 onSave={handleSave}
               />
-            </TabsContent>
-            
-            <TabsContent value="style" className="m-0 p-6">
-              <StyleTab config={config} onUpdate={updateConfig} onPaletteUpdate={updatePalette} />
-            </TabsContent>
-            
-            <TabsContent value="settings" className="m-0 p-6">
-              <SettingsTab project={project} config={config} onUpdate={updateConfig} />
             </TabsContent>
           </Tabs>
         </div>
