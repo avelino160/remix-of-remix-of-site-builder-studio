@@ -18,7 +18,7 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-black">
+    <div className="min-h-screen bg-black text-foreground">
        {/* Top Navigation Bar */}
        <header className="sticky top-0 z-50 w-full glass border-b border-border/30">
          <div className="container flex h-16 items-center justify-between px-6">

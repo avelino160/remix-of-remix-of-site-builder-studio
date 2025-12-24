@@ -150,7 +150,7 @@ export default function Home() {
       <div className="relative z-10 min-h-[140vh] flex flex-col">
         {/* Centro */}
         <div className="flex-1 flex flex-col items-center justify-center px-10 pb-40 gap-10">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-black tracking-tight text-center">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight text-center">
             Let's create
           </h1>
 
@@ -163,7 +163,7 @@ export default function Home() {
                 onKeyDown={handleKeyDown}
                 placeholder="Ask Lovable to help you with coding..."
                 disabled={generating}
-                className="min-h-[64px] max-h-[220px] resize-none border-0 bg-transparent px-6 py-4 text-base text-black placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="min-h-[64px] max-h-[220px] resize-none border-0 bg-transparent px-6 py-4 text-base text-white placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0"
               />
 
               <div className="mt-1 flex items-center justify-between px-4">
@@ -216,7 +216,7 @@ export default function Home() {
                     onClick={handleGenerate}
                     disabled={!prompt.trim() || generating}
                     size="sm"
-                    className="bg-blue-600 hover:bg-blue-700 text-black h-9 px-4 gap-2 rounded-lg"
+                    className="bg-blue-600 hover:bg-blue-700 text-white h-9 px-4 gap-2 rounded-lg"
                   >
                     <MessageSquare className="h-4 w-4" />
                     Chat
@@ -225,7 +225,7 @@ export default function Home() {
                     onClick={handleGenerate}
                     disabled={!prompt.trim() || generating}
                     size="icon"
-                    className="h-9 w-9 bg-black/10 hover:bg-black/20 text-black rounded-full"
+                    className="h-9 w-9 bg-white/10 hover:bg-white/20 text-white rounded-full"
                   >
                     <ArrowUp className="h-4 w-4" />
                   </Button>
@@ -246,13 +246,13 @@ export default function Home() {
           <div className="px-10 py-8">
             <div className="flex items-center justify-between mb-6">
               <div className="flex gap-6">
-                <button className="text-black font-medium border-b-2 border-black pb-2">
+                <button className="text-white font-medium border-b-2 border-white pb-2">
                   Recently viewed
                 </button>
-                <button className="text-gray-500 hover:text-black pb-2">
+                <button className="text-gray-500 hover:text-white pb-2">
                   My projects
                 </button>
-                <button className="text-gray-500 hover:text-black pb-2">
+                <button className="text-gray-500 hover:text-white pb-2">
                   Templates
                 </button>
               </div>
@@ -276,7 +276,7 @@ export default function Home() {
                   <div className="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center">
                     <Globe className="h-12 w-12 text-gray-400" />
                   </div>
-                  <div className="absolute bottom-2 right-2 bg-black/80 text-black text-xs px-2 py-1 rounded">
+                  <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
                     {new Date(project.updated_at).toLocaleDateString()}
                   </div>
                 </div>
