@@ -11,7 +11,6 @@ export const Sidebar = () => {
   const navItems = [
     { icon: Home, path: "/app", label: "Home" },
     { icon: Search, path: "/app/search", label: "Search" },
-    { icon: Grid3x3, path: "/app/projects", label: "Projects" },
     { icon: Star, path: "/app/favorites", label: "Favorites" },
     { icon: Users, path: "/app/team", label: "Team" },
     { icon: Book, path: "/app/docs", label: "Docs" },
