@@ -133,7 +133,7 @@ export default function Home() {
         </div>
 
         {/* Conteúdo principal */}
-        <div className="relative z-10 h-screen flex flex-col">
+        <div className="relative z-10 min-h-[140vh] flex flex-col">
           {/* Centro */}
           <div className="flex-1 flex flex-col items-center justify-center px-10 pb-40 gap-10">
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight text-center">
