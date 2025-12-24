@@ -156,7 +156,7 @@ export const EditorAssistantPanel = ({
       </ScrollArea>
 
       <div className="border-t border-white/20 px-4 py-3">
-        <div className="relative rounded-[999px] bg-black/90 border border-white/15 px-4 pt-2 pb-2.5 flex flex-col gap-1.5">
+        <div className="relative flex flex-col gap-1.5">
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
