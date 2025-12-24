@@ -129,14 +129,6 @@ export const EditorAssistantPanel = ({
 
   return (
     <div className="flex flex-col h-full bg-black">
-      <div className="border-b border-white/20 px-4 py-3">
-        <p className="text-xs font-medium text-white/70 uppercase tracking-wide">
-          ASSISTANT
-        </p>
-        <p className="text-sm text-white/90 mt-1">
-          Peça mudanças no site em linguagem natural.
-        </p>
-      </div>
 
       <ScrollArea className="flex-1 px-4 py-3">
         <div className="space-y-3">
