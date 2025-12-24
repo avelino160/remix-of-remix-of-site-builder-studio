@@ -9,7 +9,7 @@ const Index = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/app/projects");
+      navigate("/app");
     }
   }, [user, navigate]);
 

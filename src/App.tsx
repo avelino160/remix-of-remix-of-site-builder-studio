@@ -7,9 +7,9 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import Editor from "./pages/Editor";
-import AICreate from "./pages/AICreate";
 import PublicSite from "./pages/PublicSite";
 import NotFound from "./pages/NotFound";
 
@@ -26,6 +26,14 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route
+              path="/app"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/app/projects"
               element={
                 <ProtectedRoute>
@@ -41,16 +49,7 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/app/ai-create"
-              element={
-                <ProtectedRoute>
-                  <AICreate />
-                </ProtectedRoute>
-              }
-            />
             <Route path="/p/:slug" element={<PublicSite />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
