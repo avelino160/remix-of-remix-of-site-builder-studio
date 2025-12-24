@@ -182,10 +182,10 @@ const Editor = () => {
         {/* Left Panel - Controls */}
         <div className="w-80 border-r border-border/30 bg-black/80 overflow-y-auto">
           <Tabs defaultValue="sections" className="h-full">
-            <TabsList className="w-full rounded-none border-b border-border/30 bg-transparent p-0 h-12">
+            <TabsList className="w-full rounded-none border-b border-white/20 bg-black p-0 h-12">
               <TabsTrigger 
                 value="sections" 
-                className="flex-1 rounded-none h-full data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:shadow-none font-medium"
+                className="flex-1 rounded-none h-full text-white data-[state=active]:border-b-2 data-[state=active]:border-white data-[state=active]:shadow-none font-medium"
               >
                 Chat
               </TabsTrigger>
