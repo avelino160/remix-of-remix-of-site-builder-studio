@@ -36,6 +36,7 @@ const Editor = () => {
   const [saving, setSaving] = useState(false);
   const [publishDialogOpen, setPublishDialogOpen] = useState(false);
   const [inlineEditing, setInlineEditing] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   
   const [project, setProject] = useState<any>(null);
   const [config, setConfig] = useState<ProjectConfig>({
@@ -209,6 +210,8 @@ const Editor = () => {
               config={config}
               projectName={project?.name}
               editable={inlineEditing}
+              selectedId={selectedId}
+              onSelect={(id) => setSelectedId(id)}
               onFieldChange={(section, field, value) => {
                 setConfig((prev) => ({
                   ...prev,
