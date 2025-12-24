@@ -35,6 +35,7 @@ const Editor = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [publishDialogOpen, setPublishDialogOpen] = useState(false);
+  const [inlineEditing, setInlineEditing] = useState(false);
   
   const [project, setProject] = useState<any>(null);
   const [config, setConfig] = useState<ProjectConfig>({
@@ -193,6 +194,8 @@ const Editor = () => {
                 project={project}
                 onConfigChange={setConfig}
                 onSave={handleSave}
+                onToggleInlineEditing={() => setInlineEditing((prev) => !prev)}
+                inlineEditing={inlineEditing}
               />
             </TabsContent>
           </Tabs>
@@ -202,7 +205,24 @@ const Editor = () => {
         <div className="flex-1 bg-muted/10 overflow-auto relative">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
           <div className="relative">
-            <SitePreview config={config} projectName={project?.name} />
+            <SitePreview
+              config={config}
+              projectName={project?.name}
+              editable={inlineEditing}
+              onFieldChange={(section, field, value) => {
+                setConfig((prev) => ({
+                  ...prev,
+                  sections: {
+                    ...(prev.sections || {}),
+                    [section]: {
+                      ...(prev.sections?.[section] || {}),
+                      enabled: true,
+                      [field]: value,
+                    },
+                  },
+                }));
+              }}
+            />
           </div>
         </div>
  
