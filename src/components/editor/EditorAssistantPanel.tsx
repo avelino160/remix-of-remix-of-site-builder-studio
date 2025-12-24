@@ -183,6 +183,13 @@ export const EditorAssistantPanel = ({
                 size="sm"
                 className="h-7 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-[11px]"
                 disabled={loading}
+                onClick={() => {
+                  toast({
+                    title: "Como usar Visual Edits",
+                    description:
+                      "Para editar visualmente o site, use o botão 'Visual edits' na barra inferior do Lovable (fora deste painel). Este botão aqui é apenas informativo.",
+                  });
+                }}
               >
                 Visual edits
               </Button>
