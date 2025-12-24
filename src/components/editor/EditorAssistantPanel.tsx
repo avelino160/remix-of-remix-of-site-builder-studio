@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -39,6 +39,8 @@ export const EditorAssistantPanel = ({
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleSend = async () => {
     if (!input.trim() || loading) return;
@@ -172,12 +174,29 @@ export const EditorAssistantPanel = ({
 
           <div className="flex items-center justify-between gap-4 pt-0.5">
             <div className="flex items-center gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                hidden
+                onChange={(e) => {
+                  const files = Array.from(e.target.files || []);
+                  if (files.length) {
+                    setUploadedFiles((prev) => [...prev, ...files]);
+                    toast({
+                      title: "Arquivos carregados",
+                      description: `${files.length} arquivo(s) selecionado(s) para usar no seu site dentro do editor.`,
+                    });
+                  }
+                }}
+              />
               <Button
                 type="button"
                 variant="ghost"
                 size="icon"
                 className="h-7 w-7 rounded-full border border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
                 disabled={loading}
+                onClick={() => fileInputRef.current?.click()}
               >
                 <Plus className="h-3 w-3" />
               </Button>
