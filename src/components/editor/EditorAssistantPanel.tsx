@@ -152,7 +152,7 @@ export const EditorAssistantPanel = ({
               <div
                 className={
                   msg.role === "assistant"
-                    ? "max-w-[80%] rounded-2xl bg-muted px-3 py-2 text-sm text-foreground"
+                    ? "max-w-[80%] rounded-2xl bg-white/5 px-3 py-2 text-sm text-white"
                     : "max-w-[80%] rounded-2xl bg-primary px-3 py-2 text-sm text-primary-foreground"
                 }
               >
@@ -163,7 +163,7 @@ export const EditorAssistantPanel = ({
         </div>
       </ScrollArea>
 
-      <div className="border-t border-border/40 p-3 space-y-2">
+      <div className="border-t border-white/20 p-3 space-y-2">
         <Textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
