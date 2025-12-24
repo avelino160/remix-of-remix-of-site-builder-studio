@@ -30,14 +30,14 @@ export const Sidebar = () => {
       {/* Logo */}
       <Link to="/app" className="mb-8">
         <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-          <span className="text-white font-bold text-xl">L</span>
+          <span className="text-black font-bold text-xl">L</span>
         </div>
       </Link>
 
       {/* Demo indicator */}
       <div className="mb-8">
         <div className="w-8 h-8 rounded bg-orange-500 flex items-center justify-center">
-          <span className="text-white font-bold text-xs">D</span>
+          <span className="text-black font-bold text-xs">D</span>
         </div>
       </div>
 
@@ -53,8 +53,8 @@ export const Sidebar = () => {
                 size="icon"
                 className={`w-12 h-12 ${
                   isActive
-                    ? "bg-white/10 text-white"
-                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                    ? "bg-black/10 text-black"
+                    : "text-gray-400 hover:text-black hover:bg-black/5"
                 }`}
                 title={item.label}
               >
@@ -74,7 +74,7 @@ export const Sidebar = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className="w-12 h-12 text-gray-400 hover:text-white hover:bg-white/5"
+                className="w-12 h-12 text-gray-400 hover:text-black hover:bg-black/5"
                 title={item.label}
               >
                 <Icon className="h-5 w-5" />
@@ -86,7 +86,7 @@ export const Sidebar = () => {
 
       {/* User avatar */}
       <Avatar className="w-10 h-10">
-        <AvatarFallback className="bg-purple-600 text-white text-sm">
+        <AvatarFallback className="bg-purple-600 text-black text-sm">
           {getInitials()}
         </AvatarFallback>
       </Avatar>
