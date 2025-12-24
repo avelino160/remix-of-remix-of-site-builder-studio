@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, MoreVertical, ExternalLink, Edit, Copy, Trash2, Globe } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
-import { CreateProjectDialog } from "@/components/CreateProjectDialog";
+
 
 interface Project {
   id: string;
@@ -26,7 +26,7 @@ const Projects = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  
 
   const loadProjects = async () => {
     if (!user) return;
@@ -150,11 +150,11 @@ const Projects = () => {
           </div>
           <Button 
             size="lg" 
-            onClick={() => setCreateDialogOpen(true)}
+            onClick={() => navigate("/app")}
             className="bg-foreground text-background hover:bg-foreground/90"
           >
             <Plus className="mr-2 h-5 w-5" />
-            Criar novo site
+            Criar novo site com IA
           </Button>
         </div>
 
@@ -170,11 +170,11 @@ const Projects = () => {
               </p>
               <Button 
                 size="lg" 
-                onClick={() => setCreateDialogOpen(true)}
+                onClick={() => navigate("/app")}
                 className="bg-foreground text-background hover:bg-foreground/90"
               >
                 <Plus className="mr-2 h-5 w-5" />
-                Criar meu primeiro site
+                Criar meu primeiro site com IA
               </Button>
             </CardContent>
           </Card>
@@ -271,14 +271,6 @@ const Projects = () => {
         )}
       </div>
 
-      <CreateProjectDialog
-        open={createDialogOpen}
-        onOpenChange={setCreateDialogOpen}
-        onProjectCreated={(projectId) => {
-          setCreateDialogOpen(false);
-          navigate(`/app/projects/${projectId}`);
-        }}
-      />
     </AppLayout>
   );
 };
