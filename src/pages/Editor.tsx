@@ -187,7 +187,7 @@ const Editor = () => {
                 value="sections" 
                 className="flex-1 rounded-none h-full data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:shadow-none font-medium"
               >
-                Seções
+                Assistente
               </TabsTrigger>
               <TabsTrigger 
                 value="style" 
@@ -203,8 +203,13 @@ const Editor = () => {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="sections" className="m-0 p-6">
-              <SectionsTab sections={config.sections} onUpdate={updateSections} />
+            <TabsContent value="sections" className="m-0 h-[calc(100%-3rem)]">
+              <EditorAssistantPanel
+                config={config}
+                project={project}
+                onConfigChange={setConfig}
+                onSave={handleSave}
+              />
             </TabsContent>
             
             <TabsContent value="style" className="m-0 p-6">
@@ -218,24 +223,14 @@ const Editor = () => {
         </div>
 
         {/* Right Panel - Preview */}
-        <div className="flex-1 bg-muted/10 overflow-hidden relative">
+        <div className="flex-1 bg-muted/10 overflow-auto relative">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-          <div className="relative h-full">
-            <div className="flex h-full">
-              <div className="flex-1 overflow-auto">
-                <SitePreview config={config} projectName={project?.name} />
-              </div>
-              <div className="w-[360px] border-l border-border/30 bg-background/80 backdrop-blur-sm hidden lg:flex">
-                <EditorAssistantPanel
-                  config={config}
-                  project={project}
-                  onConfigChange={setConfig}
-                  onSave={handleSave}
-                />
-              </div>
-            </div>
+          <div className="relative">
+            <SitePreview config={config} projectName={project?.name} />
           </div>
         </div>
+ 
+        {/* AI assistant agora fica na aba "Assistente" à esquerda */}
       </div>
 
       <PublishDialog
