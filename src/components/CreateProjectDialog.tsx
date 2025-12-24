@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
+import { Sparkles, Wand2 } from "lucide-react";
+import { AICreateDialog } from "./AICreateDialog";
 
 interface CreateProjectDialogProps {
   open: boolean;
@@ -31,6 +33,7 @@ const TEMPLATES = [
 export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: CreateProjectDialogProps) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [showAIDialog, setShowAIDialog] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     type: "landing",
@@ -102,15 +105,46 @@ export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: Cr
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>Criar novo site</DialogTitle>
-          <DialogDescription>
-            Configure as informações básicas do seu projeto
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Criar novo site</DialogTitle>
+            <DialogDescription>
+              Configure as informações básicas ou use IA para criar automaticamente
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid grid-cols-2 gap-3 py-4">
+            <Button
+              variant="outline"
+              className="h-24 flex flex-col gap-2"
+              onClick={() => {
+                setShowAIDialog(true);
+                onOpenChange(false);
+              }}
+            >
+              <Sparkles className="h-6 w-6 text-primary" />
+              <div className="text-center">
+                <div className="font-semibold">Criar com IA</div>
+                <div className="text-xs text-muted-foreground">Descreva e a IA cria</div>
+              </div>
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="h-24 flex flex-col gap-2"
+              onClick={() => {}}
+            >
+              <Wand2 className="h-6 w-6" />
+              <div className="text-center">
+                <div className="font-semibold">Criar manualmente</div>
+                <div className="text-xs text-muted-foreground">Configurar tudo</div>
+              </div>
+            </Button>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Nome do site</Label>
             <Input
@@ -204,5 +238,15 @@ export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: Cr
         </form>
       </DialogContent>
     </Dialog>
+
+    <AICreateDialog
+      open={showAIDialog}
+      onOpenChange={(open) => {
+        setShowAIDialog(open);
+        if (!open) onOpenChange(true);
+      }}
+      onProjectCreated={onProjectCreated}
+    />
+  </>
   );
 };
