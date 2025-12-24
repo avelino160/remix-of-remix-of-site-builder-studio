@@ -11,6 +11,7 @@ import { StyleTab } from "@/components/editor/StyleTab";
 import { SettingsTab } from "@/components/editor/SettingsTab";
 import { SitePreview } from "@/components/editor/SitePreview";
 import { PublishDialog } from "@/components/editor/PublishDialog";
+import { EditorAssistantPanel } from "@/components/editor/EditorAssistantPanel";
 
 interface ProjectConfig {
   palette: {
@@ -217,10 +218,22 @@ const Editor = () => {
         </div>
 
         {/* Right Panel - Preview */}
-        <div className="flex-1 bg-muted/10 overflow-auto relative">
+        <div className="flex-1 bg-muted/10 overflow-hidden relative">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-          <div className="relative">
-            <SitePreview config={config} projectName={project?.name} />
+          <div className="relative h-full">
+            <div className="flex h-full">
+              <div className="flex-1 overflow-auto">
+                <SitePreview config={config} projectName={project?.name} />
+              </div>
+              <div className="w-[360px] border-l border-border/30 bg-background/80 backdrop-blur-sm hidden xl:flex">
+                <EditorAssistantPanel
+                  config={config}
+                  project={project}
+                  onConfigChange={setConfig}
+                  onSave={handleSave}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
