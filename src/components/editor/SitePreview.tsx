@@ -26,7 +26,11 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
   const secondaryColor = `hsl(${palette?.secondary || "217 91% 60%"})`;
 
   return (
-    <div className={`min-h-full ${typographyClasses[typography as keyof typeof typographyClasses] || "font-sans"}`}>
+    <div
+      className={`min-h-full bg-background text-foreground ${
+        typographyClasses[typography as keyof typeof typographyClasses] || "font-sans"
+      }`}
+    >
       <style>{`
         .preview-primary { color: ${primaryColor}; }
         .preview-bg-primary { background-color: ${primaryColor}; }
@@ -35,50 +39,93 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
         .preview-bg-secondary { background-color: ${secondaryColor}; }
       `}</style>
 
-      <div className={spacingClasses[spacing as keyof typeof spacingClasses] || "space-y-16"}>
+      <div
+        className={`max-w-6xl mx-auto px-6 py-12 ${
+          spacingClasses[spacing as keyof typeof spacingClasses] || "space-y-16"
+        }`}
+      >
         {/* Hero Section */}
         {sections.hero?.enabled && (
           <section
-            className={`preview-bg-primary text-white py-20 px-6 transition-shadow ${
+            className={`relative overflow-hidden rounded-2xl border bg-gradient-to-br from-primary/90 via-primary to-primary/80 text-primary-foreground shadow-xl transition-shadow ${
               editable ? "cursor-pointer" : ""
             } ${
               editable && selectedId === "hero"
-                ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                ? "ring-2 ring-ring ring-offset-2 ring-offset-background"
                 : ""
             }`}
             onClick={editable ? () => onSelect?.("hero") : undefined}
           >
-            <div className="max-w-4xl mx-auto text-center">
-              <h1
-                className="text-5xl font-bold mb-6"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                onBlur={(e) =>
-                  onFieldChange?.("hero", "title", e.currentTarget.textContent || "")
-                }
-              >
-                {sections.hero.title || "Bem-vindo ao seu site"}
-              </h1>
-              <p
-                className="text-xl mb-8 opacity-90"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                onBlur={(e) =>
-                  onFieldChange?.("hero", "subtitle", e.currentTarget.textContent || "")
-                }
-              >
-                {sections.hero.subtitle || "Comece a editar agora"}
-              </p>
-              <button
-                className="preview-bg-secondary px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                onBlur={(e) =>
-                  onFieldChange?.("hero", "cta", e.currentTarget.textContent || "")
-                }
-              >
-                {sections.hero.cta || "Saiba mais"}
-              </button>
+            <div className="pointer-events-none absolute inset-0 opacity-40">
+              <div className="absolute -top-24 -left-10 h-56 w-56 rounded-full bg-background/10 blur-3xl" />
+              <div className="absolute -bottom-32 right-0 h-72 w-72 rounded-full bg-secondary/20 blur-3xl" />
+            </div>
+
+            <div className="relative z-10 grid gap-10 px-8 py-16 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] md:items-center">
+              <div className="text-center md:text-left space-y-6">
+                <p className="inline-flex items-center gap-2 rounded-full bg-background/10 px-4 py-1 text-xs font-medium uppercase tracking-[0.2em] text-primary-foreground/80">
+                  <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
+                  {projectName}
+                </p>
+
+                <h1
+                  className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-tight"
+                  contentEditable={editable}
+                  suppressContentEditableWarning
+                  onBlur={(e) =>
+                    onFieldChange?.("hero", "title", e.currentTarget.textContent || "")
+                  }
+                >
+                  {sections.hero.title || "Bem-vindo ao seu novo site profissional"}
+                </h1>
+
+                <p
+                  className="text-lg md:text-xl text-primary-foreground/85 max-w-2xl mx-auto md:mx-0"
+                  contentEditable={editable}
+                  suppressContentEditableWarning
+                  onBlur={(e) =>
+                    onFieldChange?.("hero", "subtitle", e.currentTarget.textContent || "")
+                  }
+                >
+                  {sections.hero.subtitle ||
+                    "Crie uma presença digital elegante em poucos minutos, com seções prontas para conversão."}
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
+                  <button
+                    className="inline-flex items-center justify-center rounded-full bg-secondary px-8 py-3 text-sm font-semibold text-secondary-foreground shadow-md transition hover:brightness-110"
+                    contentEditable={editable}
+                    suppressContentEditableWarning
+                    onBlur={(e) =>
+                      onFieldChange?.("hero", "cta", e.currentTarget.textContent || "")
+                    }
+                  >
+                    {sections.hero.cta || "Começar agora"}
+                  </button>
+                  <span className="text-xs text-primary-foreground/70">
+                    Sem código, em poucos cliques.
+                  </span>
+                </div>
+              </div>
+
+              <div className="mx-auto w-full max-w-md rounded-2xl bg-background/10 p-4 shadow-lg ring-1 ring-background/30 backdrop-blur-md">
+                <div className="mb-4 flex items-center justify-between text-xs text-primary-foreground/70">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                    Online
+                  </div>
+                  <span>Prévia do seu site</span>
+                </div>
+                <div className="space-y-3 rounded-xl bg-background/5 p-4">
+                  <div className="h-2 w-24 rounded-full bg-primary/30" />
+                  <div className="h-2 w-40 rounded-full bg-primary/20" />
+                  <div className="mt-4 grid gap-2">
+                    <div className="h-10 rounded-lg bg-background/20" />
+                    <div className="h-10 rounded-lg bg-background/15" />
+                    <div className="h-10 rounded-lg bg-background/10" />
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
         )}
