@@ -155,26 +155,49 @@ export const EditorAssistantPanel = ({
         </div>
       </ScrollArea>
 
-      <div className="border-t border-white/20 p-3 space-y-2">
-        <Textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Ex: deixa o hero mais escuro e troca o título por algo mais sério"
-          className="min-h-[72px] resize-none text-sm bg-black/70 text-white placeholder:text-white/50 border-white/20"
-          disabled={loading}
-        />
-        <div className="flex justify-end">
-          <Button
-            size="sm"
-            onClick={handleSend}
-            disabled={loading || !input.trim()}
-            className="gap-2"
-          >
-            {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            {!loading && <Send className="h-4 w-4" />}
-            {loading ? "Pensando..." : "Enviar"}
-          </Button>
+      <div className="border-t border-white/20 p-3">
+        <div className="relative rounded-2xl bg-black/80 border border-white/15 px-3 py-2 flex items-end gap-3">
+          <Textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Digite o que quer mudar no site..."
+            className="min-h-[44px] max-h-[120px] flex-1 resize-none border-0 bg-transparent text-sm text-white placeholder:text-white/40 focus-visible:ring-0 focus-visible:ring-offset-0"
+            disabled={loading}
+          />
+
+          <div className="flex items-center gap-2 pb-1">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 rounded-full border border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
+              disabled={loading}
+            >
+              <span className="text-xs font-medium">+</span>
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-8 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-xs"
+              disabled={loading}
+            >
+              Chat
+            </Button>
+            <Button
+              size="icon"
+              onClick={handleSend}
+              disabled={loading || !input.trim()}
+              className="h-9 w-9 rounded-full bg-white text-black hover:bg-white/90 flex items-center justify-center"
+            >
+              {loading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
