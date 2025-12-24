@@ -86,30 +86,35 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[520px] glass">
         <DialogHeader>
-          <DialogTitle>Publicar site</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-2xl">Publicar site</DialogTitle>
+          <DialogDescription className="text-base">
             Seu site será atualizado e ficará disponível publicamente
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4 py-4">
-          <div className="space-y-2">
-            <p className="text-sm font-medium">URL pública:</p>
+        <div className="space-y-5 py-6">
+          <div className="space-y-3">
+            <p className="text-sm font-medium text-foreground">URL pública:</p>
             <div className="flex items-center gap-2">
-              <div className="flex-1 rounded-md bg-muted p-3">
-                <p className="text-sm font-mono break-all">{publicUrl}</p>
+              <div className="flex-1 rounded-xl bg-card/50 border border-border/50 p-4">
+                <p className="text-sm font-mono break-all text-muted-foreground">{publicUrl}</p>
               </div>
-              <Button variant="outline" size="icon" onClick={copyToClipboard}>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={copyToClipboard}
+                className="h-10 w-10 hover:scale-105 transition-transform"
+              >
                 <Copy className="h-4 w-4" />
               </Button>
             </div>
           </div>
 
           {project?.status === "published" && (
-            <div className="rounded-lg bg-primary/10 p-4 text-sm">
-              <p className="font-medium text-primary mb-1">Site já publicado</p>
+            <div className="rounded-xl bg-blue-500/10 border border-blue-500/20 p-4 text-sm">
+              <p className="font-medium text-foreground mb-1">Site já publicado</p>
               <p className="text-muted-foreground">
                 Ao publicar novamente, você criará uma nova versão com as últimas alterações.
               </p>
@@ -118,10 +123,18 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
         </div>
 
         <div className="flex gap-3">
-          <Button variant="outline" className="flex-1" onClick={() => onOpenChange(false)}>
+          <Button 
+            variant="ghost" 
+            className="flex-1" 
+            onClick={() => onOpenChange(false)}
+          >
             Cancelar
           </Button>
-          <Button className="flex-1" onClick={handlePublish} disabled={publishing}>
+          <Button 
+            className="flex-1 bg-foreground text-background hover:bg-foreground/90 font-semibold" 
+            onClick={handlePublish} 
+            disabled={publishing}
+          >
             {publishing ? "Publicando..." : "Publicar agora"}
           </Button>
         </div>
@@ -129,10 +142,10 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
         {project?.status === "published" && (
           <Button
             variant="ghost"
-            className="w-full"
+            className="w-full mt-2 group"
             onClick={() => window.open(publicUrl, "_blank")}
           >
-            <ExternalLink className="mr-2 h-4 w-4" />
+            <ExternalLink className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
             Ver site publicado
           </Button>
         )}
