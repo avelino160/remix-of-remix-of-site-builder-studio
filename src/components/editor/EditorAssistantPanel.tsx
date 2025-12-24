@@ -128,12 +128,12 @@ export const EditorAssistantPanel = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-background/80">
-      <div className="border-b border-border/40 px-4 py-3">
-        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-          Assistant
+    <div className="flex flex-col h-full bg-black">
+      <div className="border-b border-white/20 px-4 py-3">
+        <p className="text-xs font-medium text-white/70 uppercase tracking-wide">
+          ASSISTANT
         </p>
-        <p className="text-sm text-foreground mt-1">
+        <p className="text-sm text-white/90 mt-1">
           Peça mudanças no site em linguagem natural.
         </p>
       </div>
