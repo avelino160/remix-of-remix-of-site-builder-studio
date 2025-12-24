@@ -225,7 +225,7 @@ const Editor = () => {
               <div className="flex-1 overflow-auto">
                 <SitePreview config={config} projectName={project?.name} />
               </div>
-              <div className="w-[360px] border-l border-border/30 bg-background/80 backdrop-blur-sm hidden xl:flex">
+              <div className="w-[360px] border-l border-border/30 bg-background/80 backdrop-blur-sm hidden lg:flex">
                 <EditorAssistantPanel
                   config={config}
                   project={project}
