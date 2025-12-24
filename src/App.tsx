@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { AppShell } from "@/components/AppShell";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
@@ -29,80 +30,24 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/auth" element={<Auth />} />
             <Route
               path="/app"
               element={
                 <ProtectedRoute>
-                  <Home />
+                  <AppShell />
                 </ProtectedRoute>
               }
-            />
-            <Route
-              path="/app/projects"
-              element={
-                <ProtectedRoute>
-                  <Projects />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/app/search"
-              element={
-                <ProtectedRoute>
-                  <Search />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/app/favorites"
-              element={
-                <ProtectedRoute>
-                  <Favorites />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/app/team"
-              element={
-                <ProtectedRoute>
-                  <Team />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/app/docs"
-              element={
-                <ProtectedRoute>
-                  <Docs />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/app/help"
-              element={
-                <ProtectedRoute>
-                  <Help />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/app/settings"
-              element={
-                <ProtectedRoute>
-                  <Settings />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/app/projects/:id"
-              element={
-                <ProtectedRoute>
-                  <Editor />
-                </ProtectedRoute>
-              }
-            />
+            >
+              <Route index element={<Home />} />
+              <Route path="projects" element={<Projects />} />
+              <Route path="projects/:id" element={<Editor />} />
+              <Route path="search" element={<Search />} />
+              <Route path="favorites" element={<Favorites />} />
+              <Route path="team" element={<Team />} />
+              <Route path="docs" element={<Docs />} />
+              <Route path="help" element={<Help />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
             <Route path="/p/:slug" element={<PublicSite />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
