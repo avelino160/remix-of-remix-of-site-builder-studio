@@ -1,9 +1,11 @@
 interface SitePreviewProps {
   config: any;
   projectName: string;
+  editable?: boolean;
+  onFieldChange?: (section: string, field: string, value: string) => void;
 }
 
-export const SitePreview = ({ config, projectName }: SitePreviewProps) => {
+export const SitePreview = ({ config, projectName, editable = false, onFieldChange }: SitePreviewProps) => {
   const { palette, sections, typography, spacing } = config;
 
   const spacingClasses = {
@@ -36,13 +38,34 @@ export const SitePreview = ({ config, projectName }: SitePreviewProps) => {
         {sections.hero?.enabled && (
           <section className="preview-bg-primary text-white py-20 px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-5xl font-bold mb-6">
+              <h1
+                className="text-5xl font-bold mb-6"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                onBlur={(e) =>
+                  onFieldChange?.("hero", "title", e.currentTarget.textContent || "")
+                }
+              >
                 {sections.hero.title || "Bem-vindo ao seu site"}
               </h1>
-              <p className="text-xl mb-8 opacity-90">
+              <p
+                className="text-xl mb-8 opacity-90"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                onBlur={(e) =>
+                  onFieldChange?.("hero", "subtitle", e.currentTarget.textContent || "")
+                }
+              >
                 {sections.hero.subtitle || "Comece a editar agora"}
               </p>
-              <button className="preview-bg-secondary px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+              <button
+                className="preview-bg-secondary px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                onBlur={(e) =>
+                  onFieldChange?.("hero", "cta", e.currentTarget.textContent || "")
+                }
+              >
                 {sections.hero.cta || "Saiba mais"}
               </button>
             </div>
@@ -53,11 +76,26 @@ export const SitePreview = ({ config, projectName }: SitePreviewProps) => {
         {sections.about?.enabled && (
           <section className="py-16 px-6">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-4xl font-bold mb-6 preview-primary">
+              <h2
+                className="text-4xl font-bold mb-6 preview-primary"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                onBlur={(e) =>
+                  onFieldChange?.("about", "title", e.currentTarget.textContent || "")
+                }
+              >
                 {sections.about.title || "Sobre nós"}
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                {sections.about.content || "Conte sua história aqui. Este é um espaço para você se apresentar e mostrar o que torna seu negócio único."}
+              <p
+                className="text-lg text-muted-foreground leading-relaxed"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                onBlur={(e) =>
+                  onFieldChange?.("about", "content", e.currentTarget.textContent || "")
+                }
+              >
+                {sections.about.content ||
+                  "Conte sua história aqui. Este é um espaço para você se apresentar e mostrar o que torna seu negócio único."}
               </p>
             </div>
           </section>
@@ -114,7 +152,14 @@ export const SitePreview = ({ config, projectName }: SitePreviewProps) => {
         {sections.contact?.enabled && (
           <section className="py-16 px-6 bg-muted/30">
             <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-4xl font-bold mb-6 preview-primary">
+              <h2
+                className="text-4xl font-bold mb-6 preview-primary"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                onBlur={(e) =>
+                  onFieldChange?.("contact", "title", e.currentTarget.textContent || "")
+                }
+              >
                 {sections.contact.title || "Entre em contato"}
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
@@ -123,6 +168,11 @@ export const SitePreview = ({ config, projectName }: SitePreviewProps) => {
               <a
                 href={`mailto:${sections.contact.email || "contato@exemplo.com"}`}
                 className="preview-primary text-xl font-semibold hover:underline"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                onBlur={(e) =>
+                  onFieldChange?.("contact", "email", e.currentTarget.textContent || "")
+                }
               >
                 {sections.contact.email || "contato@exemplo.com"}
               </a>
@@ -134,7 +184,14 @@ export const SitePreview = ({ config, projectName }: SitePreviewProps) => {
         {sections.footer?.enabled && (
           <footer className="preview-bg-primary text-white py-8 px-6">
             <div className="max-w-6xl mx-auto text-center">
-              <p className="opacity-90">
+              <p
+                className="opacity-90"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                onBlur={(e) =>
+                  onFieldChange?.("footer", "text", e.currentTarget.textContent || "")
+                }
+              >
                 {sections.footer.text || "© 2024 Todos os direitos reservados"}
               </p>
             </div>
