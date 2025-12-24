@@ -93,17 +93,21 @@ const AICreate = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500">
-      {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 via-purple-500/30 to-pink-500/30 animate-gradient" />
+    <div className="relative min-h-screen overflow-hidden bg-[#0A0A0A]">
+      {/* Animated gradient mesh */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+      </div>
       
       {/* Back button */}
-      <div className="absolute top-6 left-6 z-10">
+      <div className="absolute top-8 left-8 z-10">
         <Button
           variant="ghost"
           size="sm"
           onClick={() => navigate('/app/projects')}
-          className="text-white/90 hover:text-white hover:bg-white/10"
+          className="text-gray-400 hover:text-white hover:bg-white/5 border border-white/10"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Voltar
@@ -111,70 +115,65 @@ const AICreate = () => {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 py-20">
-        <div className="w-full max-w-4xl space-y-8 text-center">
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4">
+        <div className="w-full max-w-4xl space-y-12">
           {/* Title */}
-          <h1 className="text-5xl font-bold text-white md:text-6xl lg:text-7xl">
-            Vamos criar
-          </h1>
+          <div className="text-center space-y-4">
+            <h1 className="text-6xl font-bold text-white md:text-7xl lg:text-8xl tracking-tight">
+              O que vamos criar?
+            </h1>
+            <p className="text-xl text-gray-400">
+              Descreva seu projeto e a IA irá criar para você
+            </p>
+          </div>
 
           {/* Prompt input bar */}
           <div className="mx-auto w-full max-w-3xl">
-            <div className="relative rounded-2xl bg-gray-900/90 backdrop-blur-xl border border-white/10 shadow-2xl">
-              <Textarea
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Descreva o site que você quer criar..."
-                disabled={generating}
-                className="min-h-[120px] resize-none border-0 bg-transparent px-6 py-6 text-lg text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
-              />
-              
-              <div className="flex items-center justify-between border-t border-white/10 px-4 py-3">
-                <div className="flex items-center gap-2">
+            <div className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl opacity-20 blur group-hover:opacity-30 transition-opacity" />
+              <div className="relative rounded-2xl bg-[#1A1A1A] border border-white/10 shadow-2xl overflow-hidden">
+                <Textarea
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Ex: Um site para uma cafeteria moderna com galeria de fotos..."
+                  disabled={generating}
+                  className="min-h-[140px] resize-none border-0 bg-transparent px-6 py-6 text-lg text-white placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0"
+                />
+                
+                <div className="flex items-center justify-end border-t border-white/10 px-4 py-4 bg-[#141414]">
                   <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-gray-400 hover:text-white hover:bg-white/10"
-                    disabled={generating}
+                    onClick={handleGenerate}
+                    disabled={!prompt.trim() || generating}
+                    size="lg"
+                    className="bg-white text-black hover:bg-gray-100 font-semibold px-8"
                   >
-                    <Lightbulb className="mr-2 h-4 w-4" />
-                    Exemplos
+                    {generating ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Criando...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="mr-2 h-5 w-5" />
+                        Criar site
+                      </>
+                    )}
                   </Button>
                 </div>
-                
-                <Button
-                  onClick={handleGenerate}
-                  disabled={!prompt.trim() || generating}
-                  size="lg"
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
-                >
-                  {generating ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Gerando site...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="mr-2 h-5 w-5" />
-                      Criar com IA
-                    </>
-                  )}
-                </Button>
               </div>
             </div>
           </div>
 
           {/* Example prompts */}
           {!generating && (
-            <div className="mx-auto max-w-2xl space-y-3 pt-4">
-              <p className="text-sm text-white/70">Ou experimente um destes:</p>
-              <div className="grid gap-2 sm:grid-cols-2">
+            <div className="mx-auto max-w-3xl">
+              <div className="flex flex-wrap gap-2 justify-center">
                 {examplePrompts.slice(0, 4).map((example, i) => (
                   <button
                     key={i}
                     onClick={() => setPrompt(example)}
-                    className="rounded-lg bg-white/10 px-4 py-3 text-left text-sm text-white/90 backdrop-blur transition-all hover:bg-white/20 hover:scale-[1.02]"
+                    className="rounded-full bg-white/5 px-5 py-2.5 text-sm text-gray-400 border border-white/10 backdrop-blur transition-all hover:bg-white/10 hover:text-white hover:border-white/20"
                   >
                     {example}
                   </button>
