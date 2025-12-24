@@ -120,7 +120,7 @@ export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: Cr
               className="h-24 flex flex-col gap-2"
               onClick={() => {
                 onOpenChange(false);
-                navigate('/app/ai-create');
+                navigate('/app');
               }}
             >
               <Sparkles className="h-6 w-6 text-primary" />
