@@ -187,7 +187,7 @@ const Editor = () => {
                 value="sections" 
                 className="flex-1 rounded-none h-full data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:shadow-none font-medium"
               >
-                Assistente
+                Chat
               </TabsTrigger>
             </TabsList>
             
