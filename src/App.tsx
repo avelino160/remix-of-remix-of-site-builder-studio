@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Projects from "./pages/Projects";
 import Editor from "./pages/Editor";
+import AICreate from "./pages/AICreate";
 import PublicSite from "./pages/PublicSite";
 import NotFound from "./pages/NotFound";
 
@@ -37,6 +38,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Editor />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/app/ai-create"
+              element={
+                <ProtectedRoute>
+                  <AICreate />
                 </ProtectedRoute>
               }
             />
