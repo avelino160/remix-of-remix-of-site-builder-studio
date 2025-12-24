@@ -77,21 +77,19 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0A0A0A]">
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-      </div>
+    <div className="relative min-h-screen overflow-hidden bg-background">
+      {/* Gradient background exactly like Lovable */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_0_0,hsl(217_91%_60%),transparent_55%),radial-gradient(circle_at_100%_0,hsl(262_83%_58%),transparent_55%),radial-gradient(circle_at_50%_100%,hsl(330_81%_60%),transparent_55%)]" />
 
       {/* Main content */}
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 pb-24">
-        <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-10 tracking-tight text-center">
+        <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white mb-10 tracking-tight text-center">
           Let's create
         </h1>
 
         {/* Prompt bar */}
         <div className="w-full max-w-3xl">
-          <div className="relative rounded-2xl bg-[#2A2A2A] shadow-2xl overflow-hidden">
+          <div className="relative rounded-2xl bg-[#202124] shadow-2xl overflow-hidden">
             <Textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
