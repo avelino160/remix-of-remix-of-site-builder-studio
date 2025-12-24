@@ -3,10 +3,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { AppLayout } from "@/components/AppLayout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Plus, MoreVertical, ExternalLink, Edit, Copy, Trash2 } from "lucide-react";
+import { Plus, MoreVertical, ExternalLink, Edit, Copy, Trash2, Globe } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { CreateProjectDialog } from "@/components/CreateProjectDialog";
@@ -140,71 +140,107 @@ const Projects = () => {
 
   return (
     <AppLayout>
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Meus sites</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-4xl font-bold tracking-tight">Meus sites</h1>
+            <p className="text-muted-foreground mt-1">
               Gerencie e edite todos os seus projetos
             </p>
           </div>
-          <Button size="lg" onClick={() => setCreateDialogOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />
+          <Button 
+            size="lg" 
+            onClick={() => setCreateDialogOpen(true)}
+            className="bg-foreground text-background hover:bg-foreground/90"
+          >
+            <Plus className="mr-2 h-5 w-5" />
             Criar novo site
           </Button>
         </div>
 
         {projects.length === 0 ? (
-          <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="mb-4 rounded-full bg-primary/10 p-4">
-                <Plus className="h-8 w-8 text-primary" />
+          <Card className="border-dashed border-2 glass">
+            <CardContent className="flex flex-col items-center justify-center py-20 text-center">
+              <div className="mb-6 rounded-full bg-muted p-6">
+                <Plus className="h-10 w-10 text-muted-foreground" />
               </div>
-              <CardTitle className="mb-2">Nenhum site criado ainda</CardTitle>
-              <CardDescription className="mb-4 max-w-sm">
+              <h3 className="text-2xl font-semibold mb-3">Nenhum site criado ainda</h3>
+              <p className="text-muted-foreground mb-6 max-w-sm">
                 Crie seu primeiro site agora e comece a construir sua presença online
-              </CardDescription>
-              <Button onClick={() => setCreateDialogOpen(true)}>
-                <Plus className="mr-2 h-4 w-4" />
+              </p>
+              <Button 
+                size="lg" 
+                onClick={() => setCreateDialogOpen(true)}
+                className="bg-foreground text-background hover:bg-foreground/90"
+              >
+                <Plus className="mr-2 h-5 w-5" />
                 Criar meu primeiro site
               </Button>
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {projects.map((project) => (
-              <Card key={project.id} className="group hover:shadow-md transition-shadow">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="line-clamp-1">{project.name}</CardTitle>
-                      <CardDescription className="mt-1">
+              <Card 
+                key={project.id} 
+                className="group relative overflow-hidden glass hover:scale-[1.02] transition-all duration-200 cursor-pointer border-border/50"
+                onClick={() => navigate(`/app/projects/${project.id}`)}
+              >
+                {/* Thumbnail placeholder with gradient */}
+                <div className="aspect-video w-full bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-pink-500/10 flex items-center justify-center">
+                  <Globe className="h-12 w-12 text-muted-foreground/30" />
+                </div>
+                
+                <CardContent className="p-4 space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-base line-clamp-1 mb-1">
+                        {project.name}
+                      </h3>
+                      <p className="text-xs text-muted-foreground">
                         {getTypeLabel(project.type)}
-                      </CardDescription>
+                      </p>
                     </div>
+                    
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
                           <MoreVertical className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => navigate(`/app/projects/${project.id}`)}>
+                      <DropdownMenuContent align="end" className="glass">
+                        <DropdownMenuItem onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/app/projects/${project.id}`);
+                        }}>
                           <Edit className="mr-2 h-4 w-4" />
                           Editar
                         </DropdownMenuItem>
                         {project.status === "published" && (
-                          <DropdownMenuItem onClick={() => window.open(`/p/${project.slug}`, "_blank")}>
+                          <DropdownMenuItem onClick={(e) => {
+                            e.stopPropagation();
+                            window.open(`/p/${project.slug}`, "_blank");
+                          }}>
                             <ExternalLink className="mr-2 h-4 w-4" />
                             Abrir site
                           </DropdownMenuItem>
                         )}
-                        <DropdownMenuItem onClick={() => handleDuplicate(project)}>
+                        <DropdownMenuItem onClick={(e) => {
+                          e.stopPropagation();
+                          handleDuplicate(project);
+                        }}>
                           <Copy className="mr-2 h-4 w-4" />
                           Duplicar
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          onClick={() => handleDelete(project.id, project.name)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(project.id, project.name);
+                          }}
                           className="text-destructive focus:text-destructive"
                         >
                           <Trash2 className="mr-2 h-4 w-4" />
@@ -213,27 +249,22 @@ const Projects = () => {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Status:</span>
-                      <Badge variant={project.status === "published" ? "default" : "secondary"}>
-                        {project.status === "published" ? "Publicado" : "Rascunho"}
-                      </Badge>
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      Atualizado em {formatDate(project.updated_at)}
-                    </div>
-                    <Button
-                      className="w-full"
-                      onClick={() => navigate(`/app/projects/${project.id}`)}
+                  
+                  <div className="flex items-center justify-between">
+                    <Badge 
+                      variant={project.status === "published" ? "default" : "secondary"}
+                      className="text-xs"
                     >
-                      <Edit className="mr-2 h-4 w-4" />
-                      Editar projeto
-                    </Button>
+                      {project.status === "published" ? "Publicado" : "Rascunho"}
+                    </Badge>
+                    <span className="text-xs text-muted-foreground">
+                      {formatDate(project.updated_at)}
+                    </span>
                   </div>
                 </CardContent>
+
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
               </Card>
             ))}
           </div>

@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { AppLayout } from "@/components/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
-import { Save, Eye, Upload } from "lucide-react";
+import { Save, Eye, Upload, ArrowLeft } from "lucide-react";
 import { SectionsTab } from "@/components/editor/SectionsTab";
 import { StyleTab } from "@/components/editor/StyleTab";
 import { SettingsTab } from "@/components/editor/SettingsTab";
@@ -112,49 +111,64 @@ const Editor = () => {
 
   if (loading) {
     return (
-      <AppLayout>
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <div className="text-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Carregando editor...</p>
-          </div>
+      <div className="h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4"></div>
+          <p className="text-muted-foreground text-sm">Carregando editor...</p>
         </div>
-      </AppLayout>
+      </div>
     );
   }
 
   return (
     <div className="h-screen flex flex-col bg-background">
       {/* Editor Header */}
-      <header className="border-b border-border/40 bg-background/95 backdrop-blur">
-        <div className="flex h-14 items-center justify-between px-4">
+      <header className="glass border-b border-border/30 sticky top-0 z-50">
+        <div className="flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={() => navigate("/app/projects")}>
-              ← Voltar
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => navigate("/app/projects")}
+              className="gap-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden sm:inline">Voltar</span>
             </Button>
-            <div>
-              <h1 className="font-semibold">{project?.name}</h1>
+            <div className="border-l border-border/40 pl-4">
+              <h1 className="font-semibold text-base">{project?.name}</h1>
               <p className="text-xs text-muted-foreground">
-                {project?.status === "published" ? "Publicado" : "Rascunho"}
+                {project?.status === "published" ? "✓ Publicado" : "Rascunho"}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={handleSave} disabled={saving}>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={handleSave} 
+              disabled={saving}
+              className="hidden sm:flex"
+            >
               <Save className="mr-2 h-4 w-4" />
               {saving ? "Salvando..." : "Salvar"}
             </Button>
             {project?.status === "published" && (
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
                 onClick={() => window.open(`/p/${project.slug}`, "_blank")}
+                className="hidden sm:flex"
               >
                 <Eye className="mr-2 h-4 w-4" />
                 Ver site
               </Button>
             )}
-            <Button size="sm" onClick={() => setPublishDialogOpen(true)}>
+            <Button 
+              size="sm" 
+              onClick={() => setPublishDialogOpen(true)}
+              className="bg-foreground text-background hover:bg-foreground/90 font-medium"
+            >
               <Upload className="mr-2 h-4 w-4" />
               Publicar
             </Button>
@@ -165,37 +179,49 @@ const Editor = () => {
       {/* Editor Content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Controls */}
-        <div className="w-80 border-r border-border/40 bg-background overflow-y-auto">
+        <div className="w-80 border-r border-border/30 bg-card/30 overflow-y-auto">
           <Tabs defaultValue="sections" className="h-full">
-            <TabsList className="w-full rounded-none border-b border-border/40 bg-transparent p-0">
-              <TabsTrigger value="sections" className="flex-1 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary">
+            <TabsList className="w-full rounded-none border-b border-border/30 bg-transparent p-0 h-12">
+              <TabsTrigger 
+                value="sections" 
+                className="flex-1 rounded-none h-full data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:shadow-none font-medium"
+              >
                 Seções
               </TabsTrigger>
-              <TabsTrigger value="style" className="flex-1 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary">
+              <TabsTrigger 
+                value="style" 
+                className="flex-1 rounded-none h-full data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:shadow-none font-medium"
+              >
                 Estilo
               </TabsTrigger>
-              <TabsTrigger value="settings" className="flex-1 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary">
-                Configurações
+              <TabsTrigger 
+                value="settings" 
+                className="flex-1 rounded-none h-full data-[state=active]:border-b-2 data-[state=active]:border-foreground data-[state=active]:shadow-none font-medium"
+              >
+                Config
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="sections" className="m-0 p-4">
+            <TabsContent value="sections" className="m-0 p-6">
               <SectionsTab sections={config.sections} onUpdate={updateSections} />
             </TabsContent>
             
-            <TabsContent value="style" className="m-0 p-4">
+            <TabsContent value="style" className="m-0 p-6">
               <StyleTab config={config} onUpdate={updateConfig} onPaletteUpdate={updatePalette} />
             </TabsContent>
             
-            <TabsContent value="settings" className="m-0 p-4">
+            <TabsContent value="settings" className="m-0 p-6">
               <SettingsTab project={project} config={config} onUpdate={updateConfig} />
             </TabsContent>
           </Tabs>
         </div>
 
         {/* Right Panel - Preview */}
-        <div className="flex-1 bg-muted/20 overflow-auto">
-          <SitePreview config={config} projectName={project?.name} />
+        <div className="flex-1 bg-muted/10 overflow-auto relative">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+          <div className="relative">
+            <SitePreview config={config} projectName={project?.name} />
+          </div>
         </div>
       </div>
 
