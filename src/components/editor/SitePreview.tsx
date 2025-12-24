@@ -3,9 +3,11 @@ interface SitePreviewProps {
   projectName: string;
   editable?: boolean;
   onFieldChange?: (section: string, field: string, value: string) => void;
+  selectedId?: string | null;
+  onSelect?: (id: string) => void;
 }
 
-export const SitePreview = ({ config, projectName, editable = false, onFieldChange }: SitePreviewProps) => {
+export const SitePreview = ({ config, projectName, editable = false, onFieldChange, selectedId, onSelect }: SitePreviewProps) => {
   const { palette, sections, typography, spacing } = config;
 
   const spacingClasses = {
@@ -36,7 +38,16 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
       <div className={spacingClasses[spacing as keyof typeof spacingClasses] || "space-y-16"}>
         {/* Hero Section */}
         {sections.hero?.enabled && (
-          <section className="preview-bg-primary text-white py-20 px-6">
+          <section
+            className={`preview-bg-primary text-white py-20 px-6 transition-shadow ${
+              editable ? "cursor-pointer" : ""
+            } ${
+              editable && selectedId === "hero"
+                ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                : ""
+            }`}
+            onClick={editable ? () => onSelect?.("hero") : undefined}
+          >
             <div className="max-w-4xl mx-auto text-center">
               <h1
                 className="text-5xl font-bold mb-6"
@@ -74,7 +85,14 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
 
         {/* About Section */}
         {sections.about?.enabled && (
-          <section className="py-16 px-6">
+          <section
+            className={`py-16 px-6 transition-shadow ${editable ? "cursor-pointer" : ""} ${
+              editable && selectedId === "about"
+                ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                : ""
+            }`}
+            onClick={editable ? () => onSelect?.("about") : undefined}
+          >
             <div className="max-w-4xl mx-auto">
               <h2
                 className="text-4xl font-bold mb-6 preview-primary"
@@ -103,7 +121,16 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
 
         {/* Services Section */}
         {sections.services?.enabled && (
-          <section className="py-16 px-6 bg-muted/30">
+          <section
+            className={`py-16 px-6 bg-muted/30 transition-shadow ${
+              editable ? "cursor-pointer" : ""
+            } ${
+              editable && selectedId === "services"
+                ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                : ""
+            }`}
+            onClick={editable ? () => onSelect?.("services") : undefined}
+          >
             <div className="max-w-6xl mx-auto">
               <h2 className="text-4xl font-bold mb-12 text-center preview-primary">
                 {sections.services.title || "Nossos serviços"}
@@ -125,7 +152,14 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
 
         {/* Testimonials Section */}
         {sections.testimonials?.enabled && (
-          <section className="py-16 px-6">
+          <section
+            className={`py-16 px-6 transition-shadow ${editable ? "cursor-pointer" : ""} ${
+              editable && selectedId === "testimonials"
+                ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                : ""
+            }`}
+            onClick={editable ? () => onSelect?.("testimonials") : undefined}
+          >
             <div className="max-w-6xl mx-auto">
               <h2 className="text-4xl font-bold mb-12 text-center preview-primary">
                 {sections.testimonials.title || "Depoimentos"}
@@ -150,7 +184,16 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
 
         {/* Contact Section */}
         {sections.contact?.enabled && (
-          <section className="py-16 px-6 bg-muted/30">
+          <section
+            className={`py-16 px-6 bg-muted/30 transition-shadow ${
+              editable ? "cursor-pointer" : ""
+            } ${
+              editable && selectedId === "contact"
+                ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                : ""
+            }`}
+            onClick={editable ? () => onSelect?.("contact") : undefined}
+          >
             <div className="max-w-2xl mx-auto text-center">
               <h2
                 className="text-4xl font-bold mb-6 preview-primary"
@@ -182,7 +225,16 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
 
         {/* Footer */}
         {sections.footer?.enabled && (
-          <footer className="preview-bg-primary text-white py-8 px-6">
+          <footer
+            className={`preview-bg-primary text-white py-8 px-6 transition-shadow ${
+              editable ? "cursor-pointer" : ""
+            } ${
+              editable && selectedId === "footer"
+                ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                : ""
+            }`}
+            onClick={editable ? () => onSelect?.("footer") : undefined}
+          >
             <div className="max-w-6xl mx-auto text-center">
               <p
                 className="opacity-90"
