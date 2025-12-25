@@ -28,12 +28,6 @@ export const Sidebar = () => {
   return (
     <aside className="fixed left-0 top-0 h-screen w-16 bg-[#1A1A1A] border-r border-[#2A2A2A] flex flex-col items-center py-4 z-50">
 
-      {/* Demo indicator */}
-      <div className="mb-8">
-        <div className="w-8 h-8 rounded bg-orange-500 flex items-center justify-center">
-          <span className="text-white font-bold text-xs">D</span>
-        </div>
-      </div>
 
       {/* Main navigation */}
       <nav className="flex-1 flex flex-col gap-1 w-full px-2">
