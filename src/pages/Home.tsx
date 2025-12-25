@@ -141,16 +141,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
       </div>
 
-      {/* Banner de gift card no topo */}
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10">
-        <Button
-          variant="ghost"
-          className="rounded-full px-5 py-2 text-white/90 hover:text-white hover:bg-white/10 gap-2 bg-black/20 backdrop-blur"
-        >
-          🎁 Buy a Lovable gift card
-          <ArrowRight className="h-4 w-4" />
-        </Button>
-      </div>
 
       {/* Conteúdo principal */}
       <div className="relative z-10 min-h-[140vh] flex flex-col">
