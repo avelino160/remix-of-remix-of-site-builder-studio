@@ -51,6 +51,12 @@ export default function Home() {
   const handleGenerate = async () => {
     if (!prompt.trim() || generating) return;
 
+    // Se o usuário não estiver logado, redireciona para a página de login
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
     setGenerating(true);
 
     try {

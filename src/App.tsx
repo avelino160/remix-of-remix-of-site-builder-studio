@@ -32,21 +32,73 @@ const App = () => (
           <Routes>
             <Route
               path="/app"
-              element={
-                <ProtectedRoute>
-                  <AppShell />
-                </ProtectedRoute>
-              }
+              element={<AppShell />}
             >
               <Route index element={<Home />} />
-              <Route path="projects" element={<Projects />} />
-              <Route path="projects/:id" element={<Editor />} />
-              <Route path="search" element={<Search />} />
-              <Route path="favorites" element={<Favorites />} />
-              <Route path="team" element={<Team />} />
-              <Route path="docs" element={<Docs />} />
-              <Route path="help" element={<Help />} />
-              <Route path="settings" element={<Settings />} />
+              <Route
+                path="projects"
+                element={
+                  <ProtectedRoute>
+                    <Projects />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="projects/:id"
+                element={
+                  <ProtectedRoute>
+                    <Editor />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="search"
+                element={
+                  <ProtectedRoute>
+                    <Search />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="favorites"
+                element={
+                  <ProtectedRoute>
+                    <Favorites />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="team"
+                element={
+                  <ProtectedRoute>
+                    <Team />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="docs"
+                element={
+                  <ProtectedRoute>
+                    <Docs />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="help"
+                element={
+                  <ProtectedRoute>
+                    <Help />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="settings"
+                element={
+                  <ProtectedRoute>
+                    <Settings />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
             <Route path="/" element={<Navigate to="/app" replace />} />
             <Route path="/auth" element={<Auth />} />
