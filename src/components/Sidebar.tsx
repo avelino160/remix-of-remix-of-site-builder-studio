@@ -27,12 +27,6 @@ export const Sidebar = () => {
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-16 bg-[#1A1A1A] border-r border-[#2A2A2A] flex flex-col items-center py-4 z-50">
-      {/* Logo */}
-      <Link to="/app" className="mb-8">
-        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-          <span className="text-white font-bold text-xl">L</span>
-        </div>
-      </Link>
 
       {/* Demo indicator */}
       <div className="mb-8">
