@@ -16,14 +16,14 @@ export const Sidebar = () => {
   const { user } = useAuth();
 
   const navItems = [
-    { icon: Home, path: "/app", label: "Home" },
-    { icon: Search, path: "/app/search", label: "Search" },
-    { icon: Star, path: "/app/favorites", label: "Favorites" },
+    { icon: Home, path: "/app", label: "Início" },
+    { icon: Search, path: "/app/search", label: "Buscar" },
+    { icon: Star, path: "/app/favorites", label: "Favoritos" },
   ];
 
   const bottomItems = [
-    { icon: HelpCircle, path: "/app/help", label: "Help" },
-    { icon: Settings, path: "/app/settings", label: "Settings" },
+    { icon: HelpCircle, path: "/app/help", label: "Ajuda" },
+    { icon: Settings, path: "/app/settings", label: "Configurações" },
   ];
 
   const getInitials = () => {
