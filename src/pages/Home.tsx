@@ -223,9 +223,6 @@ export default function Home() {
                 <button className="text-gray-500 hover:text-white pb-2">
                   Meus projetos
                 </button>
-                <button className="text-gray-500 hover:text-white pb-2">
-                  Modelos
-                </button>
               </div>
               <Button
                 variant="ghost"
