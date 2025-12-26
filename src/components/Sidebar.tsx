@@ -89,7 +89,7 @@ export const Sidebar = () => {
         <DropdownMenuContent
           side="right"
           align="start"
-          className="z-50 w-56 bg-background border border-white/10 text-sm shadow-lg"
+          className="z-50 w-56 bg-black border border-white/10 text-sm shadow-lg"
         >
           <DropdownMenuLabel className="text-xs text-muted-foreground">
             Conta
