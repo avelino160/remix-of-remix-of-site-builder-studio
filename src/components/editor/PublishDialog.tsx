@@ -86,7 +86,7 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[520px] glass">
+      <DialogContent className="sm:max-w-[520px] bg-background/98 border border-border shadow-2xl rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-2xl">Publicar seu app</DialogTitle>
           <DialogDescription className="text-base">
