@@ -127,6 +127,35 @@ CREATE TABLE public.projects (
 
 
 --
+-- Name: support_tickets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.support_tickets (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    user_id uuid NOT NULL,
+    subject text NOT NULL,
+    message text NOT NULL,
+    status text DEFAULT 'open'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: user_preferences; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_preferences (
+    user_id uuid NOT NULL,
+    theme text DEFAULT 'dark'::text NOT NULL,
+    ai_style text DEFAULT 'SaaS premium'::text NOT NULL,
+    ai_tone text DEFAULT 'Profissional'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: favorites favorites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -183,6 +212,29 @@ ALTER TABLE ONLY public.projects
 
 
 --
+-- Name: support_tickets support_tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.support_tickets
+    ADD CONSTRAINT support_tickets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_preferences user_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_preferences
+    ADD CONSTRAINT user_preferences_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: support_tickets support_tickets_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER support_tickets_set_updated_at BEFORE UPDATE ON public.support_tickets FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+
+--
 -- Name: profiles update_profiles_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -194,6 +246,13 @@ CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON public.profiles FOR E
 --
 
 CREATE TRIGGER update_projects_updated_at BEFORE UPDATE ON public.projects FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+
+--
+-- Name: user_preferences user_preferences_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER user_preferences_set_updated_at BEFORE UPDATE ON public.user_preferences FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
 
 --
@@ -236,6 +295,20 @@ CREATE POLICY "Anyone can view published projects" ON public.projects FOR SELECT
 
 
 --
+-- Name: project_versions Deny all deletes on project_versions; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY "Deny all deletes on project_versions" ON public.project_versions FOR DELETE TO authenticated USING (false);
+
+
+--
+-- Name: project_versions Deny all updates on project_versions; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY "Deny all updates on project_versions" ON public.project_versions FOR UPDATE TO authenticated USING (false) WITH CHECK (false);
+
+
+--
 -- Name: favorites Users can create their own favorites; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -247,6 +320,13 @@ CREATE POLICY "Users can create their own favorites" ON public.favorites FOR INS
 --
 
 CREATE POLICY "Users can create their own projects" ON public.projects FOR INSERT WITH CHECK ((auth.uid() = user_id));
+
+
+--
+-- Name: support_tickets Users can create their own tickets; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY "Users can create their own tickets" ON public.support_tickets FOR INSERT WITH CHECK ((auth.uid() = user_id));
 
 
 --
@@ -273,10 +353,24 @@ CREATE POLICY "Users can delete their own projects" ON public.projects FOR DELET
 
 
 --
+-- Name: user_preferences Users can insert their own preferences; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY "Users can insert their own preferences" ON public.user_preferences FOR INSERT WITH CHECK ((auth.uid() = user_id));
+
+
+--
 -- Name: profiles Users can insert their own profile; Type: POLICY; Schema: public; Owner: -
 --
 
 CREATE POLICY "Users can insert their own profile" ON public.profiles FOR INSERT WITH CHECK ((auth.uid() = id));
+
+
+--
+-- Name: user_preferences Users can update their own preferences; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY "Users can update their own preferences" ON public.user_preferences FOR UPDATE USING ((auth.uid() = user_id)) WITH CHECK ((auth.uid() = user_id));
 
 
 --
@@ -294,10 +388,24 @@ CREATE POLICY "Users can update their own projects" ON public.projects FOR UPDAT
 
 
 --
+-- Name: support_tickets Users can update their own tickets; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY "Users can update their own tickets" ON public.support_tickets FOR UPDATE USING ((auth.uid() = user_id)) WITH CHECK ((auth.uid() = user_id));
+
+
+--
 -- Name: favorites Users can view their own favorites; Type: POLICY; Schema: public; Owner: -
 --
 
 CREATE POLICY "Users can view their own favorites" ON public.favorites FOR SELECT TO authenticated USING ((auth.uid() = user_id));
+
+
+--
+-- Name: user_preferences Users can view their own preferences; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY "Users can view their own preferences" ON public.user_preferences FOR SELECT USING ((auth.uid() = user_id));
 
 
 --
@@ -312,6 +420,13 @@ CREATE POLICY "Users can view their own profile" ON public.profiles FOR SELECT U
 --
 
 CREATE POLICY "Users can view their own projects" ON public.projects FOR SELECT USING ((auth.uid() = user_id));
+
+
+--
+-- Name: support_tickets Users can view their own tickets; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY "Users can view their own tickets" ON public.support_tickets FOR SELECT USING ((auth.uid() = user_id));
 
 
 --
@@ -346,6 +461,18 @@ ALTER TABLE public.project_versions ENABLE ROW LEVEL SECURITY;
 --
 
 ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
+
+--
+-- Name: support_tickets; Type: ROW SECURITY; Schema: public; Owner: -
+--
+
+ALTER TABLE public.support_tickets ENABLE ROW LEVEL SECURITY;
+
+--
+-- Name: user_preferences; Type: ROW SECURITY; Schema: public; Owner: -
+--
+
+ALTER TABLE public.user_preferences ENABLE ROW LEVEL SECURITY;
 
 --
 -- PostgreSQL database dump complete

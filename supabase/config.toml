@@ -1,10 +1,1 @@
-project_id = "fvyytjwlkszddrjgwaro"
-
-[functions.generate-site-config]
-verify_jwt = false
-
-[functions.editor-assistant]
-verify_jwt = false
-
-[functions.support-ticket-email]
-verify_jwt = false
+project_id = "ttaaadscqvwwilybrubo"
