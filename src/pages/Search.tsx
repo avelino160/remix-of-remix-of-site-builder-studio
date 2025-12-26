@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
+import { Star } from "lucide-react";
 
 interface Project {
   id: string;
@@ -21,13 +22,14 @@ const SearchPage = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [projects, setProjects] = useState<Project[]>([]);
+  const [favoriteProjectIds, setFavoriteProjectIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
 
   useEffect(() => {
     if (user) {
-      // Carrega projetos recentes inicialmente
       fetchProjects("");
+      loadFavorites();
     }
   }, [user]);
 
@@ -60,6 +62,67 @@ const SearchPage = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadFavorites = async () => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from("favorites")
+        .select("project_id")
+        .eq("user_id", user.id);
+
+      if (error) throw error;
+
+      setFavoriteProjectIds(data ? data.map((fav) => fav.project_id) : []);
+    } catch (error) {
+      console.error("Erro ao carregar favoritos", error);
+      toast({
+        title: "Erro ao carregar favoritos",
+        description: "Tente novamente em alguns segundos.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const toggleFavorite = async (projectId: string) => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
+    const isFavorited = favoriteProjectIds.includes(projectId);
+
+    try {
+      if (isFavorited) {
+        const { error } = await supabase
+          .from("favorites")
+          .delete()
+          .eq("user_id", user.id)
+          .eq("project_id", projectId);
+
+        if (error) throw error;
+
+        setFavoriteProjectIds((prev) => prev.filter((id) => id !== projectId));
+      } else {
+        const { error } = await supabase.from("favorites").insert({
+          user_id: user.id,
+          project_id: projectId,
+        });
+
+        if (error) throw error;
+
+        setFavoriteProjectIds((prev) => [...prev, projectId]);
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar favorito", error);
+      toast({
+        title: "Erro ao atualizar favorito",
+        description: "Tente novamente em alguns segundos.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -130,32 +193,67 @@ const SearchPage = () => {
               )}
 
               {!loading &&
-                projects.map((project) => (
-                  <button
-                    key={project.id}
-                    type="button"
-                    onClick={() => navigate(`/app/projects/${project.id}`)}
-                    className="w-full text-left px-4 py-3 flex items-center justify-between gap-3 hover:bg-white/5 transition-colors"
-                  >
-                    <div>
-                      <p className="font-medium leading-none text-white">
-                        {project.name}
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Atualizado em {new Date(project.updated_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge
-                        variant={
-                          project.status === "published" ? "default" : "secondary"
+                projects.map((project) => {
+                  const isFavorited = favoriteProjectIds.includes(project.id);
+
+                  return (
+                    <div
+                      key={project.id}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => navigate(`/app/projects/${project.id}`)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          navigate(`/app/projects/${project.id}`);
                         }
-                      >
-                        {project.status === "published" ? "Publicado" : "Rascunho"}
-                      </Badge>
+                      }}
+                      className="w-full text-left px-4 py-3 flex items-center justify-between gap-3 hover:bg-white/5 transition-colors cursor-pointer"
+                    >
+                      <div>
+                        <p className="font-medium leading-none text-white">
+                          {project.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Atualizado em {""}
+                          {new Date(project.updated_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            toggleFavorite(project.id);
+                          }}
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/70 text-gray-300 hover:text-yellow-400 hover:bg-black/90 transition-colors"
+                          aria-label={
+                            isFavorited
+                              ? "Remover dos favoritos"
+                              : "Adicionar aos favoritos"
+                          }
+                        >
+                          <Star
+                            className={`h-4 w-4 ${
+                              isFavorited
+                                ? "fill-yellow-400 text-yellow-400"
+                                : ""
+                            }`}
+                          />
+                        </button>
+                        <Badge
+                          variant={
+                            project.status === "published" ? "default" : "secondary"
+                          }
+                        >
+                          {project.status === "published"
+                            ? "Publicado"
+                            : "Rascunho"}
+                        </Badge>
+                      </div>
                     </div>
-                  </button>
-                ))}
+                  );
+                })}
             </div>
           </div>
         </section>
