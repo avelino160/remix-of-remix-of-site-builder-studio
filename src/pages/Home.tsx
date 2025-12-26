@@ -157,7 +157,7 @@ export default function Home() {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask Lovable to help you with coding..."
+                placeholder="Ask Webly to help you with coding..."
                 disabled={generating}
                 className="min-h-[64px] max-h-[220px] resize-none border-0 bg-transparent px-6 py-4 text-base text-white placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0"
               />
