@@ -28,7 +28,7 @@ interface Project {
 export default function Home() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { setAttachedFileName } = useAttachmentSidebar();
+  const { attachedFileName, setAttachedFileName } = useAttachmentSidebar();
   const [prompt, setPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
   const [recentProjects, setRecentProjects] = useState<Project[]>([]);
@@ -231,7 +231,12 @@ export default function Home() {
               />
 
               <div className="mt-1 flex items-center justify-between px-4">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col items-start gap-1">
+                  {attachedFileName && (
+                    <p className="text-[11px] text-gray-400 truncate max-w-[220px]" title={attachedFileName}>
+                      Anexado: {attachedFileName}
+                    </p>
+                  )}
                   <Button
                     variant="ghost"
                     size="sm"
