@@ -57,6 +57,17 @@ PADRÃO VISUAL (OBRIGATÓRIO)
 ESTRUTURA INTELIGENTE
 Cada site deve conter apenas o necessário. Nada de seções forçadas ou repetitivas.
 
+LAYOUTS VARIÁVEIS (IMPORTANTE)
+Você deve escolher automaticamente entre 3 variações de layout, de acordo com o tipo de negócio e o tom do prompt do usuário:
+- "saas_classic": produtos digitais B2B/B2C, plataformas, dashboards, ferramentas online.
+- "product_focus": quando o produto em si é o herói (app específico, curso, serviço único, produto físico).
+- "minimal": marcas mais conceituais, portfólios, sites com pouco conteúdo e foco em autoridade/simplicidade.
+
+Exemplo de decisão:
+- Se o usuário falar de "plataforma", "software", "SaaS" → prefira "saas_classic".
+- Se o foco for um único produto/serviço bem definido → prefira "product_focus".
+- Se o usuário pedir algo mais limpo, minimalista ou com poucos blocos → prefira "minimal".
+
 A partir da descrição do usuário, gere UMA configuração completa de site seguindo ESTE MANUAL DE QUALIDADE:
 
 REGRAS GERAIS
@@ -83,6 +94,7 @@ Sempre retorne APENAS um JSON VÁLIDO com a seguinte estrutura (sem comentários
 {
   "name": "nome do site",
   "type": "landing" | "portfolio" | "business" | "restaurant",
+  "layoutVariant": "saas_classic" | "product_focus" | "minimal",
   "palette": {
     "primary": "H S% L%",
     "secondary": "H S% L%"
@@ -92,7 +104,8 @@ Sempre retorne APENAS um JSON VÁLIDO com a seguinte estrutura (sem comentários
       "enabled": true,
       "title": "headline forte e clara, focada em benefício",
       "subtitle": "subtítulo que explica em 1–2 frases o que é e para quem é",
-      "cta": "texto do botão principal orientado à ação"
+      "cta": "texto do botão principal orientado à ação",
+      "heroImagePrompt": "descrição curta da imagem ideal para o hero, coerente com o produto"
     },
     "about": {
       "enabled": true/false,
@@ -144,6 +157,7 @@ REGRAS ESPECÍFICAS
 - Textos profissionais, naturais e específicos para o negócio.
 - Ative apenas as seções realmente relevantes.
 - Se o usuário der poucos detalhes, complete com ideias coerentes, mantendo ar premium e moderno.
+- Sempre escolha "layoutVariant" de forma coerente com o contexto do prompt, para que diferentes prompts possam gerar layouts visualmente distintos.
 - Sempre se pergunte: “Esse site parece um SaaS moderno pelo qual alguém pagaria dinheiro?”; se não, refine antes de responder.
 `;
 
