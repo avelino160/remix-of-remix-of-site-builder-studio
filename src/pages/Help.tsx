@@ -3,9 +3,9 @@ import { AppLayout } from "@/components/AppLayout";
 const HelpPage = () => {
   return (
     <AppLayout>
-      <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
-        <header className="space-y-2">
-          <h1 className="text-3xl font-semibold text-white">Ajuda</h1>
+      <div className="max-w-5xl mx-auto space-y-6">
+        <header className="space-y-1">
+          <h1 className="text-2xl font-semibold text-white">Ajuda</h1>
           <p className="text-sm text-muted-foreground">
             Entenda rapidamente como usar a Webly para criar sites profissionais com IA.
           </p>
@@ -16,7 +16,7 @@ const HelpPage = () => {
           <div className="space-y-4">
             <h2 className="text-sm font-semibold text-white">Perguntas rápidas</h2>
             <div className="space-y-3 text-sm">
-              <div className="rounded-2xl border border-white/5 bg-[#121212] p-4 md:p-5">
+              <div className="rounded-2xl border border-white/5 bg-[#121212] p-5 md:p-6">
                 <h3 className="text-sm font-medium text-white mb-1">
                   Como criar meu primeiro site?
                 </h3>
@@ -32,7 +32,7 @@ const HelpPage = () => {
                 </ol>
               </div>
 
-              <div className="rounded-2xl border border-white/5 bg-[#121212] p-4 md:p-5">
+              <div className="rounded-2xl border border-white/5 bg-[#121212] p-5 md:p-6">
                 <h3 className="text-sm font-medium text-white mb-1">
                   Como editar seções específicas do site?
                 </h3>
@@ -43,7 +43,7 @@ const HelpPage = () => {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-white/5 bg-[#121212] p-4 md:p-5">
+              <div className="rounded-2xl border border-white/5 bg-[#121212] p-5 md:p-6">
                 <h3 className="text-sm font-medium text-white mb-1">
                   O que fazer se a geração falhar ou ficar estranha?
                 </h3>
@@ -57,7 +57,7 @@ const HelpPage = () => {
 
           {/* Bloco lateral com passos e contato */}
           <aside className="space-y-4">
-            <div className="rounded-2xl border border-white/5 bg-gradient-to-br from-white/5 to-white/0 p-4 md:p-5">
+            <div className="rounded-2xl border border-white/5 bg-[#121212] p-5 md:p-6">
               <h2 className="text-sm font-semibold text-white mb-2">Fluxo recomendado</h2>
               <ol className="list-decimal list-inside text-xs text-muted-foreground space-y-1">
                 <li>Descreva seu site na Home.</li>
