@@ -156,7 +156,7 @@ const Editor = () => {
                     });
                   });
                 }}
-                className="truncate text-[11px] text-white/80 text-left flex-1 hover:text-white/100"
+                className="truncate text-[11px] text-white/80 text-center flex-1 hover:text-white/100"
                 title="Copiar link público do site"
               >
                 /p/{project?.slug}
