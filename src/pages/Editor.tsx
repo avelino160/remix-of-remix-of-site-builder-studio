@@ -193,14 +193,6 @@ const Editor = () => {
 
           {/* Ações de salvar / publicar */}
           <div className="flex items-center gap-2 shrink-0">
-            <div className="hidden sm:flex flex-col items-end mr-2 text-right">
-              <h1 className="font-semibold text-sm leading-tight max-w-[220px] truncate">
-                {project?.name}
-              </h1>
-              <p className="text-[11px] text-muted-foreground">
-                {project?.status === "published" ? "✓ Publicado" : "Rascunho"}
-              </p>
-            </div>
 
             <Button
               variant="ghost"
