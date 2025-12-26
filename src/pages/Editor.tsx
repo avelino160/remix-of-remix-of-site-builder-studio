@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { Save, Eye, Upload, ArrowLeft, ExternalLink, RotateCw } from "lucide-react";
 import { SectionsTab } from "@/components/editor/SectionsTab";
@@ -31,13 +31,13 @@ const Editor = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
-  
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [publishDialogOpen, setPublishDialogOpen] = useState(false);
   const [inlineEditing, setInlineEditing] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  
+
   const [project, setProject] = useState<any>(null);
   const [config, setConfig] = useState<ProjectConfig>({
     palette: { primary: "221 83% 53%", secondary: "217 91% 60%" },
@@ -193,7 +193,6 @@ const Editor = () => {
 
           {/* Ações de salvar / publicar */}
           <div className="flex items-center gap-2 shrink-0">
-
             {project?.status === "published" && (
               <Button
                 variant="ghost"
@@ -218,15 +217,17 @@ const Editor = () => {
       </header>
 
       {/* Editor Content */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden bg-black">
         {/* Left Panel - Controls */}
-        <div className="w-80 border-r border-border/30 bg-black/80 overflow-y-auto">
+        <div className="w-80 border-r border-border/30 bg-black/90 backdrop-blur-md overflow-y-auto">
           <Tabs defaultValue="sections" className="h-full">
-            {/* Removido o header de abas, deixamos só o conteúdo do chat */}
-            <div className="h-12 border-b border-white/20 flex items-center px-4 text-sm font-medium text-white/80">
-              Chat
+            {/* Header do chat */}
+            <div className="h-12 border-b border-white/15 flex items-center px-4 text-xs font-medium text-white/80 tracking-wide uppercase">
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/20 text-primary mr-2">
+                <Eye className="h-3 w-3" />
+              </span>
+              Assistente do editor
             </div>
-            
             <TabsContent value="sections" className="m-0 h-[calc(100%-3rem)]">
               <EditorAssistantPanel
                 config={config}
@@ -243,31 +244,31 @@ const Editor = () => {
         {/* Right Panel - Preview */}
         <div className="flex-1 bg-muted/10 overflow-auto relative">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-          <div className="relative">
-            <SitePreview
-              config={config}
-              projectName={project?.name}
-              editable={inlineEditing}
-              selectedId={selectedId}
-              onSelect={(id) => setSelectedId(id)}
-              onFieldChange={(section, field, value) => {
-                setConfig((prev) => ({
-                  ...prev,
-                  sections: {
-                    ...(prev.sections || {}),
-                    [section]: {
-                      ...(prev.sections?.[section] || {}),
-                      enabled: true,
-                      [field]: value,
+          <div className="relative flex justify-center items-start px-4 sm:px-6 lg:px-10 py-6 lg:py-10">
+            <div className="w-full max-w-5xl rounded-[32px] bg-background border border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.8)] overflow-hidden">
+              <SitePreview
+                config={config}
+                projectName={project?.name}
+                editable={inlineEditing}
+                selectedId={selectedId}
+                onSelect={(id) => setSelectedId(id)}
+                onFieldChange={(section, field, value) => {
+                  setConfig((prev) => ({
+                    ...prev,
+                    sections: {
+                      ...(prev.sections || {}),
+                      [section]: {
+                        ...(prev.sections?.[section] || {}),
+                        enabled: true,
+                        [field]: value,
+                      },
                     },
-                  },
-                }));
-              }}
-            />
+                  }));
+                }}
+              />
+            </div>
           </div>
         </div>
- 
-        {/* AI assistant agora fica na aba "Assistente" à esquerda */}
       </div>
 
       <PublishDialog
