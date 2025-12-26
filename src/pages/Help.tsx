@@ -68,7 +68,7 @@ const HelpPage = () => {
               </ol>
             </div>
 
-            <div className="rounded-2xl border border-white/5 bg-[#121212] p-4 md:p-5 space-y-3 text-xs">
+            <div className="rounded-2xl border border-white/5 bg-[#121212] p-5 md:p-6 space-y-3 text-xs">
               <h2 className="text-sm font-semibold text-white">Ainda precisa de ajuda?</h2>
               <p className="text-muted-foreground">
                 Se algo não estiver funcionando como esperado ou você tiver uma ideia de melhoria,
@@ -82,6 +82,14 @@ const HelpPage = () => {
                 Se preferir falar direto com alguém, entre em contato pelo WhatsApp:
                 <span className="ml-1 font-medium text-white">+258 857245896</span>.
               </p>
+              <a
+                href="https://wa.me/258857245896"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-medium text-white hover:bg-white/10 transition-colors mt-1"
+              >
+                Abrir conversa no WhatsApp
+              </a>
             </div>
           </aside>
         </section>
