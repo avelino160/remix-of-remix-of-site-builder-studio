@@ -37,6 +37,7 @@ const Editor = () => {
   const [publishDialogOpen, setPublishDialogOpen] = useState(false);
   const [inlineEditing, setInlineEditing] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [chatStarted, setChatStarted] = useState(false);
   
   const [project, setProject] = useState<any>(null);
   const [config, setConfig] = useState<ProjectConfig>({
@@ -181,8 +182,11 @@ const Editor = () => {
 
       {/* Editor Content */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Panel - Controls */}
-        <div className="w-80 border-r border-border/30 bg-black/80 overflow-y-auto">
+        <div
+          className={`border-r border-border/30 bg-black/80 overflow-y-auto transition-all duration-300 ${
+            chatStarted ? "w-[420px]" : "w-80"
+          }`}
+        >
           <Tabs defaultValue="sections" className="h-full">
             {/* Removido o header de abas, deixamos só o conteúdo do chat */}
             <div className="h-12 border-b border-white/20 flex items-center px-4 text-sm font-medium text-white/80">
@@ -197,6 +201,7 @@ const Editor = () => {
                 onSave={handleSave}
                 onToggleInlineEditing={() => setInlineEditing((prev) => !prev)}
                 inlineEditing={inlineEditing}
+                onChatStateChange={(hasMessages) => setChatStarted(hasMessages)}
               />
             </TabsContent>
           </Tabs>
