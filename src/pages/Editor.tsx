@@ -194,16 +194,6 @@ const Editor = () => {
           {/* Ações de salvar / publicar */}
           <div className="flex items-center gap-2 shrink-0">
 
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleSave}
-              disabled={saving}
-              className="hidden sm:flex"
-            >
-              <Save className="mr-2 h-4 w-4" />
-              {saving ? "Salvando..." : "Salvar"}
-            </Button>
             {project?.status === "published" && (
               <Button
                 variant="ghost"
