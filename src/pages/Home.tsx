@@ -249,7 +249,14 @@ export default function Home() {
       {/* Conteúdo principal */}
       <div className="relative z-10 min-h-[140vh] flex flex-col">
         {/* Centro */}
-        <div className="flex-1 flex flex-col items-center justify-center px-10 pb-40 gap-10">
+        <div className="flex-1 flex flex-col items-center justify-center px-10 pb-40 gap-6">
+          <button
+            type="button"
+            onClick={() => navigate("/app/plans")}
+            className="inline-flex items-center rounded-full border border-white/40 bg-white/10 px-4 py-1.5 text-xs font-medium text-black bg-opacity-70 backdrop-blur-md hover:bg-white transition-colors"
+          >
+            Ver planos em créditos
+          </button>
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight text-center">
             Vamos criar
           </h1>
