@@ -38,7 +38,7 @@ const PlansPage = () => {
                 })
               }
             >
-              Pagar agora
+              Começar com 5 créditos
             </Button>
           </div>
 
