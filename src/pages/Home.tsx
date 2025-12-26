@@ -14,6 +14,7 @@ import {
   ArrowUp,
   ArrowRight,
   Globe,
+  Star,
 } from "lucide-react";
 
 interface Project {
@@ -29,23 +30,47 @@ export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
   const [recentProjects, setRecentProjects] = useState<Project[]>([]);
+  const [favoriteProjectIds, setFavoriteProjectIds] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    loadRecentProjects();
+    if (user) {
+      loadRecentProjectsAndFavorites();
+    }
   }, [user]);
 
-  const loadRecentProjects = async () => {
+  const loadRecentProjectsAndFavorites = async () => {
     if (!user) return;
 
-    const { data } = await supabase
-      .from("projects")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("updated_at", { ascending: false })
-      .limit(3);
+    try {
+      const [projectsResult, favoritesResult] = await Promise.all([
+        supabase
+          .from("projects")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("updated_at", { ascending: false })
+          .limit(3),
+        supabase
+          .from("favorites")
+          .select("project_id")
+          .eq("user_id", user.id),
+      ]);
 
-    if (data) setRecentProjects(data);
+      if (projectsResult.data) {
+        setRecentProjects(projectsResult.data);
+      }
+
+      if (favoritesResult.data) {
+        setFavoriteProjectIds(favoritesResult.data.map((fav) => fav.project_id));
+      }
+    } catch (error) {
+      console.error("Erro ao carregar projetos recentes ou favoritos", error);
+      toast({
+        title: "Erro ao carregar projetos",
+        description: "Tente novamente em alguns segundos.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleGenerate = async () => {
@@ -132,6 +157,45 @@ export default function Home() {
 
     // limpa seleção para poder anexar o mesmo arquivo de novo se quiser
     event.target.value = "";
+  };
+
+  const toggleFavorite = async (projectId: string) => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
+    const isFavorited = favoriteProjectIds.includes(projectId);
+
+    try {
+      if (isFavorited) {
+        const { error } = await supabase
+          .from("favorites")
+          .delete()
+          .eq("user_id", user.id)
+          .eq("project_id", projectId);
+
+        if (error) throw error;
+
+        setFavoriteProjectIds((prev) => prev.filter((id) => id !== projectId));
+      } else {
+        const { error } = await supabase.from("favorites").insert({
+          user_id: user.id,
+          project_id: projectId,
+        });
+
+        if (error) throw error;
+
+        setFavoriteProjectIds((prev) => [...prev, projectId]);
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar favorito", error);
+      toast({
+        title: "Erro ao atualizar favorito",
+        description: "Tente novamente em alguns segundos.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -235,20 +299,45 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-3 gap-4">
-              {recentProjects.map((project) => (
-                <div
-                  key={project.id}
-                  onClick={() => navigate(`/app/projects/${project.id}`)}
-                  className="group relative bg-black rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-500 transition-all"
-                >
-                  <div className="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center">
-                    <Globe className="h-12 w-12 text-gray-400" />
+              {recentProjects.map((project) => {
+                const isFavorited = favoriteProjectIds.includes(project.id);
+
+                return (
+                  <div
+                    key={project.id}
+                    onClick={() => navigate(`/app/projects/${project.id}`)}
+                    className="group relative bg-black rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-500 transition-all"
+                  >
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFavorite(project.id);
+                      }}
+                      className="absolute top-2 left-2 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/70 text-gray-300 hover:text-yellow-400 hover:bg-black/90 transition-colors"
+                      aria-label={
+                        isFavorited
+                          ? "Remover dos favoritos"
+                          : "Adicionar aos favoritos"
+                      }
+                    >
+                      <Star
+                        className={`h-4 w-4 ${
+                          isFavorited ? "fill-yellow-400 text-yellow-400" : ""
+                        }`}
+                      />
+                    </button>
+
+                    <div className="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center">
+                      <Globe className="h-12 w-12 text-gray-400" />
+                    </div>
+                    <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
+                      {new Date(project.updated_at).toLocaleDateString()}
+                    </div>
                   </div>
-                  <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-                    {new Date(project.updated_at).toLocaleDateString()}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
+
 
               {recentProjects.length === 0 && (
                 <div className="col-span-3 text-center py-12 text-gray-500">
