@@ -174,22 +174,6 @@ export default function Home() {
                     <Paperclip className="h-4 w-4" />
                     Anexar
                   </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-slate-600 hover:text-blue-700 hover:bg-blue-50 h-8 gap-1"
-                    type="button"
-                    onClick={() =>
-                      toast({
-                        title: "Tema em breve",
-                        description:
-                          "Em breve você poderá escolher variações de cor para a página inicial.",
-                      })
-                    }
-                  >
-                    Tema
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
                 </div>
 
                 <div className="flex items-center gap-2">
