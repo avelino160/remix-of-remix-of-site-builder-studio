@@ -22,11 +22,11 @@ const PlansPage = () => {
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
               Starter
             </p>
-            <p className="text-2xl font-semibold text-white">10 créditos</p>
-            <p className="text-xs text-muted-foreground">Para testar a criação de alguns sites.</p>
+            <p className="text-2xl font-semibold text-white">5 créditos para começar grátis</p>
+            <p className="text-xs text-muted-foreground">Perfeito para dar os primeiros passos criando sites.</p>
             <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
-              <li>• Ideal para testes rápidos</li>
-              <li>• Até poucas gerações por mês</li>
+              <li>• Comece sem compromisso</li>
+              <li>• Ideal para testar a criação de sites</li>
             </ul>
             <Button
               variant="outline"
