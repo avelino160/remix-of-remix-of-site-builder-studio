@@ -100,15 +100,15 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
               Link público do seu site
             </p>
             <div className="flex items-center gap-3">
-              <div className="flex-1 rounded-2xl bg-background/80 border border-primary/40 px-4 py-3 shadow-[0_14px_40px_rgba(0,0,0,0.6)]">
-                <div className="flex items-center justify-between mb-1.5 text-[11px] text-muted-foreground">
+              <div className="flex-1 rounded-2xl bg-white/95 border border-primary/60 px-4 py-3 shadow-[0_14px_40px_rgba(0,0,0,0.8)]">
+                <div className="flex items-center justify-between mb-1.5 text-[11px] text-gray-700">
                   <span className="inline-flex items-center gap-1">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                     Online
                   </span>
                   <span className="text-muted-foreground/80">Prévia publicada</span>
                 </div>
-                <p className="text-sm font-mono break-all text-foreground/90">
+                <p className="text-sm font-mono break-all text-black">
                   {publicUrl}
                 </p>
               </div>
