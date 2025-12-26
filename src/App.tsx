@@ -20,6 +20,7 @@ import Team from "./pages/Team";
 import Docs from "./pages/Docs";
 import Help from "./pages/Help";
 import Settings from "./pages/Settings";
+import Plans from "./pages/Plans";
 
 const queryClient = new QueryClient();
 
@@ -88,6 +89,13 @@ const App = () => (
                   element=
                     {<ProtectedRoute>
                       <Settings />
+                    </ProtectedRoute>}
+                />
+                <Route
+                  path="plans"
+                  element=
+                    {<ProtectedRoute>
+                      <Plans />
                     </ProtectedRoute>}
                 />
               </Route>
