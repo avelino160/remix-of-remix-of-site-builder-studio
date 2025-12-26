@@ -147,7 +147,7 @@ export default function Home() {
         {/* Centro */}
         <div className="flex-1 flex flex-col items-center justify-center px-10 pb-40 gap-10">
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight text-center">
-            Let's create
+            Vamos criar
           </h1>
 
           {/* Barra de prompt */}
@@ -157,7 +157,7 @@ export default function Home() {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask Webly to help you with coding..."
+                placeholder="Peça para a Webly criar ou ajustar um site para você..."
                 disabled={generating}
                 className="min-h-[64px] max-h-[220px] resize-none border-0 bg-transparent px-6 py-4 text-base text-white placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0"
               />
@@ -172,7 +172,7 @@ export default function Home() {
                     onClick={handleAttachClick}
                   >
                     <Paperclip className="h-4 w-4" />
-                    Attach
+                    Anexar
                   </Button>
                   <Button
                     variant="ghost"
@@ -183,31 +183,31 @@ export default function Home() {
                       toast({
                         title: "Tema em breve",
                         description:
-                          "Aqui você vai poder escolher variações de cor para a página inicial.",
+                          "Em breve você poderá escolher variações de cor para a página inicial.",
                       })
                     }
                   >
-                    Theme
+                    Tema
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-9 w-9 text-slate-500 hover:text-blue-700 hover:bg-blue-50 rounded-full"
-                    type="button"
-                    onClick={() =>
-                      toast({
-                        title: "Microfone em breve",
-                        description:
-                          "No futuro você vai poder falar o prompt em vez de digitar.",
-                      })
-                    }
-                  >
-                    <Mic className="h-4 w-4" />
-                  </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-9 w-9 text-slate-500 hover:text-blue-700 hover:bg-blue-50 rounded-full"
+                  type="button"
+                  onClick={() =>
+                    toast({
+                      title: "Microfone em breve",
+                      description:
+                        "No futuro você vai poder falar o prompt em vez de digitar.",
+                    })
+                  }
+                >
+                  <Mic className="h-4 w-4" />
+                </Button>
                   <Button
                     onClick={handleGenerate}
                     disabled={!prompt.trim() || generating}
@@ -234,13 +234,13 @@ export default function Home() {
             <div className="flex items-center justify-between mb-6">
               <div className="flex gap-6">
                 <button className="text-white font-medium border-b-2 border-white pb-2">
-                  Recently viewed
+                  Recentes
                 </button>
                 <button className="text-gray-500 hover:text-white pb-2">
-                  My projects
+                  Meus projetos
                 </button>
                 <button className="text-gray-500 hover:text-white pb-2">
-                  Templates
+                  Modelos
                 </button>
               </div>
               <Button
@@ -248,7 +248,7 @@ export default function Home() {
                 className="text-gray-400 hover:text-black gap-2"
                 onClick={() => navigate("/app/projects")}
               >
-                Browse all
+                Ver todos
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </div>
