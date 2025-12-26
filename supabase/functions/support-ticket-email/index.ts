@@ -36,7 +36,7 @@ async function sendSupportEmail({ subject, message, userEmail }: SupportEmailPay
     },
     body: JSON.stringify({
       from: "Lovable <onboarding@resend.dev>",
-      to: ["yuldchissico@gmail.com"],
+      to: ["monitzbrazuca@gmail.com"],
       subject: `Novo ticket: ${subject}`,
       html,
     }),
