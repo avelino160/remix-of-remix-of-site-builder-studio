@@ -167,7 +167,7 @@ export default function Home() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-gray-400 hover:text-black hover:bg-black/10 h-8 gap-2"
+                    className="text-slate-600 hover:text-blue-700 hover:bg-blue-50 h-8 gap-2"
                     type="button"
                     onClick={handleAttachClick}
                   >
@@ -177,7 +177,7 @@ export default function Home() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-gray-400 hover:text-black hover:bg-black/10 h-8 gap-1"
+                    className="text-slate-600 hover:text-blue-700 hover:bg-blue-50 h-8 gap-1"
                     type="button"
                     onClick={() =>
                       toast({
@@ -196,7 +196,7 @@ export default function Home() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-9 w-9 text-gray-400 hover:text-black hover:bg-black/10 rounded-full"
+                    className="h-9 w-9 text-slate-500 hover:text-blue-700 hover:bg-blue-50 rounded-full"
                     type="button"
                     onClick={() =>
                       toast({
@@ -221,7 +221,7 @@ export default function Home() {
                     onClick={handleGenerate}
                     disabled={!prompt.trim() || generating}
                     size="icon"
-                    className="h-9 w-9 bg-white/10 hover:bg-white/20 text-white rounded-full"
+                    className="h-9 w-9 bg-blue-600 hover:bg-blue-700 text-white rounded-full"
                   >
                     <ArrowUp className="h-4 w-4" />
                   </Button>
