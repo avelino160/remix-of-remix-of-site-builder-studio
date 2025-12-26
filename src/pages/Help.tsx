@@ -78,6 +78,10 @@ const HelpPage = () => {
               <p className="text-muted-foreground">
                 Quanto mais específico você for (prints, passos, qual página), mais fácil fica resolver.
               </p>
+              <p className="text-muted-foreground">
+                Se preferir falar direto com alguém, entre em contato pelo WhatsApp:
+                <span className="ml-1 font-medium text-white">+258 857245896</span>.
+              </p>
             </div>
           </aside>
         </section>
