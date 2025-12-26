@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useAttachmentSidebar } from "@/hooks/useAttachmentSidebar";
+import { useUserCredits } from "@/hooks/useUserCredits";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +17,8 @@ export const Sidebar = () => {
   const location = useLocation();
   const { user } = useAuth();
   const { attachedFileName } = useAttachmentSidebar();
+  const { credits, loading } = useUserCredits();
+
 
   const navItems = [
     { icon: Home, path: "/app", label: "Início" },
@@ -111,7 +114,7 @@ export const Sidebar = () => {
               Créditos
             </p>
             <p className="text-xs text-white">
-              Em breve: exibição de créditos da sua conta.
+              {loading ? "Carregando..." : credits !== null ? `Você tem ${credits} créditos` : "Erro ao carregar"}
             </p>
           </div>
         </DropdownMenuContent>
