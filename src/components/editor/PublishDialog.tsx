@@ -96,19 +96,40 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
 
         <div className="space-y-5 py-6">
           <div className="space-y-3">
-            <p className="text-sm font-medium text-foreground">URL pública:</p>
-            <div className="flex items-center gap-2">
-              <div className="flex-1 rounded-xl bg-card/50 border border-border/50 p-4">
-                <p className="text-sm font-mono break-all text-muted-foreground">{publicUrl}</p>
+            <p className="text-xs font-semibold tracking-wide text-primary uppercase">
+              Link público do seu site
+            </p>
+            <div className="flex items-center gap-3">
+              <div className="flex-1 rounded-2xl bg-background/80 border border-primary/40 px-4 py-3 shadow-[0_14px_40px_rgba(0,0,0,0.6)]">
+                <div className="flex items-center justify-between mb-1.5 text-[11px] text-muted-foreground">
+                  <span className="inline-flex items-center gap-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    Online
+                  </span>
+                  <span className="text-muted-foreground/80">Prévia publicada</span>
+                </div>
+                <p className="text-sm font-mono break-all text-foreground/90">
+                  {publicUrl}
+                </p>
               </div>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={copyToClipboard}
-                className="h-10 w-10 hover:scale-105 transition-transform"
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
+              <div className="flex flex-col gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={copyToClipboard}
+                  className="h-10 w-10 rounded-full border-primary/60 text-primary hover:bg-primary hover:text-primary-foreground"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => window.open(publicUrl, "_blank")}
+                  className="h-10 w-10 rounded-full border-white/30 text-white hover:bg-white hover:text-black"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
 
