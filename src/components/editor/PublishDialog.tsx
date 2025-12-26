@@ -86,10 +86,10 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[520px] bg-background/98 border border-border shadow-2xl rounded-2xl">
+      <DialogContent className="sm:max-w-[520px] bg-black text-white border border-border/80 shadow-2xl rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-2xl">Publicar seu app</DialogTitle>
-          <DialogDescription className="text-base">
+          <DialogDescription className="text-base text-muted-foreground">
             Defina a URL pública, domínio e quem pode acessar antes de publicar.
           </DialogDescription>
         </DialogHeader>
