@@ -262,7 +262,7 @@ export const EditorAssistantPanel = ({
                 size="icon"
                 onClick={handleSend}
                 disabled={loading || !input.trim()}
-                className="h-8 w-8 rounded-full bg-white text-black hover:bg-white/90 flex items-center justify-center shadow-sm"
+                className="h-8 w-8 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 flex items-center justify-center shadow-sm"
               >
                 {loading ? (
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
