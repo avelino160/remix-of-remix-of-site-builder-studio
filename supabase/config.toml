@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.editor-assistant]
 verify_jwt = false
+
+[functions.support-ticket-email]
+verify_jwt = true

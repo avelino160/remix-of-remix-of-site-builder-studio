@@ -181,11 +181,15 @@ const SupportTicketsSection = () => {
     }
 
     setSubmitting(true);
-    const { data, error } = await supabase.from("support_tickets").insert({
-      user_id: user.id,
-      subject: trimmedSubject,
-      message: trimmedMessage,
-    }).select("id, subject, status, created_at").single();
+    const { data, error } = await supabase
+      .from("support_tickets")
+      .insert({
+        user_id: user.id,
+        subject: trimmedSubject,
+        message: trimmedMessage,
+      })
+      .select("id, subject, status, created_at")
+      .single();
 
     if (error) {
       console.error(error);
@@ -194,13 +198,32 @@ const SupportTicketsSection = () => {
         description: "Tente novamente em alguns instantes.",
         variant: "destructive",
       });
-    } else if (data) {
+      setSubmitting(false);
+      return;
+    }
+
+    if (data) {
       setTickets((prev) => [data as SupportTicket, ...prev]);
       setSubject("");
       setMessage("");
+
+      // Dispara envio de e-mail em background (não bloqueia o usuário)
+      supabase.functions
+        .invoke("support-ticket-email", {
+          body: {
+            subject: trimmedSubject,
+            message: trimmedMessage,
+            userEmail: user.email ?? "sem-email@webly.app",
+          },
+        })
+        .catch((fnError) => {
+          console.error("Erro ao chamar função de e-mail", fnError);
+        });
+
       toast({
         title: "Ticket enviado",
-        description: "Vamos analisar seu pedido o mais rápido possível.",
+        description:
+          "Vamos analisar seu pedido o mais rápido possível e você também receberá um e-mail de confirmação.",
       });
     }
 
