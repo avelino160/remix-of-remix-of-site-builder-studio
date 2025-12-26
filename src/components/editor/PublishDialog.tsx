@@ -108,7 +108,7 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
                 <input
                   readOnly
                   value={publicUrl}
-                  className="w-full rounded-lg border border-border/60 bg-background/90 px-3 py-2 text-sm font-mono text-foreground shadow-inner focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+                  className="w-full rounded-lg border border-border/60 bg-muted/20 px-3 py-2 text-sm font-mono text-foreground shadow-inner focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
                 />
                 <Button
                   variant="outline"
