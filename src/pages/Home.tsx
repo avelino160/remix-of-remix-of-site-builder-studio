@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
+import { useAttachmentSidebar } from "@/hooks/useAttachmentSidebar";
 import {
   Paperclip,
   ChevronDown,
@@ -27,6 +28,7 @@ interface Project {
 export default function Home() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { setAttachedFileName } = useAttachmentSidebar();
   const [prompt, setPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
   const [recentProjects, setRecentProjects] = useState<Project[]>([]);
@@ -149,6 +151,8 @@ export default function Home() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    setAttachedFileName(file.name);
 
     toast({
       title: "Arquivo anexado",

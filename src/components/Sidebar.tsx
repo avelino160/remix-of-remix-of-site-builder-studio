@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Search, Star, HelpCircle, Settings, User as UserIcon } from "lucide-react";
+import { Home, Search, Star, HelpCircle, Settings, User as UserIcon, Paperclip } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
+import { useAttachmentSidebar } from "@/hooks/useAttachmentSidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +15,7 @@ import {
 export const Sidebar = () => {
   const location = useLocation();
   const { user } = useAuth();
+  const { attachedFileName } = useAttachmentSidebar();
 
   const navItems = [
     { icon: Home, path: "/app", label: "Início" },
@@ -58,8 +60,20 @@ export const Sidebar = () => {
         })}
       </nav>
 
-      {/* Bottom navigation */}
-      <div className="flex flex-col gap-1 w-full px-2 mb-4">
+      {/* Bottom navigation + arquivo anexado */}
+      <div className="flex flex-col gap-3 w-full px-2 mb-4">
+        {attachedFileName && (
+          <div className="w-full rounded-lg bg-white/5 border border-white/10 px-2 py-2 flex flex-col items-center justify-center text-center">
+            <div className="flex items-center gap-1 text-[10px] text-muted-foreground mb-1">
+              <Paperclip className="h-3 w-3" />
+              <span>Arquivo anexado</span>
+            </div>
+            <p className="text-[10px] text-white truncate w-full" title={attachedFileName}>
+              {attachedFileName}
+            </p>
+          </div>
+        )}
+
         {bottomItems.map((item) => {
           const Icon = item.icon;
           return (
