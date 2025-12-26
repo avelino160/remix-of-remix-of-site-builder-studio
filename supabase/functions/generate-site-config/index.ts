@@ -130,15 +130,24 @@ ESTRUTURA INTELIGENTE
 Cada site deve conter apenas o necessário. Nada de seções forçadas ou repetitivas.
 
 LAYOUTS VARIÁVEIS (IMPORTANTE)
-Você deve escolher automaticamente entre 3 variações de layout, de acordo com o tipo de negócio e o tom do prompt do usuário:
-- "saas_classic": produtos digitais B2B/B2C, plataformas, dashboards, ferramentas online.
-- "product_focus": quando o produto em si é o herói (app específico, curso, serviço único, produto físico).
-- "minimal": marcas mais conceituais, portfólios, sites com pouco conteúdo e foco em autoridade/simplicidade.
+Você deve escolher automaticamente entre 10 variações de layout, de acordo com o tipo de negócio, nicho e tom do prompt do usuário:
+- "beauty_elegant_full": estética/beleza de alto padrão, foco em imagem grande e experiência suave.
+- "beauty_gallery_flow": estética/beleza com forte portfólio visual em grade fluida.
+- "saas_modular_grid": SaaS/Tech com layout em grid modular e métricas em destaque.
+- "saas_focus_split": SaaS/Tech com produto/mockup como herói em layout dividido.
+- "saas_dark_pro": SaaS/Tech com tema escuro premium e sensação de ferramenta avançada.
+- "clinic_clean_trust": Clínicas/Saúde com visual limpo, clínico e foco em confiança.
+- "clinic_human_side": Clínicas/Saúde com fotos humanas e tom acolhedor.
+- "creator_editorial": Criadores/Comunidade com layout editorial, assimétrico e tipografia expressiva.
+- "creator_bold_banner": Criadores/Comunidade com grande banner visual e narrativa forte.
+- "creator_minimal_story": Criadores/Comunidade com layout minimalista focado em storytelling.
 
-Exemplo de decisão:
-- Se o usuário falar de "plataforma", "software", "SaaS" → prefira "saas_classic".
-- Se o foco for um único produto/serviço bem definido → prefira "product_focus".
-- Se o usuário pedir algo mais limpo, minimalista ou com poucos blocos → prefira "minimal".
+Exemplo de decisão (simplificado):
+- Se o usuário falar de "salão", "estética", "beleza", "spa", "cosméticos" → prefira variantes "beauty_*".
+- Se o usuário falar de "software", "plataforma", "SaaS", "app", "dashboard" → prefira variantes "saas_*".
+- Se o usuário falar de "clínica", "médico", "dentista", "terapia", "saúde" → prefira variantes "clinic_*".
+- Se o usuário falar de "criador", "influencer", "comunidade", "newsletter", "podcast", "conteúdo" → prefira variantes "creator_*".
+- Dentro de cada família, escolha a variante específica pelo tom do prompt (mais ousado, mais minimal, mais visual etc.).
 
 A partir da descrição do usuário, gere UMA configuração completa de site seguindo ESTE MANUAL DE QUALIDADE:
 
@@ -166,7 +175,7 @@ Sempre retorne APENAS um JSON VÁLIDO com a seguinte estrutura (sem comentários
 {
   "name": "nome do site",
   "type": "landing" | "portfolio" | "business" | "restaurant",
-  "layoutVariant": "saas_classic" | "product_focus" | "minimal",
+  "layoutVariant": "beauty_elegant_full" | "beauty_gallery_flow" | "saas_modular_grid" | "saas_focus_split" | "saas_dark_pro" | "clinic_clean_trust" | "clinic_human_side" | "creator_editorial" | "creator_bold_banner" | "creator_minimal_story",
   "palette": {
     "primary": "H S% L%",
     "secondary": "H S% L%"
