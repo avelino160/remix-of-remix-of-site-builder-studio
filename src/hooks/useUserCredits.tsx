@@ -50,12 +50,12 @@ export const useUserCredits = () => {
     try {
       const { error } = await supabase
         .from("user_credits")
-        .update({ balance: credits - 1 })
+        .update({ balance: credits - 0.5 })
         .eq("user_id", user.id);
 
       if (error) throw error;
 
-      setCredits(credits - 1);
+      setCredits(credits - 0.5);
       return true;
     } catch (error) {
       console.error("Error deducting credit:", error);
