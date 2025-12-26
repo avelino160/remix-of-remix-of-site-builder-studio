@@ -136,9 +136,9 @@ export default function Home() {
 
   return (
     <>
-      {/* Fundo com gradiente igual ao vídeo */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+      {/* Fundo com gradiente azul e branco */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-400 to-white">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
       </div>
 
 
