@@ -68,11 +68,12 @@ MAPEAMENTO DE EXEMPLO (OBRIGATÓRIO)
 ━━━━━━━━━━━━━━━━━━
 
 • Estética / Beleza:
-  - Layout elegante
-  - Tons claros ou nude
-  - Tipografia leve
-  - Imagens grandes
-  - Menos cards, mais fluidez
+  - Layout elegante inspirado em landing pages premium de spa/estética (como clínicas de massagem e salões de luxo)
+  - Hero em tela cheia com grande foto fotográfica de tratamento/auto cuidado ao fundo
+  - Título com partes em destaque (ex.: uma palavra em dourado) e subtítulo suave e acolhedor
+  - Botões em formato pill com borda ou fundo em tons dourados/avelã
+  - Seções seguintes com muito espaço em branco: bloco de “Por que escolher”, cards de serviços e uma faixa final de CTA em degradê dourado
+  - Paleta obrigatoriamente quente e sofisticada (nude, creme, marfim, dourado suave, marrom profundo), NUNCA roxo/azul de SaaS
 
 • SaaS / Tecnologia:
   - Layout modular
