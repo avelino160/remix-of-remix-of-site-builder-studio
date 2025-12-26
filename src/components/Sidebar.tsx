@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Search, Grid3x3, Star, Users, HelpCircle, Settings, Book, User as UserIcon } from "lucide-react";
+import { Home, Search, Star, HelpCircle, Settings, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
@@ -12,8 +12,6 @@ export const Sidebar = () => {
     { icon: Home, path: "/app", label: "Home" },
     { icon: Search, path: "/app/search", label: "Search" },
     { icon: Star, path: "/app/favorites", label: "Favorites" },
-    { icon: Users, path: "/app/team", label: "Team" },
-    { icon: Book, path: "/app/docs", label: "Docs" },
   ];
 
   const bottomItems = [
