@@ -18,7 +18,7 @@ const Index = () => {
       {/* Header */}
       <header className="border-b border-border/40 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <h2 className="text-xl font-bold">SiteBuilder</h2>
+          <h2 className="text-xl font-bold">Webly</h2>
           <div className="flex gap-2">
             <Button variant="ghost" onClick={() => navigate("/auth")}>
               Entrar
@@ -99,7 +99,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border/40 py-8">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© 2024 SiteBuilder. Todos os direitos reservados.</p>
+          <p>© 2024 Webly. Todos os direitos reservados.</p>
         </div>
       </footer>
     </div>
