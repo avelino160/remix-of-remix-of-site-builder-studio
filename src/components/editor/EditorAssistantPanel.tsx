@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useUserCredits } from "@/hooks/useUserCredits";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -29,6 +30,7 @@ export const EditorAssistantPanel = ({
   onToggleInlineEditing,
   inlineEditing,
 }: EditorAssistantPanelProps) => {
+  const { credits, deductCredit } = useUserCredits();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -45,6 +47,16 @@ export const EditorAssistantPanel = ({
   const handleSend = async () => {
     if (!input.trim() || loading) return;
 
+    // Verificar se tem créditos suficientes
+    if (credits === null || credits <= 0) {
+      toast({
+        title: "Créditos insuficientes",
+        description: "Você precisa de créditos para usar o assistente de edição. Veja os planos disponíveis.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const userMessage: Message = {
       id: crypto.randomUUID(),
       role: "user",
@@ -54,6 +66,18 @@ export const EditorAssistantPanel = ({
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
+
+    // Descontar 1 crédito antes de enviar para a IA
+    const deducted = await deductCredit();
+    if (!deducted) {
+      toast({
+        title: "Erro ao descontar crédito",
+        description: "Não foi possível processar seu crédito. Tente novamente.",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
 
     try {
       const historyForBackend = messages.map((m) => ({
