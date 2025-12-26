@@ -147,18 +147,19 @@ const Editor = () => {
               <button
                 type="button"
                 onClick={() => {
-                  const path = window.location.pathname;
-                  navigator.clipboard?.writeText(path).then(() => {
+                  if (!project?.slug) return;
+                  const url = `${window.location.origin}/p/${project.slug}`;
+                  navigator.clipboard?.writeText(url).then(() => {
                     toast({
-                      title: "Caminho copiado",
-                      description: path,
+                      title: "Link copiado",
+                      description: url,
                     });
                   });
                 }}
                 className="truncate text-[11px] text-white/80 text-left flex-1 hover:text-white/100"
-                title="Copiar caminho do editor"
+                title="Copiar link público do site"
               >
-                /app/projects/{project?.id?.slice(0, 8)}...
+                /p/{project?.slug}
               </button>
               <button
                 type="button"
