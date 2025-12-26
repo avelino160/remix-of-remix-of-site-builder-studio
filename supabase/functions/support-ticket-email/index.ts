@@ -17,7 +17,7 @@ async function sendSupportEmail({ subject, message, userEmail }: SupportEmailPay
 
   if (!apiKey) {
     console.error("RESEND_API_KEY is not set");
-    return { error: "Missing email configuration" };
+    return { ok: false, error: "Missing email configuration" };
   }
 
   const html = `
@@ -35,7 +35,7 @@ async function sendSupportEmail({ subject, message, userEmail }: SupportEmailPay
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "Webly Suporte <no-reply@resend.dev>",
+      from: "Lovable <onboarding@resend.dev>",
       to: ["yuldchissico@gmail.com"],
       subject: `Novo ticket: ${subject}`,
       html,
@@ -45,7 +45,7 @@ async function sendSupportEmail({ subject, message, userEmail }: SupportEmailPay
   if (!response.ok) {
     const text = await response.text();
     console.error("Resend API error", response.status, text);
-    return { error: "Failed to send email" };
+    return { ok: false, error: "Failed to send email" };
   }
 
   const data = await response.json();
@@ -88,22 +88,17 @@ serve(async (req: Request): Promise<Response> => {
       userEmail,
     });
 
-    if (result.error) {
-      return new Response(
-        JSON.stringify({ error: result.error }),
-        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
-    }
-
-    return new Response(JSON.stringify({ ok: true }), {
+    // Nunca estourar 500 para o cliente: tratar envio de e-mail como "best effort"
+    return new Response(JSON.stringify(result), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   } catch (error) {
     console.error("support-ticket-email error", error);
+    // Mesmo em erro inesperado, evitar 500 para não quebrar o app do usuário
     return new Response(
-      JSON.stringify({ error: "Unexpected error" }),
-      { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      JSON.stringify({ ok: false, error: "Unexpected error" }),
+      { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   }
 });
