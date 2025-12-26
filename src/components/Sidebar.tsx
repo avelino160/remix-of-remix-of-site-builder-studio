@@ -60,20 +60,8 @@ export const Sidebar = () => {
         })}
       </nav>
 
-      {/* Bottom navigation + arquivo anexado */}
-      <div className="flex flex-col gap-3 w-full px-2 mb-4">
-        {attachedFileName && (
-          <div className="w-full rounded-lg bg-white/5 border border-white/10 px-2 py-2 flex flex-col items-center justify-center text-center">
-            <div className="flex items-center gap-1 text-[10px] text-muted-foreground mb-1">
-              <Paperclip className="h-3 w-3" />
-              <span>Arquivo anexado</span>
-            </div>
-            <p className="text-[10px] text-white truncate w-full" title={attachedFileName}>
-              {attachedFileName}
-            </p>
-          </div>
-        )}
-
+      {/* Bottom navigation */}
+      <div className="flex flex-col gap-1 w-full px-2 mb-4">
         {bottomItems.map((item) => {
           const Icon = item.icon;
           return (
