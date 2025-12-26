@@ -94,7 +94,7 @@ export const Sidebar = () => {
         <DropdownMenuContent
           side="right"
           align="start"
-          className="z-50 w-64 glass rounded-lg p-3 space-y-3 text-sm shadow-lg animate-fade-in"
+          className="z-50 w-64 rounded-lg bg-background border border-border text-sm shadow-lg animate-fade-in p-3 space-y-3"
         >
           <div className="flex items-center gap-3 pb-3 border-b border-border/60">
             <div className="h-9 w-9 rounded-full bg-secondary flex items-center justify-center text-xs font-medium text-secondary-foreground">
