@@ -237,7 +237,7 @@ export const EditorAssistantPanel = ({
                 type="button"
                 variant={inlineEditing ? "default" : "ghost"}
                 size="sm"
-                className="h-7 px-3 rounded-full border border-white/20 text-[11px] flex items-center gap-1.5"
+                className="h-8 px-4 rounded-full border border-white/20 text-xs flex items-center gap-1.5"
                 disabled={loading}
                 onClick={onToggleInlineEditing}
               >
@@ -252,10 +252,10 @@ export const EditorAssistantPanel = ({
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-7 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-[11px]"
+                className="h-8 px-4 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-xs"
                 disabled={loading}
               >
-                <MessageCircle className="h-3 w-3 mr-1" />
+                <MessageCircle className="h-3.5 w-3.5 mr-1.5" />
                 Chat
               </Button>
               <Button
