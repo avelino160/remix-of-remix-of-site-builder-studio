@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
-import { Save, Eye, Upload, ArrowLeft } from "lucide-react";
+import { Save, Eye, Upload, ArrowLeft, ExternalLink, RotateCw } from "lucide-react";
 import { SectionsTab } from "@/components/editor/SectionsTab";
 import { StyleTab } from "@/components/editor/StyleTab";
 import { SettingsTab } from "@/components/editor/SettingsTab";
@@ -127,29 +127,71 @@ const Editor = () => {
     <div className="h-screen flex flex-col bg-black text-white">
       {/* Editor Header */}
       <header className="glass border-b border-border/30 sticky top-0 z-50 bg-black">
-        <div className="flex h-16 items-center justify-between px-6">
-          <div className="flex items-center gap-4">
-            <Button 
-              variant="ghost" 
-              size="sm" 
+        <div className="flex h-16 items-center justify-between px-4 sm:px-6 gap-3">
+          {/* Voltar + barra de "endereço" do editor */}
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => navigate("/app/projects")}
-              className="gap-2"
+              className="gap-2 shrink-0"
             >
               <ArrowLeft className="h-4 w-4" />
               <span className="hidden sm:inline">Voltar</span>
             </Button>
-            <div className="border-l border-border/40 pl-4">
-              <h1 className="font-semibold text-base">{project?.name}</h1>
-              <p className="text-xs text-muted-foreground">
+
+            <div className="hidden sm:flex items-center gap-2 rounded-full border border-white/15 bg-black/70 px-3 py-1.5 text-xs text-muted-foreground min-w-0">
+              <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-white/20">
+                <span className="h-2 w-2 rounded-[3px] bg-white/80" />
+              </span>
+              <span className="truncate text-[11px] text-white/80">
+                /app/projects/{project?.id?.slice(0, 8)}...
+              </span>
+              <button
+                type="button"
+                className="ml-1 inline-flex h-5 w-5 items-center justify-center rounded-full hover:bg-white/10 text-white/70"
+                onClick={() => {
+                  if (project?.slug) {
+                    window.open(`/p/${project.slug}`, "_blank");
+                  }
+                }}
+                title="Abrir site em nova aba"
+              >
+                <ExternalLink className="h-3 w-3" />
+              </button>
+              <button
+                type="button"
+                className="inline-flex h-5 w-5 items-center justify-center rounded-full hover:bg-white/10 text-white/70"
+                onClick={() => window.location.reload()}
+                title="Recarregar editor"
+              >
+                <RotateCw className="h-3 w-3" />
+              </button>
+            </div>
+
+            <div className="sm:hidden border-l border-border/40 pl-3 min-w-0">
+              <h1 className="font-semibold text-sm truncate">{project?.name}</h1>
+              <p className="text-[11px] text-muted-foreground">
                 {project?.status === "published" ? "✓ Publicado" : "Rascunho"}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={handleSave} 
+
+          {/* Ações de salvar / publicar */}
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="hidden sm:flex flex-col items-end mr-2 text-right">
+              <h1 className="font-semibold text-sm leading-tight max-w-[220px] truncate">
+                {project?.name}
+              </h1>
+              <p className="text-[11px] text-muted-foreground">
+                {project?.status === "published" ? "✓ Publicado" : "Rascunho"}
+              </p>
+            </div>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSave}
               disabled={saving}
               className="hidden sm:flex"
             >
@@ -167,8 +209,8 @@ const Editor = () => {
                 Ver site
               </Button>
             )}
-            <Button 
-              size="sm" 
+            <Button
+              size="sm"
               onClick={() => setPublishDialogOpen(true)}
               className="bg-foreground text-background hover:bg-foreground/90 font-medium"
             >
