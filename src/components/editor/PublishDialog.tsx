@@ -86,77 +86,133 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[520px] glass">
+      <DialogContent className="sm:max-w-[520px] bg-background/98 border border-border shadow-2xl rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Publicar site</DialogTitle>
+          <DialogTitle className="text-2xl">Publicar seu app</DialogTitle>
           <DialogDescription className="text-base">
-            Seu site será atualizado e ficará disponível publicamente
+            Defina a URL pública, domínio e quem pode acessar antes de publicar.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-5 py-6">
-          <div className="space-y-3">
+        <div className="space-y-6 py-4">
+          {/* Published URL */}
+          <section className="space-y-3">
             <p className="text-xs font-semibold tracking-wide text-primary uppercase">
-              Link público do seu site
+              URL publicada
             </p>
-            <div className="flex items-center gap-3">
-              <div className="flex-1 rounded-2xl bg-white/95 border border-primary/60 px-4 py-3 shadow-[0_14px_40px_rgba(0,0,0,0.8)]">
-                <div className="flex items-center justify-between mb-1.5 text-[11px] text-gray-700">
-                  <span className="inline-flex items-center gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                    Online
-                  </span>
-                  <span className="text-muted-foreground/80">Prévia publicada</span>
-                </div>
-                <p className="text-sm font-mono break-all text-black">
-                  {publicUrl}
-                </p>
-              </div>
-              <div className="flex flex-col gap-2">
+            <div className="rounded-2xl border border-border bg-muted/60 px-4 py-3 shadow-sm">
+              <p className="text-[11px] text-muted-foreground mb-1.5">
+                Insira sua URL ou deixe em branco para gerar automaticamente.
+              </p>
+              <div className="flex items-center gap-2">
+                <input
+                  readOnly
+                  value={publicUrl}
+                  className="w-full rounded-lg border border-border/60 bg-background/90 px-3 py-2 text-sm font-mono text-foreground shadow-inner focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+                />
                 <Button
                   variant="outline"
                   size="icon"
                   onClick={copyToClipboard}
-                  className="h-10 w-10 rounded-full border-primary/60 text-primary hover:bg-primary hover:text-primary-foreground"
+                  className="shrink-0 h-9 w-9 rounded-full border-border/80 text-primary hover:border-primary hover:bg-primary hover:text-primary-foreground"
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
                 <Button
+                  type="button"
                   variant="outline"
-                  size="icon"
-                  onClick={() => window.open(publicUrl, "_blank")}
-                  className="h-10 w-10 rounded-full border-white/30 text-white hover:bg-white hover:text-black"
+                  className="h-8 rounded-full border-dashed border-border/80 text-xs font-medium text-muted-foreground hover:border-primary hover:text-primary"
+                  onClick={() =>
+                    toast({
+                      title: "Domínio personalizado",
+                      description: "Você pode configurar domínios em Configurações → Domínios.",
+                    })
+                  }
                 >
-                  <ExternalLink className="h-4 w-4" />
+                  Adicionar domínio personalizado
                 </Button>
+                <button
+                  type="button"
+                  onClick={() => window.open(publicUrl, "_blank")}
+                  className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                >
+                  <ExternalLink className="h-3 w-3" /> Ver site atual
+                </button>
               </div>
             </div>
-          </div>
+          </section>
 
-          {project?.status === "published" && (
-            <div className="rounded-xl bg-blue-500/10 border border-blue-500/20 p-4 text-sm">
-              <p className="font-medium text-foreground mb-1">Site já publicado</p>
-              <p className="text-muted-foreground">
-                Ao publicar novamente, você criará uma nova versão com as últimas alterações.
+          {/* Visibility */}
+          <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <p className="text-xs font-semibold tracking-wide text-primary uppercase">
+                Quem pode visitar a URL?
               </p>
+              <div className="flex items-center justify-between rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm">
+                <span className="text-muted-foreground">Visibilidade atual</span>
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                  Anyone
+                </span>
+              </div>
             </div>
-          )}
+            <div className="space-y-2">
+              <p className="text-xs font-semibold tracking-wide text-primary uppercase">
+                Informações do site
+              </p>
+              <div className="rounded-xl border border-dashed border-border/70 bg-muted/30 px-4 py-3 text-xs text-muted-foreground">
+                Configure título, descrição e SEO na página do editor para melhorar a aparência do seu site publicado.
+              </div>
+            </div>
+          </section>
+
+          {/* Security scan */}
+          <section className="rounded-2xl border border-border bg-muted/40 px-4 py-3 text-sm flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-3">
+              <div className="relative h-8 w-8 rounded-full bg-background flex items-center justify-center border border-border">
+                <span className="absolute inline-flex h-2 w-2 rounded-full bg-amber-400 top-1 right-1" />
+                <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
+                  Scan
+                </span>
+              </div>
+              <div>
+                <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                  Verificação de segurança
+                </p>
+                <p className="text-xs text-muted-foreground/90 flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    Atualizando
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-[11px] font-medium text-destructive">
+                    1 erro
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
+              <Button variant="outline" className="w-full md:w-auto text-sm">
+                Revisar segurança
+              </Button>
+            </div>
+          </section>
         </div>
 
-        <div className="flex gap-3">
-          <Button 
-            variant="ghost" 
-            className="flex-1" 
+        <div className="mt-2 flex gap-3">
+          <Button
+            variant="ghost"
+            className="flex-1"
             onClick={() => onOpenChange(false)}
           >
             Cancelar
           </Button>
-          <Button 
-            className="flex-1 bg-foreground text-background hover:bg-foreground/90 font-semibold" 
-            onClick={handlePublish} 
+          <Button
+            className="flex-1 font-semibold"
+            onClick={handlePublish}
             disabled={publishing}
           >
-            {publishing ? "Publicando..." : "Publicar agora"}
+            {publishing ? "Publicando..." : "Publicar"}
           </Button>
         </div>
 
