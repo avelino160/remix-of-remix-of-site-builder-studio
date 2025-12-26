@@ -34,6 +34,7 @@ export default function Home() {
   const [recentProjects, setRecentProjects] = useState<Project[]>([]);
   const [favoriteProjectIds, setFavoriteProjectIds] = useState<string[]>([]);
   const [isDraggingFile, setIsDraggingFile] = useState(false);
+  const [attachedPreviewUrl, setAttachedPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -150,6 +151,12 @@ export default function Home() {
   };
 
   const handleAttachFile = (file: File) => {
+    if (attachedPreviewUrl) {
+      URL.revokeObjectURL(attachedPreviewUrl);
+    }
+
+    const previewUrl = URL.createObjectURL(file);
+    setAttachedPreviewUrl(previewUrl);
     setAttachedFileName(file.name);
 
     toast({
@@ -257,10 +264,14 @@ export default function Home() {
 
               <div className="mt-1 flex items-center justify-between px-4">
                 <div className="flex flex-col items-start gap-1">
-                  {attachedFileName && (
-                    <p className="text-[11px] text-gray-400 truncate max-w-[220px]" title={attachedFileName}>
-                      Anexado: {attachedFileName}
-                    </p>
+                  {attachedPreviewUrl && (
+                    <div className="mb-1">
+                      <img
+                        src={attachedPreviewUrl}
+                        alt={attachedFileName ? `Arquivo anexado ${attachedFileName}` : "Arquivo anexado"}
+                        className="h-10 w-10 rounded-md object-cover border border-white/10"
+                      />
+                    </div>
                   )}
                   <Button
                     variant="ghost"
