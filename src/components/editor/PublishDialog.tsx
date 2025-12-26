@@ -86,10 +86,10 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[520px] bg-black text-foreground border border-border/80 shadow-2xl rounded-2xl">
+      <DialogContent className="sm:max-w-[520px] bg-black text-white border border-border/80 shadow-2xl rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl text-foreground">Publicar seu app</DialogTitle>
-          <DialogDescription className="text-base text-foreground">
+          <DialogTitle className="text-2xl text-white">Publicar seu app</DialogTitle>
+          <DialogDescription className="text-base text-white/80">
             Defina a URL pública, domínio e quem pode acessar antes de publicar.
           </DialogDescription>
         </DialogHeader>
@@ -97,7 +97,7 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
         <div className="space-y-6 py-4">
           {/* Published URL */}
           <section className="space-y-3">
-            <p className="text-xs font-semibold tracking-wide text-foreground uppercase">
+            <p className="text-xs font-semibold tracking-wide text-white uppercase">
               URL publicada
             </p>
             <div className="rounded-2xl border border-border bg-muted/60 px-4 py-3 shadow-sm">
@@ -147,7 +147,7 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
           {/* Visibility */}
           <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <p className="text-xs font-semibold tracking-wide text-foreground uppercase">
+              <p className="text-xs font-semibold tracking-wide text-white uppercase">
                 Quem pode visitar a URL?
               </p>
               <div className="flex items-center justify-between rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm">
@@ -158,7 +158,7 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
               </div>
             </div>
             <div className="space-y-2">
-              <p className="text-xs font-semibold tracking-wide text-foreground uppercase">
+              <p className="text-xs font-semibold tracking-wide text-white uppercase">
                 Informações do site
               </p>
               <div className="rounded-xl border border-dashed border-border/70 bg-muted/30 px-4 py-3 text-xs text-muted-foreground">
