@@ -167,7 +167,7 @@ export const EditorAssistantPanel = ({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask Lovable..."
+            placeholder="Ask Webly..."
             className="min-h-[24px] max-h-[72px] flex-1 resize-none border-0 bg-transparent text-[13px] leading-5 text-white placeholder:text-white/40 focus-visible:ring-0 focus-visible:ring-offset-0 px-0 py-0"
             disabled={loading}
           />
