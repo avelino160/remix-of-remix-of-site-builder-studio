@@ -227,7 +227,7 @@ export const EditorAssistantPanel = ({
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="h-7 w-7 rounded-full border border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
+                className="h-6 w-6 rounded-full border border-white/20 text-white/70 hover:bg-white/10 hover:text-white"
                 disabled={loading}
                 onClick={() => fileInputRef.current?.click()}
               >
@@ -237,7 +237,7 @@ export const EditorAssistantPanel = ({
                 type="button"
                 variant={inlineEditing ? "default" : "ghost"}
                 size="sm"
-                className="h-8 px-4 rounded-full border border-white/20 text-xs flex items-center gap-1.5"
+                className="h-7 px-3 rounded-full border border-white/20 text-[11px] flex items-center gap-1.5"
                 disabled={loading}
                 onClick={onToggleInlineEditing}
               >
@@ -252,22 +252,22 @@ export const EditorAssistantPanel = ({
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-8 px-4 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-xs"
+                className="h-7 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-[11px]"
                 disabled={loading}
               >
-                <MessageCircle className="h-3.5 w-3.5 mr-1.5" />
+                <MessageCircle className="h-3 w-3 mr-1" />
                 Chat
               </Button>
               <Button
                 size="icon"
                 onClick={handleSend}
                 disabled={loading || !input.trim()}
-                className="h-8 w-8 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 flex items-center justify-center shadow-sm"
+                className="h-7 w-7 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 flex items-center justify-center shadow-sm"
               >
                 {loading ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  <Loader2 className="h-3 w-3 animate-spin" />
                 ) : (
-                  <Send className="h-3.5 w-3.5" />
+                  <Send className="h-3 w-3" />
                 )}
               </Button>
             </div>
