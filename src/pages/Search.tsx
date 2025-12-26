@@ -71,36 +71,34 @@ const SearchPage = () => {
 
   return (
     <AppLayout>
-      <div className="space-y-8">
-        <header className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight">Buscar projetos</h1>
-          <p className="text-sm text-muted-foreground max-w-xl">
-            Encontre rapidamente qualquer site que você já criou. Pesquise pelo nome
-            e acesse os detalhes com um clique.
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-semibold">Buscar projetos</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Pesquise entre os sites que você já criou pelo nome.
           </p>
-        </header>
+        </div>
 
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-3 sm:flex-row sm:items-center bg-card/40 border border-border/60 rounded-xl p-4 sm:p-5"
+          className="flex flex-col gap-3 sm:flex-row sm:items-center"
         >
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Digite parte do nome do projeto..."
-            className="bg-background/60 border-border/60"
           />
           <Button
             type="submit"
             disabled={loading}
-            className="whitespace-nowrap min-w-[120px]"
+            className="whitespace-nowrap"
           >
             {loading ? "Buscando..." : "Buscar"}
           </Button>
         </form>
 
-        <section className="space-y-4">
-          <div className="flex items-center justify-between gap-2">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
             <p className="text-xs text-muted-foreground uppercase tracking-wide">
               Resultados
             </p>
@@ -113,7 +111,7 @@ const SearchPage = () => {
             )}
           </div>
 
-          <div className="border border-border/60 rounded-xl bg-card/40">
+          <div className="border rounded-lg divide-y bg-background">
             {loading && (
               <div className="p-6 text-sm text-muted-foreground">
                 Carregando projetos...
@@ -134,16 +132,12 @@ const SearchPage = () => {
                   key={project.id}
                   type="button"
                   onClick={() => navigate(`/app/projects/${project.id}`)}
-                  className="w-full text-left px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-background/60 transition-colors border-t border-border/40 first:border-t-0"
+                  className="w-full text-left px-4 py-3 flex items-center justify-between gap-3 hover:bg-muted transition-colors"
                 >
-                  <div className="space-y-1">
-                    <p className="font-medium leading-none line-clamp-1">
-                      {project.name}
-                    </p>
-                    <p className="text-xs text-muted-foreground flex items-center gap-2">
-                      <span>
-                        Atualizado em {new Date(project.updated_at).toLocaleDateString()}
-                      </span>
+                  <div>
+                    <p className="font-medium leading-none">{project.name}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Atualizado em {new Date(project.updated_at).toLocaleDateString()}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -158,7 +152,7 @@ const SearchPage = () => {
                 </button>
               ))}
           </div>
-        </section>
+        </div>
       </div>
     </AppLayout>
   );
