@@ -1,1 +1,7 @@
 project_id = "fvyytjwlkszddrjgwaro"
+
+[functions.generate-site-config]
+verify_jwt = false
+
+[functions.editor-assistant]
+verify_jwt = false
