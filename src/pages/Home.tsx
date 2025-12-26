@@ -384,7 +384,10 @@ export default function Home() {
                 <button className="text-white font-medium border-b-2 border-white pb-2">
                   Recentes
                 </button>
-                <button className="text-gray-500 hover:text-white pb-2">
+                <button
+                  className="text-gray-500 hover:text-white pb-2"
+                  onClick={() => navigate("/app/projects")}
+                >
                   Meus projetos
                 </button>
               </div>
