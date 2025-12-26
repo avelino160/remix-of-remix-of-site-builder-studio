@@ -11,7 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const { prompt } = await req.json();
+    const { prompt, imageUrl } = await req.json() as { prompt?: string; imageUrl?: string };
     
     if (!prompt || typeof prompt !== 'string') {
       return new Response(
@@ -25,7 +25,7 @@ serve(async (req) => {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    console.log('Generating site config for prompt:', prompt);
+    console.log('Generating site config for prompt:', prompt, 'imageUrl:', imageUrl);
 
     const systemPrompt = `Você é uma IA especialista em criação de sites profissionais, modernos e altamente conversivos, no nível de qualidade visual e UX de um SaaS premium como a Webly.
 
@@ -146,7 +146,12 @@ REGRAS ESPECÍFICAS
         model: 'google/gemini-2.5-flash',
         messages: [
           { role: 'system', content: systemPrompt },
-          { role: 'user', content: prompt }
+          {
+            role: 'user',
+            content: imageUrl
+              ? `Prompt do usuário: ${prompt}\n\nHá uma imagem de referência disponível neste URL público: ${imageUrl}. Use essa imagem como inspiração visual para cores, estilo e estrutura do site, combinando com as instruções de texto.`
+              : prompt,
+          },
         ],
         response_format: { type: "json_object" }
       }),

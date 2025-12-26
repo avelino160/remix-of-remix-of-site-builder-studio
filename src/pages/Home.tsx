@@ -34,7 +34,7 @@ export default function Home() {
   const [recentProjects, setRecentProjects] = useState<Project[]>([]);
   const [favoriteProjectIds, setFavoriteProjectIds] = useState<string[]>([]);
   const [isDraggingFile, setIsDraggingFile] = useState(false);
-  const [attachedPreviewUrl, setAttachedPreviewUrl] = useState<string | null>(null);
+  const [attachedImageUrl, setAttachedImageUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -91,7 +91,7 @@ export default function Home() {
     try {
       const { data: functionData, error: functionError } =
         await supabase.functions.invoke("generate-site-config", {
-          body: { prompt },
+          body: { prompt, imageUrl: attachedImageUrl },
         });
 
       if (functionError) throw functionError;
@@ -150,13 +150,37 @@ export default function Home() {
     fileInputRef.current?.click();
   };
 
-  const handleAttachFile = (file: File) => {
-    if (attachedPreviewUrl) {
-      URL.revokeObjectURL(attachedPreviewUrl);
+  const handleAttachFile = async (file: File) => {
+    if (!user) {
+      navigate("/auth");
+      return;
     }
 
-    const previewUrl = URL.createObjectURL(file);
-    setAttachedPreviewUrl(previewUrl);
+    const fileExt = file.name.split(".").pop();
+    const path = `${user.id}/${Date.now()}.${fileExt ?? "file"}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("attachments")
+      .upload(path, file);
+
+    if (uploadError) {
+      console.error("Erro ao fazer upload do arquivo", uploadError);
+      toast({
+        title: "Erro ao anexar arquivo",
+        description: "Não foi possível enviar o arquivo. Tente novamente.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const { data: publicUrlData } = supabase.storage
+      .from("attachments")
+      .getPublicUrl(path);
+
+    if (publicUrlData?.publicUrl) {
+      setAttachedImageUrl(publicUrlData.publicUrl);
+    }
+
     setAttachedFileName(file.name);
 
     toast({
@@ -264,10 +288,10 @@ export default function Home() {
 
               <div className="mt-1 flex items-center justify-between px-4">
                 <div className="flex flex-col items-start gap-1">
-                  {attachedPreviewUrl && (
+                  {attachedImageUrl && (
                     <div className="mb-1">
                       <img
-                        src={attachedPreviewUrl}
+                        src={attachedImageUrl}
                         alt={attachedFileName ? `Arquivo anexado ${attachedFileName}` : "Arquivo anexado"}
                         className="h-10 w-10 rounded-md object-cover border border-white/10"
                       />
