@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Search, Grid3x3, Star, Users, HelpCircle, Settings, Book } from "lucide-react";
+import { Home, Search, Grid3x3, Star, Users, HelpCircle, Settings, Book, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
@@ -72,10 +72,10 @@ export const Sidebar = () => {
         })}
       </div>
 
-      {/* User avatar */}
+      {/* User avatar genérico */}
       <Avatar className="w-10 h-10">
-        <AvatarFallback className="bg-purple-600 text-white text-sm">
-          {getInitials()}
+        <AvatarFallback className="bg-purple-600 text-white text-sm flex items-center justify-center">
+          <UserIcon className="w-5 h-5" />
         </AvatarFallback>
       </Avatar>
     </aside>
