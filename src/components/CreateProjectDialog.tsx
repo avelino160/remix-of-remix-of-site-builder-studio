@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserCredits } from "@/hooks/useUserCredits";
 import { toast } from "@/hooks/use-toast";
 import { Sparkles, Wand2 } from "lucide-react";
 
@@ -33,6 +34,7 @@ const TEMPLATES = [
 
 export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: CreateProjectDialogProps) => {
   const { user } = useAuth();
+  const { credits, deductCredit } = useUserCredits();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
@@ -130,7 +132,29 @@ export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: Cr
       return;
     }
 
+    // Verificar se tem créditos suficientes
+    if (credits === null || credits <= 0) {
+      toast({
+        title: "Créditos insuficientes",
+        description: "Você precisa de créditos para gerar um site. Veja os planos disponíveis.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setAiLoading(true);
+
+    // Descontar 1 crédito antes de gerar
+    const deducted = await deductCredit();
+    if (!deducted) {
+      toast({
+        title: "Erro ao descontar crédito",
+        description: "Não foi possível processar seu crédito. Tente novamente.",
+        variant: "destructive",
+      });
+      setAiLoading(false);
+      return;
+    }
 
     try {
       const { data, error } = await supabase.functions.invoke("generate-site-config", {

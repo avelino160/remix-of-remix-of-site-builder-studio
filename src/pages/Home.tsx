@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserCredits } from "@/hooks/useUserCredits";
 import { toast } from "@/hooks/use-toast";
 import { useAttachmentSidebar } from "@/hooks/useAttachmentSidebar";
 import {
@@ -28,6 +29,7 @@ interface Project {
 export default function Home() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { credits, deductCredit } = useUserCredits();
   const { attachedFileName, setAttachedFileName } = useAttachmentSidebar();
   const [prompt, setPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
@@ -86,7 +88,29 @@ export default function Home() {
       return;
     }
 
+    // Verificar se tem créditos suficientes
+    if (credits === null || credits <= 0) {
+      toast({
+        title: "Créditos insuficientes",
+        description: "Você precisa de créditos para criar um novo site. Veja os planos disponíveis.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setGenerating(true);
+
+    // Descontar 1 crédito antes de gerar
+    const deducted = await deductCredit();
+    if (!deducted) {
+      toast({
+        title: "Erro ao descontar crédito",
+        description: "Não foi possível processar seu crédito. Tente novamente.",
+        variant: "destructive",
+      });
+      setGenerating(false);
+      return;
+    }
 
     try {
       const { data: functionData, error: functionError } =
