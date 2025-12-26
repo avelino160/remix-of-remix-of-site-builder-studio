@@ -144,9 +144,22 @@ const Editor = () => {
               <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-white/20">
                 <span className="h-2 w-2 rounded-[3px] bg-white/80" />
               </span>
-              <span className="truncate text-[11px] text-white/80">
+              <button
+                type="button"
+                onClick={() => {
+                  const path = window.location.pathname;
+                  navigator.clipboard?.writeText(path).then(() => {
+                    toast({
+                      title: "Caminho copiado",
+                      description: path,
+                    });
+                  });
+                }}
+                className="truncate text-[11px] text-white/80 text-left flex-1 hover:text-white/100"
+                title="Copiar caminho do editor"
+              >
                 /app/projects/{project?.id?.slice(0, 8)}...
-              </span>
+              </button>
               <button
                 type="button"
                 className="ml-1 inline-flex h-5 w-5 items-center justify-center rounded-full hover:bg-white/10 text-white/70"
