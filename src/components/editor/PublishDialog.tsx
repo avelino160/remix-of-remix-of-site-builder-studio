@@ -192,7 +192,7 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
               </div>
             </div>
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
-              <Button variant="outline" className="w-full md:w-auto text-sm">
+              <Button variant="outline" className="w-full md:w-auto text-sm text-black">
                 Revisar segurança
               </Button>
             </div>
