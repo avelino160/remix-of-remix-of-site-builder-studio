@@ -49,7 +49,9 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
         {sections.hero?.enabled && (
           <section
             className={`relative overflow-hidden rounded-2xl border shadow-xl transition-shadow ${
-              currentLayout.startsWith("creator_")
+              currentLayout.startsWith("beauty_")
+                ? "bg-gradient-to-b from-[#3b2414] via-[#5a3a1e] to-[#f3e0c3] text-white"
+                : currentLayout.startsWith("creator_")
                 ? "bg-background text-foreground"
                 : currentLayout.startsWith("saas_")
                 ? "bg-gradient-to-br from-primary/90 via-primary to-primary/80 text-primary-foreground"
@@ -73,56 +75,64 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
               </div>
             )}
 
-            {/* BEAUTY / ESTÉTICA – hero mais fluido, imagem forte */}
+            {/* BEAUTY / ESTÉTICA – hero mais fluido, inspirado em landing premium de spa */}
             {currentLayout.startsWith("beauty_") && (
-              <div className="relative z-10 grid gap-10 px-8 py-16 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] md:items-center">
-                <div className="space-y-6 text-center md:text-left">
-                  <p className="inline-flex items-center gap-2 rounded-full bg-card/70 px-4 py-1 text-[10px] font-medium uppercase tracking-[0.25em] text-muted-foreground">
-                    Estética & Bem-estar
-                  </p>
-                  <h1
-                    className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-tight"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                    onBlur={(e) =>
-                      onFieldChange?.("hero", "title", e.currentTarget.textContent || "")
-                    }
-                  >
-                    {sections.hero.title ||
-                      "Beleza, experiência e confiança em cada detalhe do seu negócio"}
-                  </h1>
-                  <p
-                    className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto md:mx-0"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                    onBlur={(e) =>
-                      onFieldChange?.("hero", "subtitle", e.currentTarget.textContent || "")
-                    }
-                  >
-                    {sections.hero.subtitle ||
-                      "Crie uma presença digital elegante, com fotos em destaque, textos suaves e foco total na experiência da sua cliente."}
-                  </p>
-                  <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
-                    <button
-                      className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-md transition hover:brightness-110"
+              <div className="relative z-10">
+                {/* grande imagem de fundo simulada */}
+                <div className="absolute inset-0 opacity-70">
+                  <div className="h-full w-full bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.25),_transparent_55%),linear-gradient(to_bottom,_#5a3a1e,_#f3e0c3)]" />
+                </div>
+
+                <div className="relative grid gap-10 px-8 py-16 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] md:items-center">
+                  <div className="space-y-6 text-center md:text-left text-shadow-sm">
+                    <p className="inline-flex items-center gap-2 rounded-full bg-black/40 px-4 py-1 text-[10px] font-medium uppercase tracking-[0.25em] text-[#f5e2c5]">
+                      Premium Beauty Spa
+                    </p>
+                    <h1
+                      className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-tight text-white"
                       contentEditable={editable}
                       suppressContentEditableWarning
                       onBlur={(e) =>
-                        onFieldChange?.("hero", "cta", e.currentTarget.textContent || "")
+                        onFieldChange?.("hero", "title", e.currentTarget.textContent || "")
                       }
                     >
-                      {sections.hero.cta || "Ver portfólio"}
-                    </button>
-                    <span className="text-xs text-muted-foreground">
-                      Layout pensado para destacar suas melhores imagens.
-                    </span>
+                      {sections.hero.title ||
+                        "Reveal your inner radiance com uma experiência completa de spa"}
+                    </h1>
+                    <p
+                      className="text-base md:text-lg text-[#fbead5] max-w-xl mx-auto md:mx-0"
+                      contentEditable={editable}
+                      suppressContentEditableWarning
+                      onBlur={(e) =>
+                        onFieldChange?.("hero", "subtitle", e.currentTarget.textContent || "")
+                      }
+                    >
+                      {sections.hero.subtitle ||
+                        "Massagens, rituais e tratamentos pensados para quem busca luxo, calma e autocuidado em cada detalhe."}
+                    </p>
+                    <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
+                      <button
+                        className="inline-flex items-center justify-center rounded-full bg-white/95 px-8 py-3 text-sm font-semibold text-[#5a3a1e] shadow-md transition hover:bg-white"
+                        contentEditable={editable}
+                        suppressContentEditableWarning
+                        onBlur={(e) =>
+                          onFieldChange?.("hero", "cta", e.currentTarget.textContent || "")
+                        }
+                      >
+                        {sections.hero.cta || "Agendar sessão"}
+                      </button>
+                      <button className="inline-flex items-center justify-center rounded-full border border-white/70 bg-transparent px-8 py-3 text-sm font-semibold text-white/90 backdrop-blur-md hover:bg-white/10">
+                        Ver tratamentos
+                      </button>
+                    </div>
                   </div>
-                </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="h-40 sm:h-48 rounded-2xl bg-card/60 shadow-md" />
-                  <div className="h-40 sm:h-56 rounded-2xl bg-card/40 shadow-md translate-y-4" />
-                  <div className="hidden sm:block h-28 rounded-2xl bg-card/30 col-span-2 shadow-sm" />
+                  {/* Coluna direita com cartões de serviço/ambiente */}
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="h-40 sm:h-52 rounded-2xl bg-black/20 shadow-xl backdrop-blur-md border border-white/10" />
+                    <div className="h-40 sm:h-60 rounded-2xl bg-black/25 shadow-xl backdrop-blur-md border border-white/15 translate-y-4" />
+                    <div className="hidden sm:block h-24 rounded-2xl bg-black/30 border border-white/10 col-span-2 shadow-lg" />
+                  </div>
                 </div>
               </div>
             )}
@@ -336,7 +346,7 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
           </section>
         )}
 
-        {/* Benefits Section */}
+        {/* Benefits Section / Why choose para beleza elegante */}
         {sections.about?.enabled && (
           <section
             className={`py-20 px-6 transition-shadow ${editable ? "cursor-pointer" : ""} ${
@@ -346,65 +356,118 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
             }`}
             onClick={editable ? () => onSelect?.("about") : undefined}
           >
-            <div className="max-w-5xl mx-auto grid gap-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] md:items-start">
-              <div className="space-y-6">
-                <p className="text-xs font-semibold tracking-[0.28em] uppercase text-muted-foreground">
-                  Benefícios
-                </p>
-                <h2
-                  className="text-3xl md:text-4xl font-semibold tracking-tight preview-primary"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                  onBlur={(e) =>
-                    onFieldChange?.("about", "title", e.currentTarget.textContent || "")
-                  }
-                >
-                  {sections.about.title || "Benefícios que seu produto entrega de forma clara"}
-                </h2>
-                <p
-                  className="text-base md:text-lg text-muted-foreground leading-relaxed"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                  onBlur={(e) =>
-                    onFieldChange?.("about", "content", e.currentTarget.textContent || "")
-                  }
-                >
-                  {sections.about.content ||
-                    "Explique, em linguagem simples, como você reduz atrito, economiza tempo e gera resultado concreto para o usuário final."}
-                </p>
-              </div>
+            {currentLayout === "beauty_elegant_full" ? (
+              <div className="max-w-5xl mx-auto text-center space-y-10">
+                <div className="space-y-4">
+                  <p className="text-xs font-semibold tracking-[0.28em] uppercase text-muted-foreground">
+                    Por que escolher
+                  </p>
+                  <h2
+                    className="text-3xl md:text-4xl font-semibold tracking-tight preview-primary"
+                    contentEditable={editable}
+                    suppressContentEditableWarning
+                    onBlur={(e) =>
+                      onFieldChange?.("about", "title", e.currentTarget.textContent || "")
+                    }
+                  >
+                    {sections.about.title || "Uma experiência de spa tão boa quanto parece."}
+                  </h2>
+                  <p
+                    className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto"
+                    contentEditable={editable}
+                    suppressContentEditableWarning
+                    onBlur={(e) =>
+                      onFieldChange?.("about", "content", e.currentTarget.textContent || "")
+                    }
+                  >
+                    {sections.about.content ||
+                      "Técnicas exclusivas, ambiente silencioso e uma curadoria de produtos premium para entregar relaxamento real e resultados visíveis."}
+                  </p>
+                </div>
 
-              <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-1">
-                <div className="rounded-xl border bg-card/40 p-4 shadow-sm">
-                  <p className="text-xs font-medium text-muted-foreground mb-2">
-                    Benefício 01
-                  </p>
-                  <p className="text-sm text-foreground/90">
-                    Destaque o ganho principal (ex.: menos cliques, mais clareza, fluxo mais rápido).
-                  </p>
-                </div>
-                <div className="rounded-xl border bg-card/40 p-4 shadow-sm">
-                  <p className="text-xs font-medium text-muted-foreground mb-2">
-                    Benefício 02
-                  </p>
-                  <p className="text-sm text-foreground/90">
-                    Mostre como você reduz risco, dúvida ou esforço mental para o usuário.
-                  </p>
-                </div>
-                <div className="rounded-xl border bg-card/40 p-4 shadow-sm sm:col-span-2 md:col-span-1">
-                  <p className="text-xs font-medium text-muted-foreground mb-2">
-                    Benefício 03
-                  </p>
-                  <p className="text-sm text-foreground/90">
-                    Conecte o produto ao resultado final do negócio (mais receita, retenção, satisfação).
-                  </p>
+                <div className="grid gap-6 md:grid-cols-3 text-left">
+                  <div className="rounded-2xl border bg-card/60 p-6 shadow-sm">
+                    <p className="text-sm font-semibold mb-2">Toque especialista</p>
+                    <p className="text-sm text-muted-foreground">
+                      Profissionais experientes em protocolos de spa, estética e bem-estar.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border bg-card/60 p-6 shadow-sm">
+                    <p className="text-sm font-semibold mb-2">Produtos premium</p>
+                    <p className="text-sm text-muted-foreground">
+                      Cosméticos selecionados, veganos e com foco em performance e sensorial.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border bg-card/60 p-6 shadow-sm">
+                    <p className="text-sm font-semibold mb-2">Cuidado personalizado</p>
+                    <p className="text-sm text-muted-foreground">
+                      Rituais ajustados ao perfil de cada cliente, do primeiro contato ao pós-atendimento.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="max-w-5xl mx-auto grid gap-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] md:items-start">
+                <div className="space-y-6">
+                  <p className="text-xs font-semibold tracking-[0.28em] uppercase text-muted-foreground">
+                    Benefícios
+                  </p>
+                  <h2
+                    className="text-3xl md:text-4xl font-semibold tracking-tight preview-primary"
+                    contentEditable={editable}
+                    suppressContentEditableWarning
+                    onBlur={(e) =>
+                      onFieldChange?.("about", "title", e.currentTarget.textContent || "")
+                    }
+                  >
+                    {sections.about.title || "Benefícios que seu produto entrega de forma clara"}
+                  </h2>
+                  <p
+                    className="text-base md:text-lg text-muted-foreground leading-relaxed"
+                    contentEditable={editable}
+                    suppressContentEditableWarning
+                    onBlur={(e) =>
+                      onFieldChange?.("about", "content", e.currentTarget.textContent || "")
+                    }
+                  >
+                    {sections.about.content ||
+                      "Explique, em linguagem simples, como você reduz atrito, economiza tempo e gera resultado concreto para o usuário final."}
+                  </p>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-1">
+                  <div className="rounded-xl border bg-card/40 p-4 shadow-sm">
+                    <p className="text-xs font-medium text-muted-foreground mb-2">
+                      Benefício 01
+                    </p>
+                    <p className="text-sm text-foreground/90">
+                      Destaque o ganho principal (ex.: menos cliques, mais clareza, fluxo mais rápido).
+                    </p>
+                  </div>
+                  <div className="rounded-xl border bg-card/40 p-4 shadow-sm">
+                    <p className="text-xs font-medium text-muted-foreground mb-2">
+                      Benefício 02
+                    </p>
+                    <p className="text-sm text-foreground/90">
+                      Mostre como você reduz risco, dúvida ou esforço mental para o usuário.
+                    </p>
+                  </div>
+                  <div className="rounded-xl border bg-card/40 p-4 shadow-sm sm:col-span-2 md:col-span-1">
+                    <p className="text-xs font-medium text-muted-foreground mb-2">
+                      Benefício 03
+                    </p>
+                    <p className="text-sm text-foreground/90">
+                      Conecte o produto ao resultado final do negócio (mais receita, retenção, satisfação).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </section>
         )}
 
-        {/* Benefits Grid Section (complementar) */}
+
+        {/* Services / Featured services */}
         {sections.services?.enabled && (
           <section
             className={`py-20 px-6 bg-muted/30 transition-shadow ${
@@ -417,43 +480,75 @@ export const SitePreview = ({ config, projectName, editable = false, onFieldChan
             onClick={editable ? () => onSelect?.("services") : undefined}
           >
             <div className="max-w-6xl mx-auto">
-              <div className="mb-10 flex flex-col items-center gap-3 text-center">
-                <p className="text-xs font-semibold tracking-[0.28em] uppercase text-muted-foreground">
-                  Principais pontos fortes
-                </p>
-                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight preview-primary">
-                  {sections.services.title || "Por que pessoas escolhem seu produto"}
-                </h2>
+              <div className="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-center md:text-left">
+                <div>
+                  <p className="text-xs font-semibold tracking-[0.28em] uppercase text-muted-foreground">
+                    {currentLayout === "beauty_elegant_full"
+                      ? "Serviços em destaque"
+                      : "Principais pontos fortes"}
+                  </p>
+                  <h2 className="text-3xl md:text-4xl font-semibold tracking-tight preview-primary">
+                    {sections.services.title ||
+                      (currentLayout === "beauty_elegant_full"
+                        ? "Tratamentos favoritos das suas clientes"
+                        : "Por que pessoas escolhem seu produto")}
+                  </h2>
+                </div>
+                {currentLayout === "beauty_elegant_full" && (
+                  <button className="text-xs font-medium text-muted-foreground hover:text-foreground">
+                    Ver todos os serviços
+                  </button>
+                )}
               </div>
 
               <div className="grid gap-6 md:grid-cols-3">
                 {[1, 2, 3].map((i) => (
                   <div
                     key={i}
-                    className="group relative overflow-hidden rounded-2xl border bg-card/60 p-6 shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg"
+                    className={`group relative overflow-hidden rounded-2xl border bg-card/60 p-0 shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg ${
+                      currentLayout === "beauty_elegant_full" ? "flex flex-col" : "p-6"
+                    }`}
                   >
-                    <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
-                      <span className="text-base">{i === 1 ? "⚡" : i === 2 ? "✨" : "🎯"}</span>
+                    {currentLayout === "beauty_elegant_full" && (
+                      <div className="h-32 bg-muted/40" />
+                    )}
+                    <div className={currentLayout === "beauty_elegant_full" ? "p-5 space-y-2" : ""}>
+                      <h3 className="text-lg font-semibold mb-1">
+                        {i === 1 &&
+                          (currentLayout === "beauty_elegant_full"
+                            ? "Corte & Styling"
+                            : "Onboarding sem fricção")}
+                        {i === 2 &&
+                          (currentLayout === "beauty_elegant_full"
+                            ? "Tratamento facial revitalizante"
+                            : "Interface que explica sozinha")}
+                        {i === 3 &&
+                          (currentLayout === "beauty_elegant_full"
+                            ? "Massagem profissional"
+                            : "Foco total em conversão")}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {i === 1 &&
+                          (currentLayout === "beauty_elegant_full"
+                            ? "Um cuidado personalizado que realça seus traços e traz leveza ao visual."
+                            : "Mostre como o usuário consegue entender e usar o produto em poucos minutos.")}
+                        {i === 2 &&
+                          (currentLayout === "beauty_elegant_full"
+                            ? "Limpeza profunda e hidratação intensa para devolver o brilho natural da pele."
+                            : "Destaque clareza visual, hierarquia e mensagens diretas que reduzem dúvida.")}
+                        {i === 3 &&
+                          (currentLayout === "beauty_elegant_full"
+                            ? "Massagens para eventos especiais, datas marcantes e momentos de autocuidado."
+                            : "Conecte layout, CTA e fluxo a métricas reais de negócio (leads, vendas, retenção).")}
+                      </p>
                     </div>
-                    <h3 className="text-lg font-semibold mb-2">
-                      {i === 1 && "Onboarding sem fricção"}
-                      {i === 2 && "Interface que explica sozinha"}
-                      {i === 3 && "Foco total em conversão"}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {i === 1 &&
-                        "Mostre como o usuário consegue entender e usar o produto em poucos minutos."}
-                      {i === 2 &&
-                        "Destaque clareza visual, hierarquia e mensagens diretas que reduzem dúvida."}
-                      {i === 3 &&
-                        "Conecte layout, CTA e fluxo a métricas reais de negócio (leads, vendas, retenção)."}
-                    </p>
                   </div>
                 ))}
               </div>
             </div>
           </section>
         )}
+
 
         {/* Social Proof Section */}
         {sections.testimonials?.enabled && (
