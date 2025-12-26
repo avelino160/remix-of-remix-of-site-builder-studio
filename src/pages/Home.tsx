@@ -215,8 +215,8 @@ export default function Home() {
                     className="bg-blue-600 hover:bg-blue-700 text-white h-9 px-4 gap-2 rounded-lg"
                   >
                     <MessageSquare className="h-4 w-4" />
-                    Chat
                   </Button>
+
                   <Button
                     onClick={handleGenerate}
                     disabled={!prompt.trim() || generating}
