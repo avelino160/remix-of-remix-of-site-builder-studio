@@ -135,24 +135,33 @@ export const EditorAssistantPanel = ({
 
   return (
     <div className="flex flex-col h-full bg-black">
-
       <ScrollArea className="flex-1 px-4 py-3">
         <div className="space-y-3">
+          {!messages.length && (
+            <div className="animate-fade-in rounded-2xl bg-white/5 px-4 py-3 text-sm text-white/80">
+              <div className="flex items-center gap-2 mb-1.5">
+                <MessageCircle className="w-4 h-4 text-primary" />
+                <span className="font-medium">Como você quer transformar este site?</span>
+              </div>
+              <p className="text-xs text-white/60">
+                Escreva em linguagem natural o que deseja mudar (cores, textos, seções, foco em conversão, tom de voz, etc.). A partir da primeira mensagem, a conversa passa a ser contínua aqui.
+              </p>
+            </div>
+          )}
+
           {messages.map((msg) => (
             <div
               key={msg.id}
               className={
-                msg.role === "assistant"
-                  ? "flex justify-start"
-                  : "flex justify-end"
+                msg.role === "assistant" ? "flex justify-start" : "flex justify-end"
               }
             >
               <div
-                className={
+                className={`animate-fade-in max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
                   msg.role === "assistant"
-                    ? "max-w-[80%] rounded-2xl bg-white/5 px-3 py-2 text-sm text-white"
-                    : "max-w-[80%] rounded-2xl bg-primary px-3 py-2 text-sm text-primary-foreground"
-                }
+                    ? "bg-white/5 text-white"
+                    : "bg-primary text-primary-foreground"
+                }`}
               >
                 {msg.content}
               </div>
