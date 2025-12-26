@@ -70,12 +70,14 @@ export const Sidebar = () => {
         })}
       </div>
 
-      {/* User avatar genérico */}
-      <Avatar className="w-10 h-10">
-        <AvatarFallback className="bg-purple-600 text-white text-sm flex items-center justify-center">
-          <UserIcon className="w-5 h-5" />
-        </AvatarFallback>
-      </Avatar>
+      {/* User avatar -> abre perfil/configurações */}
+      <Link to="/app/settings" title="Perfil e configurações">
+        <Avatar className="w-10 h-10 cursor-pointer hover:ring-2 hover:ring-white/40 hover:ring-offset-2 hover:ring-offset-[#1A1A1A] transition-all">
+          <AvatarFallback className="bg-purple-600 text-white text-sm flex items-center justify-center">
+            <UserIcon className="w-5 h-5" />
+          </AvatarFallback>
+        </Avatar>
+      </Link>
     </aside>
   );
 };
