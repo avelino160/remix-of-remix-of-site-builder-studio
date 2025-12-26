@@ -88,8 +88,8 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[520px] bg-black text-foreground border border-border/80 shadow-2xl rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Publicar seu app</DialogTitle>
-          <DialogDescription className="text-base text-foreground/80">
+          <DialogTitle className="text-2xl text-foreground">Publicar seu app</DialogTitle>
+          <DialogDescription className="text-base text-foreground">
             Defina a URL pública, domínio e quem pode acessar antes de publicar.
           </DialogDescription>
         </DialogHeader>
@@ -97,11 +97,11 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
         <div className="space-y-6 py-4">
           {/* Published URL */}
           <section className="space-y-3">
-            <p className="text-xs font-semibold tracking-wide text-primary uppercase">
+            <p className="text-xs font-semibold tracking-wide text-foreground uppercase">
               URL publicada
             </p>
             <div className="rounded-2xl border border-border bg-muted/60 px-4 py-3 shadow-sm">
-              <p className="text-[11px] text-foreground/70 mb-1.5">
+              <p className="text-[11px] text-muted-foreground mb-1.5">
                 Insira sua URL ou deixe em branco para gerar automaticamente.
               </p>
               <div className="flex items-center gap-2">
@@ -147,21 +147,21 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
           {/* Visibility */}
           <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <p className="text-xs font-semibold tracking-wide text-primary uppercase">
+              <p className="text-xs font-semibold tracking-wide text-foreground uppercase">
                 Quem pode visitar a URL?
               </p>
               <div className="flex items-center justify-between rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm">
-                <span className="text-foreground/70">Visibilidade atual</span>
+                <span className="text-muted-foreground">Visibilidade atual</span>
                 <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
                   Anyone
                 </span>
               </div>
             </div>
             <div className="space-y-2">
-              <p className="text-xs font-semibold tracking-wide text-primary uppercase">
+              <p className="text-xs font-semibold tracking-wide text-foreground uppercase">
                 Informações do site
               </p>
-              <div className="rounded-xl border border-dashed border-border/70 bg-muted/30 px-4 py-3 text-xs text-foreground/75">
+              <div className="rounded-xl border border-dashed border-border/70 bg-muted/30 px-4 py-3 text-xs text-muted-foreground">
                 Configure título, descrição e SEO na página do editor para melhorar a aparência do seu site publicado.
               </div>
             </div>
@@ -172,15 +172,15 @@ export const PublishDialog = ({ open, onOpenChange, project, onPublished }: Publ
             <div className="flex items-center gap-3">
               <div className="relative h-8 w-8 rounded-full bg-background flex items-center justify-center border border-border">
                 <span className="absolute inline-flex h-2 w-2 rounded-full bg-amber-400 top-1 right-1" />
-                <span className="text-[10px] font-semibold text-foreground/70 uppercase tracking-wide">
+                <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
                   Scan
                 </span>
               </div>
               <div>
-                <p className="text-xs font-semibold tracking-wide text-foreground/80 uppercase">
+                <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                   Verificação de segurança
                 </p>
-                <p className="text-xs text-foreground/70 flex items-center gap-2">
+                <p className="text-xs text-muted-foreground/90 flex items-center gap-2">
                   <span className="inline-flex items-center gap-1">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                     Atualizando
