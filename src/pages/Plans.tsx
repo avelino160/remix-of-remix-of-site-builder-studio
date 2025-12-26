@@ -1,4 +1,6 @@
 import { AppLayout } from "@/components/AppLayout";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
 
 const PlansPage = () => {
   return (
@@ -26,6 +28,18 @@ const PlansPage = () => {
               <li>• Ideal para testes rápidos</li>
               <li>• Até poucas gerações por mês</li>
             </ul>
+            <Button
+              variant="outline"
+              className="w-full mt-3"
+              onClick={() =>
+                toast({
+                  title: "Em breve",
+                  description: "Compra de créditos ainda não está disponível.",
+                })
+              }
+            >
+              Pagar agora
+            </Button>
           </div>
 
           <div className="rounded-2xl border border-blue-400/60 bg-blue-500/10 p-5 space-y-3 relative overflow-hidden">
@@ -41,6 +55,17 @@ const PlansPage = () => {
               <li>• Várias gerações completas de site</li>
               <li>• Ajustes e iterações com IA</li>
             </ul>
+            <Button
+              className="w-full mt-3"
+              onClick={() =>
+                toast({
+                  title: "Em breve",
+                  description: "Compra de créditos ainda não está disponível.",
+                })
+              }
+            >
+              Pagar agora
+            </Button>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-[#121212] p-5 space-y-3">
@@ -55,6 +80,18 @@ const PlansPage = () => {
               <li>• Alto volume de gerações</li>
               <li>• Ideal para uso colaborativo</li>
             </ul>
+            <Button
+              variant="outline"
+              className="w-full mt-3"
+              onClick={() =>
+                toast({
+                  title: "Em breve",
+                  description: "Compra de créditos ainda não está disponível.",
+                })
+              }
+            >
+              Pagar agora
+            </Button>
           </div>
         </section>
 
