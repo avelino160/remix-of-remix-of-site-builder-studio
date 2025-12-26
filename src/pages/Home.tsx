@@ -33,6 +33,7 @@ export default function Home() {
   const [generating, setGenerating] = useState(false);
   const [recentProjects, setRecentProjects] = useState<Project[]>([]);
   const [favoriteProjectIds, setFavoriteProjectIds] = useState<string[]>([]);
+  const [isDraggingFile, setIsDraggingFile] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -148,16 +149,20 @@ export default function Home() {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
+  const handleAttachFile = (file: File) => {
     setAttachedFileName(file.name);
 
     toast({
       title: "Arquivo anexado",
       description: file.name,
     });
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    handleAttachFile(file);
 
     // limpa seleção para poder anexar o mesmo arquivo de novo se quiser
     event.target.value = "";
@@ -220,7 +225,27 @@ export default function Home() {
 
           {/* Barra de prompt */}
           <div className="w-full max-w-4xl">
-            <div className="relative rounded-[32px] bg-[#202124] shadow-2xl overflow-hidden px-1 pt-1 pb-2">
+            <div
+              className={`relative rounded-[32px] bg-[#202124] shadow-2xl overflow-hidden px-1 pt-1 pb-2 border transition-colors ${
+                isDraggingFile ? "border-blue-400/80" : "border-transparent"
+              }`}
+              onDragOver={(event) => {
+                event.preventDefault();
+                event.dataTransfer.dropEffect = "copy";
+                setIsDraggingFile(true);
+              }}
+              onDragLeave={(event) => {
+                event.preventDefault();
+                setIsDraggingFile(false);
+              }}
+              onDrop={(event) => {
+                event.preventDefault();
+                setIsDraggingFile(false);
+                const file = event.dataTransfer.files?.[0];
+                if (!file) return;
+                handleAttachFile(file);
+              }}
+            >
               <Textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
