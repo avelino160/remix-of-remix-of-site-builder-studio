@@ -3,6 +3,13 @@ import { Home, Search, Star, HelpCircle, Settings, User as UserIcon } from "luci
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Sidebar = () => {
   const location = useLocation();
@@ -70,14 +77,43 @@ export const Sidebar = () => {
         })}
       </div>
 
-      {/* User avatar -> abre perfil/configurações */}
-      <Link to="/app/settings" title="Perfil e configurações">
-        <Avatar className="w-10 h-10 cursor-pointer hover:ring-2 hover:ring-white/40 hover:ring-offset-2 hover:ring-offset-[#1A1A1A] transition-all">
-          <AvatarFallback className="bg-purple-600 text-white text-sm flex items-center justify-center">
-            <UserIcon className="w-5 h-5" />
-          </AvatarFallback>
-        </Avatar>
-      </Link>
+      {/* User avatar com menu de conta */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Avatar className="w-10 h-10 cursor-pointer hover:ring-2 hover:ring-white/40 hover:ring-offset-2 hover:ring-offset-[#1A1A1A] transition-all">
+            <AvatarFallback className="bg-purple-600 text-white text-sm flex items-center justify-center">
+              <UserIcon className="w-5 h-5" />
+            </AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          side="right"
+          align="start"
+          className="z-50 w-56 bg-background border border-white/10 text-sm shadow-lg"
+        >
+          <DropdownMenuLabel className="text-xs text-muted-foreground">
+            Conta
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator className="bg-white/10" />
+          <div className="px-3 py-2 space-y-1">
+            <p className="text-[11px] uppercase tracking-wide text-muted-foreground">
+              E-mail
+            </p>
+            <p className="text-xs text-white break-words">
+              {user?.email || "sem e-mail"}
+            </p>
+          </div>
+          <DropdownMenuSeparator className="bg-white/10" />
+          <div className="px-3 py-2 space-y-1">
+            <p className="text-[11px] uppercase tracking-wide text-muted-foreground">
+              Créditos
+            </p>
+            <p className="text-xs text-white">
+              Em breve: exibição de créditos da sua conta.
+            </p>
+          </div>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </aside>
   );
 };
