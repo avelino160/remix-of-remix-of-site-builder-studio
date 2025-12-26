@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,7 +13,6 @@ interface EditorAssistantPanelProps {
   onSave: () => Promise<void> | void;
   onToggleInlineEditing: () => void;
   inlineEditing: boolean;
-  onChatStateChange?: (hasMessages: boolean) => void;
 }
 
 interface Message {
@@ -29,7 +28,6 @@ export const EditorAssistantPanel = ({
   onSave,
   onToggleInlineEditing,
   inlineEditing,
-  onChatStateChange,
 }: EditorAssistantPanelProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -43,11 +41,6 @@ export const EditorAssistantPanel = ({
   const [loading, setLoading] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  // Notifica o editor sempre que o estado da conversa mudar
-  useEffect(() => {
-    onChatStateChange?.(messages.length > 0);
-  }, [messages.length, onChatStateChange]);
 
   const handleSend = async () => {
     if (!input.trim() || loading) return;
