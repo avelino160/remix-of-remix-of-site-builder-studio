@@ -211,15 +211,6 @@ export default function Home() {
                   <Button
                     onClick={handleGenerate}
                     disabled={!prompt.trim() || generating}
-                    size="sm"
-                    className="bg-blue-600 hover:bg-blue-700 text-white h-9 px-4 gap-2 rounded-lg"
-                  >
-                    <MessageSquare className="h-4 w-4" />
-                  </Button>
-
-                  <Button
-                    onClick={handleGenerate}
-                    disabled={!prompt.trim() || generating}
                     size="icon"
                     className="h-9 w-9 bg-blue-600 hover:bg-blue-700 text-white rounded-full"
                   >
