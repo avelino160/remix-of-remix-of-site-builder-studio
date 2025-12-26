@@ -176,8 +176,8 @@ const Editor = () => {
               <button
                 type="button"
                 className="inline-flex h-5 w-5 items-center justify-center rounded-full hover:bg-white/10 text-white/70"
-                onClick={() => window.location.reload()}
-                title="Recarregar editor"
+                onClick={() => loadProject()}
+                title="Recarregar conteúdo do site"
               >
                 <RotateCw className="h-3 w-3" />
               </button>
