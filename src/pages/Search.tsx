@@ -71,88 +71,94 @@ const SearchPage = () => {
 
   return (
     <AppLayout>
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-semibold">Buscar projetos</h1>
-          <p className="text-sm text-muted-foreground mt-1">
+      <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
+        <header className="space-y-2">
+          <h1 className="text-3xl font-semibold text-white">Buscar projetos</h1>
+          <p className="text-sm text-muted-foreground">
             Pesquise entre os sites que você já criou pelo nome.
           </p>
-        </div>
+        </header>
 
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-3 sm:flex-row sm:items-center"
-        >
-          <Input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Digite parte do nome do projeto..."
-          />
-          <Button
-            type="submit"
-            disabled={loading}
-            className="whitespace-nowrap"
-          >
-            {loading ? "Buscando..." : "Buscar"}
-          </Button>
-        </form>
-
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">
-              Resultados
-            </p>
-            {projects.length > 0 && (
-              <p className="text-xs text-muted-foreground">
-                {projects.length} projeto
-                {projects.length !== 1 && "s"} encontrado
-                {projects.length !== 1 && "s"}
+        <section className="space-y-4">
+          <div className="rounded-2xl border border-white/5 bg-[#121212] p-5 md:p-6">
+            <h2 className="text-sm font-semibold text-white mb-3">Pesquisar pelo nome</h2>
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-3 sm:flex-row sm:items-center"
+            >
+              <Input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Digite parte do nome do projeto..."
+              />
+              <Button
+                type="submit"
+                disabled={loading}
+                className="whitespace-nowrap"
+              >
+                {loading ? "Buscando..." : "Buscar"}
+              </Button>
+            </form>
+          </div>
+          <div className="rounded-2xl border border-white/5 bg-[#121212] p-5 md:p-6 space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide">
+                Resultados
               </p>
-            )}
+              {projects.length > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  {projects.length} projeto
+                  {projects.length !== 1 && "s"} encontrado
+                  {projects.length !== 1 && "s"}
+                </p>
+              )}
+            </div>
+
+            <div className="border border-white/5 rounded-xl bg-black/40 divide-y divide-white/5">
+              {loading && (
+                <div className="p-6 text-sm text-muted-foreground">
+                  Carregando projetos...
+                </div>
+              )}
+
+              {!loading && projects.length === 0 && (
+                <div className="p-6 text-sm text-muted-foreground">
+                  {hasSearched
+                    ? "Nenhum projeto encontrado para essa busca."
+                    : "Você ainda não tem projetos ou eles ainda estão sendo carregados."}
+                </div>
+              )}
+
+              {!loading &&
+                projects.map((project) => (
+                  <button
+                    key={project.id}
+                    type="button"
+                    onClick={() => navigate(`/app/projects/${project.id}`)}
+                    className="w-full text-left px-4 py-3 flex items-center justify-between gap-3 hover:bg-white/5 transition-colors"
+                  >
+                    <div>
+                      <p className="font-medium leading-none text-white">
+                        {project.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Atualizado em {new Date(project.updated_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge
+                        variant={
+                          project.status === "published" ? "default" : "secondary"
+                        }
+                      >
+                        {project.status === "published" ? "Publicado" : "Rascunho"}
+                      </Badge>
+                    </div>
+                  </button>
+                ))}
+            </div>
           </div>
-
-          <div className="border rounded-lg divide-y bg-background">
-            {loading && (
-              <div className="p-6 text-sm text-muted-foreground">
-                Carregando projetos...
-              </div>
-            )}
-
-            {!loading && projects.length === 0 && (
-              <div className="p-6 text-sm text-muted-foreground">
-                {hasSearched
-                  ? "Nenhum projeto encontrado para essa busca."
-                  : "Você ainda não tem projetos ou eles ainda estão sendo carregados."}
-              </div>
-            )}
-
-            {!loading &&
-              projects.map((project) => (
-                <button
-                  key={project.id}
-                  type="button"
-                  onClick={() => navigate(`/app/projects/${project.id}`)}
-                  className="w-full text-left px-4 py-3 flex items-center justify-between gap-3 hover:bg-muted transition-colors"
-                >
-                  <div>
-                    <p className="font-medium leading-none">{project.name}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Atualizado em {new Date(project.updated_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge
-                      variant={
-                        project.status === "published" ? "default" : "secondary"
-                      }
-                    >
-                      {project.status === "published" ? "Publicado" : "Rascunho"}
-                    </Badge>
-                  </div>
-                </button>
-              ))}
-          </div>
-        </div>
+        </section>
       </div>
     </AppLayout>
   );
