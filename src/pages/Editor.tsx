@@ -130,14 +130,7 @@ const Editor = () => {
         <div className="flex h-16 items-center justify-between px-4 sm:px-6 gap-3">
           {/* Left side: back + quick actions + Preview pill */}
           <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate("/app/projects")}
-              className="shrink-0 rounded-full"
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
+            {/* Removido botão de voltar a pedido do usuário */}
 
             {/* Small icon actions bar */}
             <div className="hidden sm:flex items-center gap-1 text-muted-foreground">
