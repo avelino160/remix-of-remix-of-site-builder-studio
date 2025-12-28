@@ -140,10 +140,10 @@ const Editor = () => {
               <span className="hidden sm:inline">Voltar</span>
             </Button>
 
-            <div className="hidden sm:flex items-center gap-2 rounded-full border border-white/15 bg-black/70 px-3 py-1.5 text-xs text-muted-foreground min-w-0">
-              <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-white/20">
-                <span className="h-2 w-2 rounded-[3px] bg-white/80" />
-              </span>
+            <div className="hidden sm:flex items-center justify-center gap-2 rounded-full border border-white/15 bg-black/70 px-3 py-1.5 text-xs text-muted-foreground min-w-0">
+               <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-white/20">
+                 <span className="h-2 w-2 rounded-[3px] bg-white/80" />
+               </span>
               <button
                 type="button"
                 onClick={() => {
