@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/hooks/use-toast";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, Download } from "lucide-react";
 import { useState } from "react";
 
 interface CodeDialogProps {
@@ -33,6 +33,30 @@ export const CodeDialog = ({ open, onOpenChange, config, project }: CodeDialogPr
       toast({
         title: "Erro ao copiar",
         description: "Não foi possível copiar para a área de transferência.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDownload = (value: string, filename: string) => {
+    try {
+      const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast({
+        title: "Download iniciado",
+        description: filename,
+      });
+    } catch (err) {
+      toast({
+        title: "Erro ao baixar arquivo",
+        description: "Não foi possível iniciar o download.",
         variant: "destructive",
       });
     }
@@ -82,6 +106,15 @@ export const CodeDialog = ({ open, onOpenChange, config, project }: CodeDialogPr
                 variant="outline"
                 size="sm"
                 className="h-7 px-2.5 text-[11px]"
+                onClick={() => handleDownload(htmlSnippet, `${project?.slug || "landing-page"}.html`)}
+              >
+                <Download className="h-3 w-3 mr-1" /> Baixar .html
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-7 px-2.5 text-[11px]"
                 onClick={() => handleCopy(configSnippet, "config")}
               >
                 {copiedTab === "config" ? (
@@ -93,6 +126,15 @@ export const CodeDialog = ({ open, onOpenChange, config, project }: CodeDialogPr
                     <Copy className="h-3 w-3 mr-1" /> Copiar JSON
                   </>
                 )}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-7 px-2.5 text-[11px]"
+                onClick={() => handleDownload(configSnippet, `${project?.slug || "landing-page-config"}.json`)}
+              >
+                <Download className="h-3 w-3 mr-1" /> Baixar .json
               </Button>
             </div>
           </div>
