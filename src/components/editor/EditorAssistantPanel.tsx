@@ -249,16 +249,6 @@ export const EditorAssistantPanel = ({
 
             <div className="flex items-center gap-2">
               <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="h-7 px-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white text-[11px]"
-                disabled={loading}
-              >
-                <MessageCircle className="h-3 w-3 mr-1" />
-                Chat
-              </Button>
-              <Button
                 size="icon"
                 onClick={handleSend}
                 disabled={loading || !input.trim()}
