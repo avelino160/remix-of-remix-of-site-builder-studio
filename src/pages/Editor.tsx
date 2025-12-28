@@ -5,13 +5,14 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
-import { Save, Eye, Upload, ArrowLeft, ExternalLink, RotateCw } from "lucide-react";
+import { Save, Eye, Upload, ArrowLeft, ExternalLink, RotateCw, Code2 } from "lucide-react";
 import { SectionsTab } from "@/components/editor/SectionsTab";
 import { StyleTab } from "@/components/editor/StyleTab";
 import { SettingsTab } from "@/components/editor/SettingsTab";
 import { SitePreview } from "@/components/editor/SitePreview";
 import { PublishDialog } from "@/components/editor/PublishDialog";
 import { EditorAssistantPanel } from "@/components/editor/EditorAssistantPanel";
+import { CodeDialog } from "@/components/editor/CodeDialog";
 
 interface ProjectConfig {
   palette: {
@@ -35,6 +36,7 @@ const Editor = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [publishDialogOpen, setPublishDialogOpen] = useState(false);
+  const [codeDialogOpen, setCodeDialogOpen] = useState(false);
   const [inlineEditing, setInlineEditing] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -205,6 +207,16 @@ const Editor = () => {
               </Button>
             )}
             <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 rounded-2xl border border-white/20 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
+              onClick={() => setCodeDialogOpen(true)}
+              title="Ver código do site"
+            >
+              <Code2 className="h-4 w-4" />
+            </Button>
+            <Button
               size="sm"
               onClick={() => setPublishDialogOpen(true)}
               className="bg-foreground text-background hover:bg-foreground/90 font-medium"
@@ -276,6 +288,12 @@ const Editor = () => {
         onOpenChange={setPublishDialogOpen}
         project={project}
         onPublished={loadProject}
+      />
+      <CodeDialog
+        open={codeDialogOpen}
+        onOpenChange={setCodeDialogOpen}
+        config={config}
+        project={project}
       />
     </div>
   );
