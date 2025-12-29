@@ -120,7 +120,7 @@ Importante:
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.0-flash-exp:free",
+        model: "deepseek/deepseek-r1-0528:free",
         messages: [
           { role: "system", content: systemPrompt },
           ...(body.history || []).map((m) => ({
