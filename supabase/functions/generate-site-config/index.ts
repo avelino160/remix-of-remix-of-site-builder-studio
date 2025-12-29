@@ -252,13 +252,24 @@ REGRAS ESPECÍFICAS
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'deepseek/deepseek-r1-0528:free',
+        model: 'qwen/qwen-2.5-vl-7b-instruct:free',
         messages: [
           { role: 'system', content: systemPrompt },
           {
             role: 'user',
             content: imageUrl
-              ? `Prompt do usuário: ${prompt}\n\nHá uma imagem de referência disponível neste URL público: ${imageUrl}. Use essa imagem como inspiração visual para cores, estilo e estrutura do site.`
+              ? [
+                  {
+                    type: 'text',
+                    text: `Prompt do usuário: ${prompt}`,
+                  },
+                  {
+                    type: 'image_url',
+                    image_url: {
+                      url: imageUrl,
+                    },
+                  },
+                ]
               : prompt,
           },
         ],
