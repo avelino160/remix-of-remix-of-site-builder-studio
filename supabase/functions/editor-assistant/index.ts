@@ -153,9 +153,30 @@ Importante:
     }
 
     const data = await response.json();
-    const content = data.choices?.[0]?.message?.content;
+    const firstChoice = data.choices?.[0];
+    let content: unknown = firstChoice?.message?.content;
+
+    // Handle content returned as array of parts (some providers/models)
+    if (Array.isArray(content)) {
+      try {
+        content = (content as any[])
+          .map((part) => {
+            if (typeof part === "string") return part;
+            if (typeof part === "object" && part !== null) {
+              if ("text" in part && typeof (part as any).text === "string") return (part as any).text;
+              if ("output_text" in part && typeof (part as any).output_text === "string") return (part as any).output_text;
+            }
+            return "";
+          })
+          .join("\n")
+          .trim();
+      } catch (e) {
+        console.error("Failed to normalize array content from AI:", e, content);
+      }
+    }
 
     if (!content) {
+      console.error("No content in AI response. Full payload:", JSON.stringify(data, null, 2));
       throw new Error("No content in AI response");
     }
 
