@@ -297,17 +297,26 @@ REGRAS ESPECÍFICAS
     let config;
     try {
       if (typeof content === 'string') {
-        const trimmed = content.trim();
-        const firstBrace = trimmed.indexOf('{');
-        const lastBrace = trimmed.lastIndexOf('}');
+        let cleaned = content.trim();
+
+        // Remove possible Markdown code fences
+        cleaned = cleaned.replace(/```json/gi, '').replace(/```/g, '');
+
+        const firstBrace = cleaned.indexOf('{');
+        const lastBrace = cleaned.lastIndexOf('}');
 
         if (firstBrace === -1 || lastBrace === -1) {
-          console.error('AI response does not contain JSON braces:', trimmed);
+          console.error('AI response does not contain JSON braces:', cleaned);
           throw new Error('AI response did not contain valid JSON object');
         }
 
-        const jsonSegment = trimmed.slice(firstBrace, lastBrace + 1);
-        config = JSON.parse(jsonSegment);
+        const jsonSegment = cleaned.slice(firstBrace, lastBrace + 1);
+
+        // Strip JS-style comments that models sometimes add
+        const withoutLineComments = jsonSegment.replace(/\/\/.*$/gm, '');
+        const withoutBlockComments = withoutLineComments.replace(/\/\*[\s\S]*?\*\//g, '');
+
+        config = JSON.parse(withoutBlockComments);
       } else if (typeof content === 'object') {
         // Some models may already return a structured JSON object
         config = content;
@@ -319,6 +328,7 @@ REGRAS ESPECÍFICAS
       console.error('Failed to parse AI response:', content, 'Error:', e);
       throw new Error('Invalid JSON from AI');
     }
+
 
 
     console.log('Generated config:', JSON.stringify(config, null, 2));
