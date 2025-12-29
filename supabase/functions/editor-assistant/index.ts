@@ -154,7 +154,8 @@ Importante:
 
     const data = await response.json();
     const firstChoice = data.choices?.[0];
-    let content: unknown = firstChoice?.message?.content;
+    const message = firstChoice?.message;
+    let content: unknown = message?.content;
 
     // Handle content returned as array of parts (some providers/models)
     if (Array.isArray(content)) {
@@ -164,7 +165,15 @@ Importante:
             if (typeof part === "string") return part;
             if (typeof part === "object" && part !== null) {
               if ("text" in part && typeof (part as any).text === "string") return (part as any).text;
-              if ("output_text" in part && typeof (part as any).output_text === "string") return (part as any).output_text;
+              if ("output_text" in part) {
+                const output = (part as any).output_text;
+                if (typeof output === "string") return output;
+                try {
+                  return JSON.stringify(output);
+                } catch {
+                  return "";
+                }
+              }
             }
             return "";
           })
@@ -175,8 +184,31 @@ Importante:
       }
     }
 
+    // Fallback: some providers may put JSON in tool calls instead of content
+    if (!content && (message as any)?.tool_calls?.length) {
+      try {
+        const toolArgs = (message as any).tool_calls[0]?.function?.arguments;
+        if (typeof toolArgs === "string") {
+          content = toolArgs;
+        } else if (toolArgs) {
+          content = JSON.stringify(toolArgs);
+        }
+      } catch (e) {
+        console.error("Failed to extract content from tool_calls:", e, (message as any)?.tool_calls);
+      }
+    }
+
+    // Final fallback: stringify full message if still nothing
+    if (!content && message) {
+      try {
+        content = JSON.stringify(message);
+      } catch (e) {
+        console.error("Failed to stringify full message from AI:", e, message);
+      }
+    }
+
     if (!content) {
-      console.error("No content in AI response. Full payload:", JSON.stringify(data, null, 2));
+      console.error("No content in AI response after all normalization attempts. Full payload:", JSON.stringify(data, null, 2));
       throw new Error("No content in AI response");
     }
 
