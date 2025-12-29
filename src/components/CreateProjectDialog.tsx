@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -39,12 +39,27 @@ export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: Cr
   const [loading, setLoading] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
+  const [aiProgressStep, setAiProgressStep] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
     type: "landing",
     template: "blank",
-    palette: 0,
+      palette: 0,
   });
+
+  useEffect(() => {
+    if (!aiLoading) {
+      setAiProgressStep(0);
+      return;
+    }
+
+    const steps = 3;
+    const interval = setInterval(() => {
+      setAiProgressStep((prev) => (prev + 1) % steps);
+    }, 1800);
+
+    return () => clearInterval(interval);
+  }, [aiLoading]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -293,6 +308,25 @@ export const CreateProjectDialog = ({ open, onOpenChange, onProjectCreated }: Cr
           <Button type="submit" className="w-full" disabled={aiLoading}>
             {aiLoading ? "Gerando com IA..." : "Gerar site com IA"}
           </Button>
+
+          {aiLoading && (
+            <div className="mt-3 space-y-2 rounded-md border border-border bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
+              <p className="font-medium text-[11px] uppercase tracking-wide text-foreground/70">
+                Progresso da criação
+              </p>
+              <ol className="space-y-1">
+                <li className={aiProgressStep >= 0 ? "text-foreground" : "text-muted-foreground"}>
+                  • Entendendo seu nicho e estilo
+                </li>
+                <li className={aiProgressStep >= 1 ? "text-foreground" : "text-muted-foreground"}>
+                  • Desenhando o layout (hero, seções, cores)
+                </li>
+                <li className={aiProgressStep >= 2 ? "text-foreground" : "text-muted-foreground"}>
+                  • Finalizando textos e salvando o projeto
+                </li>
+              </ol>
+            </div>
+          )}
         </form>
 
         <form onSubmit={handleSubmit} className="space-y-4">
