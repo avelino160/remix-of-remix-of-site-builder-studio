@@ -120,7 +120,7 @@ Importante:
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "allenai/olmo-3.1-32b-think:free",
+        model: "google/gemini-2.0-flash-exp:free",
         messages: [
           { role: "system", content: systemPrompt },
           ...(body.history || []).map((m) => ({
