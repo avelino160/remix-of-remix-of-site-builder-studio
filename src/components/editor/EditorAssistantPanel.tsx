@@ -44,14 +44,95 @@ export const EditorAssistantPanel = ({
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
+
+  const streamChat = async ({
+    messages: chatMessages,
+    onDelta,
+    onDone,
+  }: {
+    messages: { role: "user" | "assistant"; content: string }[];
+    onDelta: (deltaText: string) => void;
+    onDone: () => void;
+  }) => {
+    const resp = await fetch(CHAT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      },
+      body: JSON.stringify({ messages: chatMessages }),
+    });
+
+    if (!resp.ok || !resp.body) {
+      throw new Error("Falha ao iniciar streaming do assistente");
+    }
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let textBuffer = "";
+    let streamDone = false;
+
+    while (!streamDone) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      textBuffer += decoder.decode(value, { stream: true });
+
+      let newlineIndex: number;
+      while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
+        let line = textBuffer.slice(0, newlineIndex);
+        textBuffer = textBuffer.slice(newlineIndex + 1);
+
+        if (line.endsWith("\r")) line = line.slice(0, -1);
+        if (line.startsWith(":") || line.trim() === "") continue;
+        if (!line.startsWith("data: ")) continue;
+
+        const jsonStr = line.slice(6).trim();
+        if (jsonStr === "[DONE]") {
+          streamDone = true;
+          break;
+        }
+
+        try {
+          const parsed = JSON.parse(jsonStr);
+          const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+          if (content) onDelta(content);
+        } catch {
+          textBuffer = line + "\n" + textBuffer;
+          break;
+        }
+      }
+    }
+
+    if (textBuffer.trim()) {
+      for (let raw of textBuffer.split("\n")) {
+        if (!raw) continue;
+        if (raw.endsWith("\r")) raw = raw.slice(0, -1);
+        if (raw.startsWith(":") || raw.trim() === "") continue;
+        if (!raw.startsWith("data: ")) continue;
+        const jsonStr = raw.slice(6).trim();
+        if (jsonStr === "[DONE]") continue;
+        try {
+          const parsed = JSON.parse(jsonStr);
+          const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+          if (content) onDelta(content);
+        } catch {
+          // ignore leftovers
+        }
+      }
+    }
+
+    onDone();
+  };
+
   const handleSend = async () => {
     if (!input.trim() || loading) return;
 
-    // Verificar se tem créditos suficientes
     if (credits === null || credits <= 0) {
       toast({
         title: "Créditos insuficientes",
-        description: "Você precisa de créditos para usar o assistente de edição. Veja os planos disponíveis.",
+        description:
+          "Você precisa de créditos para usar o assistente de edição. Veja os planos disponíveis.",
         variant: "destructive",
       });
       return;
@@ -67,7 +148,6 @@ export const EditorAssistantPanel = ({
     setInput("");
     setLoading(true);
 
-    // Descontar 1 crédito antes de enviar para a IA
     const deducted = await deductCredit();
     if (!deducted) {
       toast({
@@ -79,25 +159,50 @@ export const EditorAssistantPanel = ({
       return;
     }
 
-    try {
-      const historyForBackend = messages.map((m) => ({
-        role: m.role,
-        content: m.content,
-      }));
+    const historyForBackend = [...messages, userMessage].map((m) => ({
+      role: m.role,
+      content: m.content,
+    }));
 
-      const { data, error } = await supabase.functions.invoke(
-        "editor-assistant",
-        {
-          body: {
-            config,
-            instruction: userMessage.content,
-            history: historyForBackend,
-            project: project
-              ? { id: project.id, name: project.name, type: project.type }
-              : null,
-          },
+    const assistantId = crypto.randomUUID();
+    let assistantSoFar = "";
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: assistantId,
+        role: "assistant",
+        content: "",
+      },
+    ]);
+
+    try {
+      await streamChat({
+        messages: historyForBackend,
+        onDelta: (chunk) => {
+          assistantSoFar += chunk;
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId
+                ? {
+                    ...m,
+                    content: assistantSoFar,
+                  }
+                : m,
+            ),
+          );
         },
-      );
+        onDone: () => {},
+      });
+
+      const { data, error } = await supabase.functions.invoke("editor-assistant", {
+        body: {
+          config,
+          instruction: userMessage.content,
+          history: historyForBackend,
+          project: project ? { id: project.id, name: project.name, type: project.type } : null,
+        },
+      });
 
       if (error) throw error;
 
@@ -107,27 +212,13 @@ export const EditorAssistantPanel = ({
 
       onConfigChange(data.config);
 
-      // opcionalmente salvar automaticamente
       try {
         await onSave();
       } catch (e) {
         console.error("Erro ao salvar depois da IA:", e);
       }
-
-      const replyText: string =
-        typeof data.reply === "string" && data.reply.trim().length > 0
-          ? data.reply
-          : "Ajustei a configuração do site com base na sua instrução.";
-
-      const assistantMessage: Message = {
-        id: crypto.randomUUID(),
-        role: "assistant",
-        content: replyText,
-      };
-
-      setMessages((prev) => [...prev, assistantMessage]);
     } catch (err: any) {
-      console.error("Editor assistant error", err);
+      console.error("Editor assistant streaming error", err);
       let description =
         err?.message || "Erro ao falar com o assistente. Tente novamente.";
 
