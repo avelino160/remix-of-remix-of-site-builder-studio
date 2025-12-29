@@ -296,11 +296,30 @@ REGRAS ESPECÍFICAS
 
     let config;
     try {
-      config = JSON.parse(content);
+      if (typeof content === 'string') {
+        const trimmed = content.trim();
+        const firstBrace = trimmed.indexOf('{');
+        const lastBrace = trimmed.lastIndexOf('}');
+
+        if (firstBrace === -1 || lastBrace === -1) {
+          console.error('AI response does not contain JSON braces:', trimmed);
+          throw new Error('AI response did not contain valid JSON object');
+        }
+
+        const jsonSegment = trimmed.slice(firstBrace, lastBrace + 1);
+        config = JSON.parse(jsonSegment);
+      } else if (typeof content === 'object') {
+        // Some models may already return a structured JSON object
+        config = content;
+      } else {
+        console.error('Unexpected AI response content type:', typeof content, content);
+        throw new Error('Unexpected AI response format');
+      }
     } catch (e) {
-      console.error('Failed to parse AI response:', content);
+      console.error('Failed to parse AI response:', content, 'Error:', e);
       throw new Error('Invalid JSON from AI');
     }
+
 
     console.log('Generated config:', JSON.stringify(config, null, 2));
 
