@@ -161,11 +161,30 @@ Importante:
 
     let parsed;
     try {
-      parsed = JSON.parse(content);
+      if (typeof content === "string") {
+        const trimmed = content.trim();
+        const firstBrace = trimmed.indexOf("{");
+        const lastBrace = trimmed.lastIndexOf("}");
+
+        if (firstBrace === -1 || lastBrace === -1) {
+          console.error("AI response does not contain JSON braces:", trimmed);
+          throw new Error("AI response did not contain a valid JSON object");
+        }
+
+        const jsonSegment = trimmed.slice(firstBrace, lastBrace + 1);
+        parsed = JSON.parse(jsonSegment);
+      } else if (typeof content === "object") {
+        // Some models may already return a structured JSON object
+        parsed = content;
+      } else {
+        console.error("Unexpected AI response content type:", typeof content, content);
+        throw new Error("Unexpected AI response format");
+      }
     } catch (e) {
-      console.error("Failed to parse AI response from editor-assistant:", content);
+      console.error("Failed to parse AI response from editor-assistant:", content, "Error:", e);
       throw new Error("Invalid JSON from AI");
     }
+
 
     if (!parsed.config) {
       throw new Error("AI did not return a config field");
