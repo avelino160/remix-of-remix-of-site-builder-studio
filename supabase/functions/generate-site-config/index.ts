@@ -252,13 +252,16 @@ REGRAS ESPECÍFICAS
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'allenai/olmo-3.1-32b-think:free',
+        model: 'google/gemini-2.0-flash-exp:free',
         messages: [
           { role: 'system', content: systemPrompt },
           {
             role: 'user',
             content: imageUrl
-              ? `Prompt do usuário: ${prompt}\n\nHá uma imagem de referência disponível neste URL público: ${imageUrl}. Use essa imagem como inspiração visual para cores, estilo e estrutura do site, combinando com as instruções de texto.`
+              ? [
+                  { type: 'text', text: `Prompt do usuário: ${prompt}\n\nHá uma imagem de referência disponível. Use essa imagem como inspiração visual para cores, estilo e estrutura do site.` },
+                  { type: 'image_url', image_url: { url: imageUrl } }
+                ]
               : prompt,
           },
         ],
