@@ -39,9 +39,9 @@ serve(async (req) => {
       );
     }
 
-    const OPENROUTER_API_KEY = Deno.env.get("OPENROUTER_API_KEY");
-    if (!OPENROUTER_API_KEY) {
-      throw new Error("OPENROUTER_API_KEY is not configured");
+    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+    if (!LOVABLE_API_KEY) {
+      throw new Error('LOVABLE_API_KEY is not configured');
     }
 
     const systemPrompt = `Você é um assistente de edição de sites de altíssimo nível dentro de um construtor visual de SaaS moderno.
@@ -113,43 +113,56 @@ Importante:
       `\n\nInstrução do usuário:\n\n` +
       body.instruction;
 
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
+    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST',
       headers: {
-        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: "deepseek/deepseek-r1-0528:free",
+        model: 'google/gemini-2.5-flash',
         messages: [
-          { role: "system", content: systemPrompt },
+          { role: 'system', content: systemPrompt },
           ...(body.history || []).map((m) => ({
-            role: m.role === "assistant" ? "assistant" : "user",
+            role: m.role === 'assistant' ? 'assistant' : 'user',
             content: m.content,
           })),
-          { role: "user", content: userContent },
+          { role: 'user', content: userContent },
         ],
-        response_format: { type: "json_object" },
+        response_format: { type: 'json_object' },
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("OpenRouter API error:", response.status, errorText);
+      console.error('Lovable AI gateway error:', response.status, errorText);
 
       if (response.status === 429) {
         return new Response(
           JSON.stringify({
-            error: "Limite de requisições do OpenRouter excedido. Tente novamente em alguns instantes.",
+            error:
+              'Limite de requisições de IA excedido. Tente novamente em alguns instantes.',
           }),
           {
             status: 429,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           },
         );
       }
 
-      throw new Error(`OpenRouter API error: ${response.status}`);
+      if (response.status === 402) {
+        return new Response(
+          JSON.stringify({
+            error: 'Créditos de IA esgotados. Adicione créditos ao workspace.',
+          }),
+          {
+            status: 402,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          },
+        );
+      }
+
+      throw new Error(`Lovable AI gateway error: ${response.status}`);
     }
 
     const data = await response.json();
