@@ -39,9 +39,9 @@ serve(async (req) => {
       );
     }
 
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
-    if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY is not configured');
+    const OPENROUTER_API_KEY = Deno.env.get('OPENROUTER_API_KEY');
+    if (!OPENROUTER_API_KEY) {
+      throw new Error('OPENROUTER_API_KEY is not configured');
     }
 
     const systemPrompt = `Você é um assistente de edição de sites de altíssimo nível dentro de um construtor visual de SaaS moderno.
@@ -113,14 +113,16 @@ Importante:
       `\n\nInstrução do usuário:\n\n` +
       body.instruction;
 
-    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
+        'HTTP-Referer': req.headers.get('origin') || 'https://lovable.app',
+        'X-Title': 'AI Site Editor',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: 'deepseek/deepseek-r1-0528:free',
         messages: [
           { role: 'system', content: systemPrompt },
           ...(body.history || []).map((m) => ({
@@ -135,13 +137,13 @@ Importante:
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Lovable AI gateway error:', response.status, errorText);
+      console.error('OpenRouter error:', response.status, errorText);
 
       if (response.status === 429) {
         return new Response(
           JSON.stringify({
             error:
-              'Limite de requisições de IA excedido. Tente novamente em alguns instantes.',
+              'Limite de uso da IA excedido. Tente novamente em alguns instantes.',
           }),
           {
             status: 429,
@@ -153,7 +155,7 @@ Importante:
       if (response.status === 402) {
         return new Response(
           JSON.stringify({
-            error: 'Créditos de IA esgotados. Adicione créditos ao workspace.',
+            error: 'Erro de cobrança da IA. Verifique os créditos da integração.',
           }),
           {
             status: 402,
@@ -162,7 +164,7 @@ Importante:
         );
       }
 
-      throw new Error(`Lovable AI gateway error: ${response.status}`);
+      throw new Error(`OpenRouter error: ${response.status}`);
     }
 
     const data = await response.json();
